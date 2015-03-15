@@ -78,26 +78,34 @@ function forgetPassword($forgetPass){
    if($countUsername == 1){
        $row =  mysql_fetch_array($queryUsername);
        $email = $row['email'];
-       recoverPasswordMail($email);
+       $id = $row['id'];
+       recoverPasswordMail($email,$id);
    }
    else
         if($countEmail == 1){
             $email = $forgetPass;
-            recoverPasswordMail($email);
+            recoverPasswordMail($email,$id);
         }
         else{
             echo "<script type='text/javascript'>alert('Username or email not found!');</script>";
         }
 }
 
-function recoverPasswordMail($email){
+function recoverPasswordMail($email,$id){
   require_once ( 'phpmailer/class.phpmailer.php' ); 
-  $Mail = new PHPMailer();
   
+  session_start();
+  $tokenKey=rand(1000,10000);
+  $_SESSION['tokenKey'] = $tokenKey;
+  $_SESSION['timeStamp'] = time();
+  $token = md5($tokenKey+$id);
+ 
+  
+  $Mail = new PHPMailer();
   $ToEmail = 'ionut.corlau@gmail.com';
  
-  $MessageHTML = 'ionut';
-  $MessageTEXT = 'ionut';
+  $MessageHTML = 
+  $MessageTEXT = "http://localhost/healthytasks/reset_password.php?token=$token ";
    
   $Mail->IsSMTP(); // Use SMTP
   $Mail->Host        = "smtp.gmail.com"; // Sets SMTP server
@@ -123,23 +131,26 @@ function recoverPasswordMail($email){
   $Mail->AltBody = $MessageTEXT;
   $Mail->Send();
   $Mail->SmtpClose();
+  
+  
+  
 
   if ( $Mail->IsError() ) { // ADDED - This error checking was missing
-    return FALSE;
+      echo "<script type='text/javascript'>alert('Error');</script>";
+      return FALSE;
   }
   else {
+    echo "<script type='text/javascript'>alert('Mail sent!');</script>";
     return TRUE;
   }
 
-$Send = SendMail( $ToEmail, $MessageHTML, $MessageTEXT );
-if ( $Send ) {
-  echo "<h2> Sent OK</h2>";
-}
-else {
-  echo "<h2> ERROR</h2>";
+$send = SendMail( $ToEmail, $MessageHTML, $MessageTEXT );
+if($send == 0){
+   echo "<script type='text/javascript'>alert('Error in sending mail. THe mail was not send!');</script>"; 
 }
 die;
 }
+
 
 
  ?>
