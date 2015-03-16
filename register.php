@@ -21,7 +21,7 @@
 		<div class="top">
 			<h3> Register </h3>
 		</div>
-		<form id="register" method="post" action="register.php">
+		<form id="registerForm" method="post" action="register.php">
 		<div class="middle" >
 			<label for="firstName">First Name:</label>
 			<input id="firstName" name="firstName" type="text"/><br>
@@ -73,7 +73,7 @@
                             $email=$_POST['email'];
                             $password=$_POST['password'];
                             
-                            require_once "db_connect.php";
+                            require_once "php_functions/db_connect.php";
                             databaseConnect();
                             register($firstname, $lastname, $username, $email, $password);
                         }

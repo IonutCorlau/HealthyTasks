@@ -16,7 +16,7 @@ function databaseConnect(){
         echo "Failed to connect to MySQL: " . mysqli_connect_error(); 
         
     } 
-    
+}
 function register($firstname, $lastname, $username, $email, $password){
 
     
@@ -42,7 +42,7 @@ function register($firstname, $lastname, $username, $email, $password){
                                 
     }
 }
-}
+
    
 function login($username, $password){
     $query =  mysql_query("SELECT * FROM users WHERE username='$username'");
@@ -69,21 +69,27 @@ function login($username, $password){
 }
 
 function forgetPassword($forgetPass){
+ 
    $queryUsername = mysql_query("SELECT * FROM users WHERE username='$forgetPass'");
    $queryEmail = mysql_query("SELECT * FROM users WHERE email='$forgetPass'");
    
    $countUsername = mysql_num_rows($queryUsername);
    $countEmail = mysql_num_rows($queryEmail);
-   
+  
+   $rowUsermane =  mysql_fetch_array($queryUsername);
+   $rowEmail = mysql_fetch_array($queryEmail);
    if($countUsername == 1){
-       $row =  mysql_fetch_array($queryUsername);
-       $email = $row['email'];
-       $id = $row['id'];
+      
+       $email = $rowUsermane['email'];
+       $id = $rowUsermane['id'];
+       $_SESSION['id']=$id;
        recoverPasswordMail($email,$id);
    }
    else
         if($countEmail == 1){
-            $email = $forgetPass;
+            $email = $rowEmail['email'];
+            $id = $rowEmail['id'];
+            $_SESSION['id']=$id;
             recoverPasswordMail($email,$id);
         }
         else{
@@ -94,18 +100,21 @@ function forgetPassword($forgetPass){
 function recoverPasswordMail($email,$id){
   require_once ( 'phpmailer/class.phpmailer.php' ); 
   
+  
+  
   session_start();
   $tokenKey=rand(1000,10000);
   $_SESSION['tokenKey'] = $tokenKey;
   $_SESSION['timeStamp'] = time();
   $token = md5($tokenKey+$id);
+  $_SESSION['token'] = $token;
  
   
   $Mail = new PHPMailer();
   $ToEmail = 'ionut.corlau@gmail.com';
  
-  $MessageHTML = 
-  $MessageTEXT = "http://localhost/healthytasks/reset_password.php?token=$token ";
+  $MessageHTML = "http://localhost/healthytasks/php_functions/reset_password.php?token=$token ";
+  $MessageTEXT = "http://localhost/healthytasks/php_functions/reset_password.php?token=$token ";
    
   $Mail->IsSMTP(); // Use SMTP
   $Mail->Host        = "smtp.gmail.com"; // Sets SMTP server
@@ -151,6 +160,25 @@ if($send == 0){
 die;
 }
 
-
-
+function resetPassword($newPassword, $token){
+    $tokenKey = $_SESSION['tokenKey'];
+    
+   $queryReset =  mysql_query("SELECT * FROM users WHERE md5($tokenKey+id)='$token'");
+   $row= mysql_fetch_array($queryReset); 
+   
+   $id = $row['id'];
+  
+   $queryResetUpdate = mysql_query("UPDATE users SET password='$newPassword' WHERE id='$id'");
+   if($queryResetUpdate){
+       echo "<script type='text/javascript'>alert('Password successfully updated!');window.location = 'http://localhost/healthytasks/main_page.php';</script>"; 
+       
+   }
+       else{
+           die('Invalid query: ' . mysql_error());
+       }
+   
+   
+   
+    
+}
  ?>

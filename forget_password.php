@@ -32,7 +32,7 @@
 if(isset($_POST['forgetPasswordSubmit'])){
     $forgetPass=$_POST['usernamePasswordForget'];
     
-    require_once 'db_connect.php';
+    require_once 'php_functions/db_connect.php';
     databaseConnect();
     forgetPassword($forgetPass);
     

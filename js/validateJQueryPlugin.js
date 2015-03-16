@@ -41,7 +41,7 @@ $(document).ready(function(){
 					 }
 		});
 
-	 $("#register").validate({
+	 $("#registerForm").validate({
 			rules: {
 			    firstName: {
 			    	required: true,
@@ -105,7 +105,34 @@ $(document).ready(function(){
 				}
 
 
-
 					 }
 		});
+                $("#resetPassowordForm").validate({
+                    rules:{
+                        resetPassoword:{
+                            required: true,
+			    minlength: 8,
+			    maxlength: 25
+                        },
+                        resetPassowordConfirm: {
+                            required: true,
+			    minlength: 8,
+			    maxlength: 25,
+			    equalTo: "#resetPassoword"
+			    }
+                    
+                    },
+                    messages:{
+                      resetPassoword:{
+                          required: "Please specify your Password",
+		          minlength: "Password must be least 8 characters long "
+                      },
+                      resetPassowordConfirm:{
+                          required: "Please confirm your Password",
+			  minlength: "Password must be least 8 characters long",
+		          equalTo: "Please enter the same password as above"
+                      }
+                    }
+                    
+                });
 });
