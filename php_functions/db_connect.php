@@ -142,7 +142,6 @@ function recoverPasswordMail($email,$id){
   $Mail->SmtpClose();
   
   
-  
 
   if ( $Mail->IsError() ) { // ADDED - This error checking was missing
       echo "<script type='text/javascript'>alert('Error');</script>";
@@ -170,15 +169,14 @@ function resetPassword($newPassword, $token){
   
    $queryResetUpdate = mysql_query("UPDATE users SET password='$newPassword' WHERE id='$id'");
    if($queryResetUpdate){
-       echo "<script type='text/javascript'>alert('Password successfully updated!');window.location = 'http://localhost/healthytasks/main_page.php';</script>"; 
-       
+       //echo "<script type='text/javascript'>alert('Password successfully updated!');window.location = 'http://localhost/healthytasks/main_page.php';</script>"; 
+       //header ('Location: ../main_page.php');
+       echo "<script type='text/javascript'>alert('Password successfully updated! You will go to the main page')</script>";
+       echo '<script>window.location.href = "../main_page.php";</script>';
    }
        else{
            die('Invalid query: ' . mysql_error());
        }
-   
-   
-   
     
 }
- ?>
+?> 

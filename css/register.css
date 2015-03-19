@@ -1,10 +1,22 @@
-
+.fullBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+ 
+#maincontent {
+  //position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+ 
 .register {
-	position: relative;
-	display:block;
+	position: relative;	
 	width: 350px;
+        margin-top: 10%;
 	background-color: #D6D6D6;
-	margin-top:100px;
 	margin-left: auto;
 	margin-right: auto;
 	font-family: Helvetica, Tahoma, Verdana; 
@@ -14,7 +26,6 @@
 	-o-animation: fadein 0.5s;
 	-ms-animation: fadein 0.5s;
 	animation: fadein 0.5s;
-
 }
 
 
@@ -69,36 +80,31 @@
 	padding-left: 30px;
 	background-color: #444;
 	color: #fff;
-	
 	font-weight: bold;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
 
 .register .middle{
-	width: 77%;
-	margin-left: auto ;
-	margin-right: auto ;
+	width: 300px;
+	margin: 5% auto;
+        
 }
 
-.register form{
-	
+.register form{	
 	font-size: 15px;
 	font-weight: bold;
-	margin-top: 20px;
-
 }
 
 .register .middle input[type="text"], 
 .register .middle input[type="password"],
 .register .middle input[type="email"]{
-	width: 250px;
+	width: 280px;
 	background: #FFFFFF;
 	border: solid 1px #E5E5E5;
 	margin-top: 5px;
-	padding: 9px;
+	padding: 10px;
 	display:block;
-	font-size:100%;
 	background: 
 		-webkit-gradient(linear,left top,left 25,from(#FFFFFF),color-stop(4%, #EEEEEE),to(#FFFFFF));
 	background: 
@@ -122,14 +128,18 @@
 	outline: none !important;
 }
 .register .bottom {
-	background-color:#444;
-    height: 50px;	
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	padding: 20px;
+    background-color:#444; 	
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 15px;
+}
+
+.register .bottom table{
+    width: 100%;
 }
 
 .register .bottom input[type="submit"] {
+        
 	background: #e3e3e3;
 	border: 2px solid #ccc;
 	color: #333;
@@ -140,7 +150,6 @@
 	text-align: center;
 	width: 100px;
 	cursor:pointer;
-	float:left;
 	margin-right:10px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -149,39 +158,48 @@
 	
 }
 .register .bottom input[type="submit"]:hover{
-	background:#feffef;
+    background:#feffef;
 }
 .register .yellow_text{
-	position: relative;
-	text-decoration: none;
-	font-weight: bold;
-	color: #9C9900;
-	font-size: 13px;
-	transition:color 0.5s;
-	
+    text-decoration: none;
+    font-weight: bold;    
+    color: #9C9900;
+    font-size: 13px;
+    transition:color 0.5s;	
 
 }
 
 #confirmPassword{
-	 -webkit-text-security: disc;
+    -webkit-text-security: disc;
 }
 
-
 .register a:hover{
-	color: #000;
+    color: #000;
 }
 
 label.error{
-			color: #FF0000;
-			font-size: 15px;
-			display: block;
+    color: #FF0000;
+    font-size: 15px;
+    display: block;
 
-		}
-		input.error{
-			border:2px solid red !important;
-			
-		}
+}
 
+input.error{
+    border:2px solid red !important;
+}
+.fullBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+#maincontent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
 
 
 

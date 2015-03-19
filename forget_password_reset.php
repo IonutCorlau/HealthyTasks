@@ -3,16 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Reset Password</title>	
-	<script src="js/jquery-2.1.3.min.js"></script>
-	<script src="js/jquery.validate.js"></script>
-	<script src="js/validateJQueryPlugin.js"></script>
+	
 </head>
 <body>
+<img src="../images/background_login.jpg" alt="" id="background" />
+<div id="maincontent">
 	<section class="resetPassword">
 		<div class="top">
 			<h2>Reset Password</h2>
 		</div>
-		<form id="resetPassowordForm" method="post" >
+            <form id="resetPassowordForm" method="post" >
 		<div class="middle">
 			<label for="resetPassoword"> Password: </label>
 			<input id="resetPassoword" name="resetPassoword" type="password" />
@@ -26,6 +26,12 @@
 		</div>
 		</form>
 	</section>
+</div>
+<script type="text/javascript">
+$(window).load(function() {
+	$("#background").fullBg();
+});
+</script>
 </body>
 </html>
 <?php
@@ -33,6 +39,7 @@
          require_once 'php_functions/db_connect.php';
          $newPassword = $_POST['resetPassoword'];
          $token = $_GET['token'];
+         
          resetPassword($newPassword,$token);
          
     }

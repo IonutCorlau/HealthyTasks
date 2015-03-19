@@ -1,7 +1,23 @@
+
+.fullBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+ 
+#maincontent {
+  //position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+ 
+
 .login {
 	position: relative;
 	width: 350px;
-	margin-top:200px;
+	margin-top:10%;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #D6D6D6;
@@ -13,9 +29,9 @@
 	-o-animation: fadein 0.5s;
 	-ms-animation: fadein 0.5s;
 	animation: fadein 0.5s;
-	
+       
+       	
 }
-
 
 @-webkit-keyframes fadein {
     from {
@@ -75,24 +91,25 @@
 }
 
 .login .middle{
-	width: 77%;
-	margin: 5% auto;
 
+	width: 300px;
+	margin: 5% auto;
+        
 }
 
 .login form{
+
 	font-size: 15px;
 	font-weight: bold;
 }
 
-.login input[type="text"], 
-.login input[type="password"]{
-	width: 250px;
+.login .middle input[type="text"], 
+.login .middle input[type="password"]{
+	width: 280px;
 	background: #FFFFFF;
 	border: solid 1px #E5E5E5;
-	padding: 9px;
+	padding: 10px;
 	display:block;
-	font-size:100%;	
 	background: 
 		-webkit-gradient(linear,left top,left 25,from(#FFFFFF),color-stop(4%, #EEEEEE),to(#FFFFFF));
 	background: 
@@ -117,30 +134,34 @@
 }
 
 .login .bottom {
-	background-color:#444;
-    height: 40px;
-    	
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	padding: 20px;
+    background-color:#444;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 15px;
+}
+
+.login .bottom table{
+    width: 100%;
 }
 .login .bottom input[type="submit"] {
+       
 	background: #e3e3e3;
 	border: 2px solid #ccc;
 	color: #333;
-        font-family: Helvetica, Tahoma, Verdana; 
+    font-family: Helvetica, Tahoma, Verdana; 
 	font-size: 14px;
 	font-weight: bold;
 	padding: 6px;
 	text-align: center;
 	width: 100px;
 	cursor:pointer;
-	float:left;
-	margin-right:10px;
+	float: right;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	transition:background 0.5s;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .login .bottom input[type="submit"]:hover{
@@ -149,35 +170,30 @@
 }
 
 .login .yellow_text {
-	position: relative;
 	text-decoration: none;
 	font-weight: bold;
 	color: #9C9900;
 	font-size: 13px;
-	//float:right;
-	transition:color 0.5s;	
+	float:right;
+	transition:color 0.5s;
+        
 }
 .login .middle .yellow_text {
     float: right;
 }
 
-
 .login .yellow_text:hover{
-	color: #000;
+    color: #000;
 }
 
 label.error{
-			color: #FF0000;
-			font-size: 15px;
-			display: block;
+    color: #FF0000;
+    font-size: 15px;
+    display: block;
+}
+input.error{
+    border:2px solid red !important;
+}
 
-		}
-		input.error{
-			border:2px solid red !important;
-			
-		}
-	
-//comment
-    
-   
+
 

@@ -7,11 +7,16 @@
 	<script src="js/jquery-2.1.3.min.js"></script>
 	<script src="js/jquery.validate.js"></script>
 	<script src="js/validateJQueryPlugin.js"></script>
+        <script src="js/jquery.fullbg.js"></script>
+        <script src="js/jquery.fullbg.min"></script>
+        
 </head>
 <body>
+<img src="images/background_login.jpg" alt="" id="background" />
+<div id="maincontent">
 	<section class="login">
 		<div class="top">
-			<h2>Login</h2>
+                    <h2><b>Login</b></h2>
 		</div>
 		<form id="loginForm" method="post" action="login.php">
 		<div class="middle">
@@ -22,12 +27,28 @@
 			<input id="passwordLogin" name="passwordLogin" type="password" />
 		</div>
 		<div class="bottom">
-			<input id ="submitLoginSibmit" name="submitLoginSibmit" type="submit" value="Login"/>
-			<a class="yellow_text" href="register.php" >You don't have an account yet? <br>Register here</a>
+                    <table >
+                        <tr>
+                            <td>
+                                <input id ="submitLoginSibmit" name="submitLoginSibmit" type="submit" value="Login"/>
+                            </td>
+                            <td>
+                                <a class="yellow_text" href="register.php" >You don't have an account yet? <br>Register here</a>
+                            </td>
+                        </tr>
+                    </table>
 		</div>
 		</form>
 	</section>
+</div>
+<script type="text/javascript">
+$(window).load(function() {
+	$("#background").fullBg();
+});
+</script>
 </body>
+</html>
+
 
 <?php
   
@@ -45,4 +66,3 @@ if(isset($_POST['submitLoginSibmit'])){
 
 ?>
 
-</html>

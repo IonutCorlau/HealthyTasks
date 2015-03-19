@@ -27,11 +27,14 @@ if(isset($_GET['token']) && (isset($_SESSION['tokenKey'])) && (isset($_SESSION['
     }
     else{
         
-        include '../forget_password_reset.php';   
+        
         echo '<link rel="stylesheet" type="text/css" href="../css/forget_password_reset.css">
               <script src="../js/jquery-2.1.3.min.js"></script>
 	      <script src="../js/jquery.validate.js"></script>
-	      <script src="../js/validateJQueryPlugin.js"></script>';
+	      <script src="../js/validateJQueryPlugin.js"></script>
+              <script src="../js/jquery.fullbg.js"></script>
+              <script src="../js/jquery.fullbg.min"></script>';
+        include '../forget_password_reset.php';   
         
        
         

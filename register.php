@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<title>Register page</title>
 	<link rel="stylesheet" type="text/css" href="css/register.css">
 	
@@ -13,13 +13,21 @@
 	<script src="js/jquery.validate.js"></script>
 	<script src="js/validateJQueryPlugin.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.password.js"></script>
+        <script src="js/jquery.fullbg.js"></script>
         
-         <script src='https://www.google.com/recaptcha/api.js'></script>
+        
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+         
+        <script src="js/jquery.fullbg.js"></script>
+        <script src="js/jquery.fullbg.min"></script>
+         
 </head>
 <body>
+<img src="images/background_login.jpg" alt="" id="background" />
+<div id="maincontent">
 	<section class="register">
 		<div class="top">
-			<h3> Register </h3>
+			<h2> Register </h2>
 		</div>
 		<form id="registerForm" method="post" action="register.php">
 		<div class="middle" >
@@ -54,14 +62,29 @@
                         <div class="g-recaptcha"  data-sitekey="6Ld31QITAAAAALEwzQWNmIcU3INUbH6-ZvIzTqHP"></div>
 		</div>
 		<div class="bottom">
-			<input type="submit" value="Register" id="registerButton" name="registerButton"/>
-                        <a class="yellow_text" href="login.php">You have an account already? Log in here</a>
-                       
-			
+                    <table >
+                        <tr>
+                            <td>
+                                <input type="submit" value="Register" id="registerButton" name="registerButton"/>
+                            </td>
+                            <td>
+                                <a class="yellow_text" href="login.php">You have an account already? Log in here</a>
+           
+                            </td>
+                        </tr>
+                    </table>
 		</div>
 	</form>
 	</section>
+</div>
+<script type="text/javascript">
+$(window).load(function() {
+	$("#background").fullBg();
+});
+</script>
 </body>
+</html>
+
  <?php
                       
                         
@@ -79,6 +102,6 @@
                         }
       
                         ?>
-</html>
+
 
 
