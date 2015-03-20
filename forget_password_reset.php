@@ -16,7 +16,15 @@
 		<div class="middle">
 			<label for="resetPassoword"> Password: </label>
 			<input id="resetPassoword" name="resetPassoword" type="password" />
-			<br>
+			
+                        <div class="password-meter">
+				<div class="password-meter-message">&nbsp;</div>
+				<div class="password-meter-bg">
+					<div class="password-meter-bar"></div>
+                                       
+				</div>
+			</div>
+                        <br>
 			<label for="resetPassowordConfirm">Password confirmation: </label>
 			<input id="resetPassowordConfirm" name="resetPassowordConfirm" type="password" />
 		</div>

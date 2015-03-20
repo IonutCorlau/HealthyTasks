@@ -51,6 +51,7 @@
 			return rating(4, "strong");
 		if (lower && upper || lower && digit || upper && digit)
 			return rating(3, "good");
+                else
 		return rating(2, "weak");
 	}
 	

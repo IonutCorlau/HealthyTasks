@@ -20,7 +20,7 @@ if(isset($_GET['token']) && (isset($_SESSION['tokenKey'])) && (isset($_SESSION['
        
     }   
     else{
-        if(time()-$time>10000){
+        if(time()-$time>86400){
      
              echo "<script type='text/javascript'>alert('Your link expired!');window.location = 'http://localhost/healthytasks/forget_password.php';</script>";
 
@@ -33,7 +33,13 @@ if(isset($_GET['token']) && (isset($_SESSION['tokenKey'])) && (isset($_SESSION['
 	      <script src="../js/jquery.validate.js"></script>
 	      <script src="../js/validateJQueryPlugin.js"></script>
               <script src="../js/jquery.fullbg.js"></script>
-              <script src="../js/jquery.fullbg.min"></script>';
+              <script src="../js/jquery.fullbg.min"></script>
+              <link rel="stylesheet" type="text/css" media="screen" href="../css/jquery.validate.password.css" />
+              <script type="text/javascript" src="../js/jquery.validate.password.js"></script>
+              
+              <script src="../js/sweet-alert.min.js"></script> 
+              <link rel="stylesheet" type="text/css" href="../css/sweet-alert.css">
+              ';
         include '../forget_password_reset.php';   
         
        

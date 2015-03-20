@@ -4,6 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Register page</title>
+        
+       
+        
 	<link rel="stylesheet" type="text/css" href="css/register.css">
 	
 	<link rel="stylesheet" type="text/css" media="screen" href="css/jquery.validate.password.css" />
@@ -13,14 +16,17 @@
 	<script src="js/jquery.validate.js"></script>
 	<script src="js/validateJQueryPlugin.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.password.js"></script>
-        <script src="js/jquery.fullbg.js"></script>
-        
         
         <script src='https://www.google.com/recaptcha/api.js'></script>
          
         <script src="js/jquery.fullbg.js"></script>
-        <script src="js/jquery.fullbg.min"></script>
-         
+        <script src="js/jquery.fullbg.min.min"></script>
+        
+        <script src="js/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+        
+
+        
 </head>
 <body>
 <img src="images/background_login.jpg" alt="" id="background" />

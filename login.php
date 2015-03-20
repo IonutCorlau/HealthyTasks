@@ -8,8 +8,10 @@
 	<script src="js/jquery.validate.js"></script>
 	<script src="js/validateJQueryPlugin.js"></script>
         <script src="js/jquery.fullbg.js"></script>
-        <script src="js/jquery.fullbg.min"></script>
+        <script src="js/jquery.fullbg.min.min"></script>
         
+        <script src="js/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
 </head>
 <body>
 <img src="images/background_login.jpg" alt="" id="background" />

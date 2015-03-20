@@ -4,11 +4,15 @@
 	<meta charset="UTF-8">
 	<title>Forget Password page</title>
 	<link rel="stylesheet" type="text/css" href="css/forget_password.css">
+       
 	<script src="js/jquery-2.1.3.min.js"></script>
 	<script src="js/jquery.validate.js"></script>
 	<script src="js/validateJQueryPlugin.js"></script>
         <script src="js/jquery.fullbg.js"></script>
         <script src="js/jquery.fullbg.min"></script>
+        <script src="js/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+        
 </head>
 <body>
 <img src="images/background_login.jpg" alt="" id="background" />

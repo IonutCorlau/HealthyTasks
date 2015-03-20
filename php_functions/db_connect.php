@@ -18,7 +18,7 @@ function databaseConnect(){
     } 
 }
 function register($firstname, $lastname, $username, $email, $password){
-
+    
     
     $queryDuplicateUsername=mysql_query("SELECT * FROM users WHERE username='$username'");
     $countUsername=mysql_num_rows($queryDuplicateUsername);
@@ -26,19 +26,22 @@ function register($firstname, $lastname, $username, $email, $password){
     
     $queryDuplicateEmail=mysql_query("SELECT * FROM users WHERE email='$email'");
     $countEmail=mysql_num_rows($queryDuplicateEmail);
-
+    
     if($countUsername > 0){ 
-        echo "<script type='text/javascript'>alert('Username already taken!');</script>";
-        
+         echo "<script>swal('Someone already has that username', 'Try another?', 'warning');</script>";  
+         
     }
+    else
     if($countEmail > 0){
-        echo "<script type='text/javascript'>alert('Email already introduced!');</script>";
+        echo "<script>swal('Someone already has that email', 'Try another?', 'warning');</script>";
         
+       
     }
     else{
         $query = "INSERT INTO users (firstName,lastName,username,email,password) VALUES ('$firstname','$lastname','$username','$email','$password')";
         $result = mysql_query($query) or die ( "Error : ". mysql_error() );
-        header('Location: main_page.php');
+        echo "<script>swal('You recevied with a validation link', 'Please validate the link in order to acces your account!', 'success');</script>";
+        //header('Location: main_page.php');
                                 
     }
 }
@@ -58,12 +61,12 @@ function login($username, $password){
             exit;
         }
         else{
-            echo "<script type='text/javascript'>alert('Incorrect password!');</script>";           
+            echo "<script>swal('Incorrect password', 'Try again!', 'error');</script>";         
         }
     }
 
     else{
-        echo "<script type='text/javascript'>alert('User not exist!');</script>";
+        echo "<script>swal('Account does not exist ', 'Try again!', 'error');</script>"; 
     }
     
 }
@@ -93,7 +96,7 @@ function forgetPassword($forgetPass){
             recoverPasswordMail($email,$id);
         }
         else{
-            echo "<script type='text/javascript'>alert('Username or email not found!');</script>";
+             echo "<script>swal('Username or email not found', 'Please try again!', 'error');</script>";
         }
 }
 
@@ -109,12 +112,16 @@ function recoverPasswordMail($email,$id){
   $token = md5($tokenKey+$id);
   $_SESSION['token'] = $token;
  
-  
+  $queryName = mysql_query("SELECT username FROM users WHERE email='$email'");
+  $rowName = mysql_fetch_array($queryName);
+  $firstName = $rowName['firstName'];
+  $lastName = $rowName['lastName'];
+    
   $Mail = new PHPMailer();
   $ToEmail = 'ionut.corlau@gmail.com';
  
-  $MessageHTML = "http://localhost/healthytasks/php_functions/reset_password.php?token=$token ";
-  $MessageTEXT = "http://localhost/healthytasks/php_functions/reset_password.php?token=$token ";
+  $MessageHTML = "Hello $firstName, <br><br> <p> You have requested to reset yout forgotten password for your Healthy Tasks account.</p> <br> <a href='http://localhost/healthytasks/php_functions/reset_password.php?token=$token'> Click here to reset tour forgotten password </a><br> The link will be valid 24 hours from time of receiving the mail. <br><br> Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
+  $MessageTEXT = "<a href='http://localhost/healthytasks/php_functions/reset_password.php?token=$token'> Click here! </a>";
    
   $Mail->IsSMTP(); // Use SMTP
   $Mail->Host        = "smtp.gmail.com"; // Sets SMTP server
@@ -142,19 +149,19 @@ function recoverPasswordMail($email,$id){
   $Mail->SmtpClose();
   
   
-
   if ( $Mail->IsError() ) { // ADDED - This error checking was missing
-      echo "<script type='text/javascript'>alert('Error');</script>";
+      echo "<script>swal('Error in sending the mail!', 'The mail was not sent. Please try again!', 'error');</script>";
       return FALSE;
   }
   else {
-    echo "<script type='text/javascript'>alert('Mail sent!');</script>";
+    echo "<script>swal('We\'ve sent an email to you', 'Click the link in the email to reset your password. The link will expire in 24 hours!', 'success');</script>";
     return TRUE;
+    
   }
 
 $send = SendMail( $ToEmail, $MessageHTML, $MessageTEXT );
 if($send == 0){
-   echo "<script type='text/javascript'>alert('Error in sending mail. THe mail was not send!');</script>"; 
+   echo "<script>swal('Error in sending the mail!', 'The mail was not sent. Please try again!', 'error');</script>";
 }
 die;
 }
@@ -169,10 +176,15 @@ function resetPassword($newPassword, $token){
   
    $queryResetUpdate = mysql_query("UPDATE users SET password='$newPassword' WHERE id='$id'");
    if($queryResetUpdate){
-       //echo "<script type='text/javascript'>alert('Password successfully updated!');window.location = 'http://localhost/healthytasks/main_page.php';</script>"; 
-       //header ('Location: ../main_page.php');
-       echo "<script type='text/javascript'>alert('Password successfully updated! You will go to the main page')</script>";
-       echo '<script>window.location.href = "../main_page.php";</script>';
+       echo "<script>
+        swal({  title: 'Your password has been successfully updated!',   text: 'Go to main page in 3 seconds.',   timer: 3000,   showConfirmButton: false });
+        window.setTimeout(changeLink,3000);
+        function changeLink(){
+         window.location.href = '../main_page.php';
+        }
+       </script>";
+       
+  
    }
        else{
            die('Invalid query: ' . mysql_error());
