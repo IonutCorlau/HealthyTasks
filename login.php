@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
 </head>
 <body>
-<img src="images/background_login.jpg" alt="" id="background" />
+<img src="mages/background_login.jpg" alt="" id="background" />
 <div id="maincontent">
 	<section class="login">
 		<div class="top">
@@ -26,7 +26,7 @@
 			<input id="usernameLogin" name="usernameLogin" type="text" />
 			<br>
 			<label for="passwordLogin">Password: <a class="yellow_text" href="forget_password.php">Forgot your password?</a></label>
-			<input id="passwordLogin" name="passwordLogin" type="password" />
+			<input id="passwordLogin" name="passwordLogin" type="password" autocomplete="off"/>
 		</div>
 		<div class="bottom">
                     <table >
@@ -60,6 +60,7 @@ if(isset($_POST['submitLoginSibmit'])){
     
     require_once 'php_functions/db_connect.php';
     databaseConnect();
+
     login($username, $password);
     
    

@@ -1,5 +1,5 @@
 <?php
-    
+session_start();
 function databaseConnect(){
     $server = "localhost";
     $database = "personal assistant";
@@ -18,7 +18,13 @@ function databaseConnect(){
     } 
 }
 function register($firstname, $lastname, $username, $email, $password){
+    require_once ( 'phpmailer/class.phpmailer.php' ); 
     
+    $_SESSION['firstName'] = $firstname;
+    $_SESSION['lastName'] = $lastname;
+    $_SESSION['userName'] = $username;
+    $_SESSION['email'] = $email;
+    $_SESSION['password'] = $password;
     
     $queryDuplicateUsername=mysql_query("SELECT * FROM users WHERE username='$username'");
     $countUsername=mysql_num_rows($queryDuplicateUsername);
@@ -26,7 +32,7 @@ function register($firstname, $lastname, $username, $email, $password){
     
     $queryDuplicateEmail=mysql_query("SELECT * FROM users WHERE email='$email'");
     $countEmail=mysql_num_rows($queryDuplicateEmail);
-    
+    /*
     if($countUsername > 0){ 
          echo "<script>swal('Someone already has that username', 'Try another?', 'warning');</script>";  
          
@@ -38,13 +44,65 @@ function register($firstname, $lastname, $username, $email, $password){
        
     }
     else{
-        $query = "INSERT INTO users (firstName,lastName,username,email,password) VALUES ('$firstname','$lastname','$username','$email','$password')";
-        $result = mysql_query($query) or die ( "Error : ". mysql_error() );
-        echo "<script>swal('You recevied with a validation link', 'Please validate the link in order to acces your account!', 'success');</script>";
-        //header('Location: main_page.php');
-                                
-    }
-}
+        //$query = "INSERT INTO users (firstName,lastName,username,email,password) VALUES ('$firstname','$lastname','$username','$email','$password')";
+        //$result = mysql_query($query) or die ( "Error : ". mysql_error() );
+      */  
+        
+        $token=md5(session_id());
+        $_SESSION['token']=$token;
+        $Mail = new PHPMailer();
+        
+        
+        
+        $MessageHTML = "<a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>Click here</a>";
+        $MessageTEXT = "<a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>Click here</a>";
+        
+        include('send_mail.php');
+        
+        $Mail->Subject = 'Healty Personal Assistant - Confirm email';
+        
+        $Mail->AddAddress( $ToEmail ); // To:
+        $Mail->isHTML( TRUE );
+        $Mail->Body    = $MessageHTML;
+        $Mail->AltBody = $MessageTEXT;
+        $Mail->Send();
+        $Mail->SmtpClose();
+
+        
+        if ( $Mail->IsError() ) { // ADDED - This error checking was missing
+            echo "<script>swal('Error in sending the mail!', 'The mail was not sent. Please try again!', 'error');</script>";
+            echo "<script>alert('Error');</alert>";
+            return FALSE;
+        }
+        else {
+             echo "<script>
+                $(document).ready(function() {
+                swal({ 
+                    title: 'Registration Successful\\n\\nPlease check your mail to validate the account!',
+                    text: '',
+                    type: 'success' 
+                },
+                function(){
+                  //window.location.href = 'http://localhost/healthytasks/login.php';
+              });
+            });
+            </script>";
+            
+            return TRUE;
+ 
+  }
+
+        $send = SendMail( $ToEmail, $MessageHTML, $MessageTEXT );
+        if($send == 0){
+           echo "<script>swal('Error in sending the mail!', 'The mail was not sent. Please try again!', 'error');</script>";
+        }
+        die;
+        
+       
+      
+
+
+
 
    
 function login($username, $password){
@@ -97,6 +155,7 @@ function forgetPassword($forgetPass){
         }
         else{
              echo "<script>swal('Username or email not found', 'Please try again!', 'error');</script>";
+             
         }
 }
 
@@ -104,43 +163,27 @@ function recoverPasswordMail($email,$id){
   require_once ( 'phpmailer/class.phpmailer.php' ); 
   
   
-  
-  session_start();
   $tokenKey=rand(1000,10000);
   $_SESSION['tokenKey'] = $tokenKey;
   $_SESSION['timeStamp'] = time();
   $token = md5($tokenKey+$id);
   $_SESSION['token'] = $token;
  
-  $queryName = mysql_query("SELECT username FROM users WHERE email='$email'");
+  $queryName = mysql_query("SELECT firstName FROM users WHERE email='$email'");
   $rowName = mysql_fetch_array($queryName);
+ 
   $firstName = $rowName['firstName'];
-  $lastName = $rowName['lastName'];
     
   $Mail = new PHPMailer();
+  //$ToEmail = $email;
   $ToEmail = 'ionut.corlau@gmail.com';
  
-  $MessageHTML = "Hello $firstName, <br><br> <p> You have requested to reset yout forgotten password for your Healthy Tasks account.</p> <br> <a href='http://localhost/healthytasks/php_functions/reset_password.php?token=$token'> Click here to reset tour forgotten password </a><br> The link will be valid 24 hours from time of receiving the mail. <br><br> Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
-  $MessageTEXT = "<a href='http://localhost/healthytasks/php_functions/reset_password.php?token=$token'> Click here! </a>";
+  $MessageHTML = "Hello $firstName, <br><br> <p> You have requested to reset yout forgotten password for your Healthy Tasks account.</p> <br> <a href='http://localhost/healthytasks/php_functions/reset_password.php?token=$token'> Click here to reset your forgotten password </a><br> The link will be valid 24 hours from time of receiving the mail. <br><br> Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
+  $MessageTEXT = "Hello $firstName, <br><br> <p> You have requested to reset yout forgotten password for your Healthy Tasks account.</p> <br> <a href='http://localhost/healthytasks/php_functions/reset_password.php?token=$token'> Click here to reset your forgotten password </a><br> The link will be valid 24 hours from time of receiving the mail. <br><br> Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
    
-  $Mail->IsSMTP(); // Use SMTP
-  $Mail->Host        = "smtp.gmail.com"; // Sets SMTP server
-  $Mail->SMTPDebug   = 2; // 2 to enable SMTP debug information
-  $Mail->SMTPAuth    = TRUE; // enable SMTP authentication
-  $Mail->SMTPSecure  = "tls"; //Secure conection
-  $Mail->Port        = 587; // set the SMTP port
-  $Mail->Username    = 'healthy.tasks@gmail.com'; // SMTP account username
-  $Mail->Password    = 'lola2006'; // SMTP account password
-  $Mail->Priority    = 1; // Highest priority - Email priority (1 = High, 3 = Normal, 5 = low)
-  $Mail->CharSet     = 'UTF-8';
-  $Mail->Encoding    = '8bit';
+  include('send_mail.php');
   $Mail->Subject     = 'Healty Personal Assistant - Reset password mail';
-  $Mail->ContentType = 'text/html; charset=utf-8\r\n';
-  $Mail->From        = 'healthy.tasks@gmail.com';
-  $Mail->FromName    = 'Healthy Tasks';
-  $Mail->WordWrap    = 900; // RFC 2822 Compliant for Max 998 characters per line
-  $Mail->SMTPDebug   = FALSE;
-
+  
   $Mail->AddAddress( $ToEmail ); // To:
   $Mail->isHTML( TRUE );
   $Mail->Body    = $MessageHTML;
@@ -151,9 +194,11 @@ function recoverPasswordMail($email,$id){
   
   if ( $Mail->IsError() ) { // ADDED - This error checking was missing
       echo "<script>swal('Error in sending the mail!', 'The mail was not sent. Please try again!', 'error');</script>";
+      echo "<script>alert('Error');</alert>";
       return FALSE;
   }
   else {
+    
     echo "<script>swal('We\'ve sent an email to you', 'Click the link in the email to reset your password. The link will expire in 24 hours!', 'success');</script>";
     return TRUE;
     
@@ -183,8 +228,7 @@ function resetPassword($newPassword, $token){
          window.location.href = '../main_page.php';
         }
        </script>";
-       
-  
+
    }
        else{
            die('Invalid query: ' . mysql_error());

@@ -15,7 +15,7 @@
             <form id="resetPassowordForm" method="post" >
 		<div class="middle">
 			<label for="resetPassoword"> Password: </label>
-			<input id="resetPassoword" name="resetPassoword" type="password" />
+			<input id="resetPassoword" name="resetPassoword" type="password" autocomplete="off"/>
 			
                         <div class="password-meter">
 				<div class="password-meter-message">&nbsp;</div>
@@ -26,7 +26,7 @@
 			</div>
                         <br>
 			<label for="resetPassowordConfirm">Password confirmation: </label>
-			<input id="resetPassowordConfirm" name="resetPassowordConfirm" type="password" />
+			<input id="resetPassowordConfirm" name="resetPassowordConfirm" type="password" autocomplete="off"/>
 		</div>
 		<div class="bottom">
 			<input id ="resetPassowordSubmit" name="resetPassowordSubmit" type="submit" value="Update password"/>

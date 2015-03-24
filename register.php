@@ -24,12 +24,10 @@
         
         <script src="js/sweet-alert.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
-        
 
-        
 </head>
 <body>
-<img src="images/background_login.jpg" alt="" id="background" />
+<img src="mages/background_login.jpg" alt="" id="background" />
 <div id="maincontent">
 	<section class="register">
 		<div class="top">
@@ -53,7 +51,7 @@
 			<br>
 
 			<label for="password">Password:</label>
-			<input id="password" name="password" type="password"/>
+			<input id="password" name="password" type="password" autocomplete="off"/>
 
 			<div class="password-meter">
 				<div class="password-meter-message">&nbsp;</div>
@@ -64,7 +62,7 @@
 
 			<br>
 			<label for="confirmPassword">Confirm Password:</label>
-			<input id="confirmPassword" name="confirmPassword" type="text"/><br>
+			<input id="confirmPassword" name="confirmPassword" type="text" autocomplete="off"/><br>
                         <div class="g-recaptcha"  data-sitekey="6Ld31QITAAAAALEwzQWNmIcU3INUbH6-ZvIzTqHP"></div>
 		</div>
 		<div class="bottom">
@@ -91,23 +89,25 @@ $(window).load(function() {
 </body>
 </html>
 
- <?php
-                      
+ <?php         
                         
-                        if (isset($_POST['registerButton'])) {
-                            
-                            $firstname=$_POST['firstName'];
-                            $lastname=$_POST['lastName'];
-                            $username=$_POST['username'];
-                            $email=$_POST['email'];
-                            $password=$_POST['password'];
-                            
-                            require_once "php_functions/db_connect.php";
-                            databaseConnect();
-                            register($firstname, $lastname, $username, $email, $password);
-                        }
-      
-                        ?>
+    if (isset($_POST['registerButton'])) {
+        
+        
+        $firstname=$_POST['firstName'];
+        $lastname=$_POST['lastName'];
+        $username=$_POST['username'];
+        $email=$_POST['email'];
+        $password=$_POST['password'];
+        
+        require_once "php_functions/db_connect.php";
+        databaseConnect();
+        register($firstname, $lastname, $username, $email, $password);
+        }
+        
+   
+        
+?>
 
 
 

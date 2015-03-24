@@ -11,11 +11,14 @@
         <script src="js/jquery.fullbg.js"></script>
         <script src="js/jquery.fullbg.min"></script>
         <script src="js/sweet-alert.min.js"></script> 
+        
+        <script src="../js/sweet-alert.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+        <link rel="stylesheet" type="text/css" href="../css/sweet-alert.css">
         
 </head>
 <body>
-<img src="images/background_login.jpg" alt="" id="background" />
+<img src="mages/background_login.jpg" alt="Image not found!" id="background" onError="this.src='../images/background_login.jpg';"/>
 <div id="maincontent">
 	<section class="forget_password">
 		<div class="top">
