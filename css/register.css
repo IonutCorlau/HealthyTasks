@@ -189,6 +189,13 @@ input.error{
     border:2px solid red !important;
 }
 
+#password-clear {
+    display: none;
+    font-family: Helvetica, Tahoma, Verdana; 
+    font-style: italic;
+}
+
+
 
 
 

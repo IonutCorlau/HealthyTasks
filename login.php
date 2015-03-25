@@ -47,6 +47,7 @@
 $(window).load(function() {
 	$("#background").fullBg();
 });
+
 </script>
 </body>
 </html>

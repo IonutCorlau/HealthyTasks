@@ -51,8 +51,8 @@
 			<br>
 
 			<label for="password">Password:</label>
-			<input id="password" name="password" type="password" autocomplete="off"/>
-
+			<input id="password" name="password" type="password" autocomplete="off" value=""/>
+                        <input id="password-clear" name="password-clear" type="text" autocomplete="off" value="At least an uppercase or a digit"/>
 			<div class="password-meter">
 				<div class="password-meter-message">&nbsp;</div>
 				<div class="password-meter-bg">
@@ -77,6 +77,7 @@
                             </td>
                         </tr>
                     </table>
+   
 		</div>
 	</form>
 	</section>
@@ -85,7 +86,26 @@
 $(window).load(function() {
 	$("#background").fullBg();
 });
+
+$('#password-clear').show();
+$('#password').hide();
+
+$('#password-clear').focus(function() {
+    $('#password-clear').hide();
+    $('#password').show();
+    $('#password').focus();
+});
+        
+$('#password').blur(function() {
+    if($('#password').val() === '') {
+        $('#password-clear').show();
+        $('#password').hide();
+    }
+});
+
+
 </script>
+
 </body>
 </html>
 
