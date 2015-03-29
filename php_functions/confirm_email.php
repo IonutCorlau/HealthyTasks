@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>Confirm mail</title>
-	     
-       
+    <head>
+        <meta charset="UTF-8">
+        <title>Confirm mail</title>
+
+
         <script src="../js/jquery-2.1.3.min.js"></script>
-	
+
         <script src="../js/sweet-alert.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="../css/sweet-alert.css">
-        
-</head>
+
+    </head>
 </html>
 
 <?php
@@ -18,15 +18,15 @@ require_once 'db_connect.php';
 databaseConnect();
 
 
-if(isset($_GET['token'])){
+if (isset($_GET['token'])) {
     $token = $_GET['token'];
-    
-    if($token == md5(session_id())){
-       
-        $query = "INSERT INTO users (firstName,lastName,username,email,password) VALUES ('".$_SESSION['firstName']."','".$_SESSION['lastName']."','".$_SESSION['userName']."','".$_SESSION['email']."','".$_SESSION['password']."')";
-        $result = mysql_query($query) or die ( "Error : ". mysql_error() );
-        
-              echo "<script>
+
+    if ($token == md5(session_id())) {
+
+        $query = "INSERT INTO users (firstName,lastName,username,email,password) VALUES ('" . $_SESSION['firstName'] . "','" . $_SESSION['lastName'] . "','" . $_SESSION['userName'] . "','" . $_SESSION['email'] . "','" . $_SESSION['password'] . "')";
+        $result = mysql_query($query) or die("Error : " . mysql_error());
+        session_regenerate_id();
+        echo "<script>
                 $(document).ready(function() {
                 swal({ 
                     title: 'Account has been created',
@@ -38,10 +38,7 @@ if(isset($_GET['token'])){
               });
             });
             </script>";
-            
-      
-    }
-    else{
+    } else {
         echo "<script>
                 $(document).ready(function() {
                 swal({ 
@@ -54,9 +51,6 @@ if(isset($_GET['token'])){
               });
             });
             </script>";
-            
-         
     }
-    
 }
 ?>
