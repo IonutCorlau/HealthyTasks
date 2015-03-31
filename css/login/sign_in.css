@@ -12,7 +12,7 @@
   z-index: 50;
 }
  
-.login {
+.signIn {
 	position: relative;
 	width: 350px;
 	margin-top:10%;
@@ -75,7 +75,7 @@
 }
 
 
-.login .top{
+.signIn .top{
 	padding: 10px;
 	padding-left: 30px;
 	background-color: #444;
@@ -86,21 +86,21 @@
 
 }
 
-.login .middle{
+.signIn .middle{
 
 	width: 300px;
 	margin: 5% auto;
         
 }
 
-.login form{
+.signIn form{
 
 	font-size: 15px;
 	font-weight: bold;
 }
 
-.login .middle input[type="text"], 
-.login .middle input[type="password"]{
+.signIn .middle input[type="text"], 
+.signIn .middle input[type="password"]{
 	width: 280px;
 	background: #FFFFFF;
 	border: solid 1px #E5E5E5;
@@ -123,23 +123,23 @@
     transition: background 2s;
 }
 
-.login input[type="text"]:focus,
-.login input[type="password"]:focus{
+.signIn input[type="text"]:focus,
+.signIn input[type="password"]:focus{
 	background: #feffef;
 	outline: none !important;
 }
 
-.login .bottom {
+.signIn .bottom {
     background-color:#444;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     padding: 15px;
 }
 
-.login .bottom table{
+.signIn .bottom table{
     width: 100%;
 }
-.login .bottom input[type="submit"] {
+.signIn .bottom input[type="submit"] {
        
 	background: #e3e3e3;
 	border: 2px solid #ccc;
@@ -160,12 +160,12 @@
     margin-right: auto;
 }
 
-.login .bottom input[type="submit"]:hover{
+.signIn .bottom input[type="submit"]:hover{
 	background:#feffef;
 
 }
 
-.login .yellow_text {
+.signIn .yellow_text {
 	text-decoration: none;
 	font-weight: 700;
 	color: #9C9900;
@@ -174,11 +174,11 @@
 	transition:color 0.5s;
         
 }
-.login .middle .yellow_text {
+.signIn .middle .yellow_text {
     float: right;
 }
 
-.login .yellow_text:hover{
+.signIn .yellow_text:hover{
     color: #000;
 }
 

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $("#loginForm").validate({
+    $("#signInForm").validate({
 	rules: {
 	    usernameLogin: {
 	    	required: true,
@@ -68,6 +68,7 @@ $(document).ready(function(){
 			    	minlength: 8,
 			    	maxlength: 25
 			    },
+                          
 			    confirmPassword: {
 			    	required: true,
 			    	minlength: 8,
@@ -97,6 +98,7 @@ $(document).ready(function(){
 					required: "Please specify your Password",
 					minlength: "Password must be least 8 characters long "
 				},
+                               
 				confirmPassword: {
 					required: "Please confirm your Password",
 					minlength: "Password must be least 8 characters long",

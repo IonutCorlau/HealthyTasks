@@ -12,53 +12,31 @@ $lang = 'en';
 
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
         
-        <link rel="stylesheet" type="text/css" href="css/register.css">
+        <link rel="stylesheet" type="text/css" href="css/login/register.css">
 
-        <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.validate.password.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/login/jquery.validate.password.css" />
 
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script src="js/jquery-2.1.3.min.js"></script>
-        <script src="js/jquery.validate.js"></script>
-        <script src="js/validateJQueryPlugin.js"></script>
-        <script type="text/javascript" src="js/jquery.validate.password.js"></script>
+        <script type="text/javascript" src="js/login/jquery.js"></script>
+        <script src="js/login/jquery-2.1.3.min.js"></script>
+        <script src="js/login/jquery.validate.js"></script>
+        <script src="js/login/validateJQueryPlugin.js"></script>
+        <script type="text/javascript" src="js/login/jquery.validate.password.js"></script>
 
         <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl= <?php echo $lang; ?>"></script>
 
-        <script src="js/jquery.fullbg.js" ></script>
-        <script src="js/jquery.fullbg.min.min"></script>
+        <script src="js/login/jquery.fullbg.js" ></script>
+        <script src="js/login/jquery.fullbg.min.min"></script>
 
-        <script src="js/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+        <script src="js/login/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="css/login/sweet-alert.css">
         
     
-        <script type="text/javascript">
-            $(window).load(function () {
-                $("#background").fullBg();
-            });
-
-            $('#password-clear').show();
-            $('#password').hide();
-
-            $('#password-clear').focus(function () {
-                $('#password-clear').hide();
-                $('#password').show();
-                $('#password').focus();
-            });
-
-            $('#password').blur(function () {
-                if ($('#password').val() === '') {
-                    $('#password-clear').show();
-                    $('#password').hide();
-                }
-            });
-
-        
-        </script>
+     
         
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="images/background_login.jpg" alt="" id="background" />
+        <img src="images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
             <section class="register">
                 <div class="top">
@@ -83,7 +61,7 @@ $lang = 'en';
 
                         <label for="password">Password:</label>
                         <input id="password" name="password" type="password" autocomplete="off" value=""/>
-                        <input id="password-clear" name="password-clear" type="text" autocomplete="off" value="At least an uppercase or a digit"/>
+                        <input id="passwordClear" name="passwordClear" type="text" autocomplete="off" value="At least an uppercase or a digit"/>
                         <div class="password-meter">
                             <div class="password-meter-message">&nbsp;</div>
                             <div class="password-meter-bg">
@@ -103,7 +81,7 @@ $lang = 'en';
                                     <input type="submit" value="Register" id="registerButton" name="registerButton"/>
                                 </td>
                                 <td>
-                                    <a class="yellow_text" href="login.php">You have an account already? Log in here</a>
+                                    <a class="yellow_text" href="sign_in.php">You have an account already? Sign in here</a>
 
                                 </td>
                             </tr>
@@ -118,18 +96,18 @@ $lang = 'en';
                 $("#background").fullBg();
             });
 
-            $('#password-clear').show();
+            $('#passwordClear').show();
             $('#password').hide();
 
-            $('#password-clear').focus(function () {
-                $('#password-clear').hide();
+            $('#passwordClear').focus(function () {
+                $('#passwordClear').hide();
                 $('#password').show();
                 $('#password').focus();
             });
 
             $('#password').blur(function () {
                 if ($('#password').val() === '') {
-                    $('#password-clear').show();
+                    $('#passwordClear').show();
                     $('#password').hide();
                 }
             });

@@ -30,11 +30,11 @@ if (isset($_GET['token'])) {
                 $(document).ready(function() {
                 swal({ 
                     title: 'Account has been created',
-                    text: 'Please login',
+                    text: 'Please Sign in',
                     type: 'success' 
                 },
                 function(){
-                  window.location.href = 'http://localhost/healthytasks/login.php';
+                  window.location.href = 'http://localhost/healthytasks/sign_in.php';
               });
             });
             </script>";

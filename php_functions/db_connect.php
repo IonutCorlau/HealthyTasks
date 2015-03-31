@@ -55,8 +55,8 @@ function register($firstname, $lastname, $username, $email, $password) {
 
 
 
-    $MessageHTML = "Dear $firstname, <br><br><p>Welcome to Healthy Tasks! We hope that it will be a great experince!</p> <p>Your email address <a href=$email>$email</a> must be confirmed before using Healthy Tasks. To confirm it, please use <a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>confirmation link</a> and then login. The link is valid only once.</p> <br>Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
-    $MessageTEXT = "Dear $firstname, <br><br><p>Welcome to Healthy Tasks! We hope that it will be a great experince!</p> <p>Your email address <a href=$email>$email</a> must be confirmed before using Healthy Tasks. To confirm it, please use <a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>confirmation link</a> and then login. The link is valid only once.</p> <br>Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
+    $MessageHTML = "Dear $firstname, <br><br><p>Welcome to Healthy Tasks! We hope that it will be a great experince!</p> <p>Your email address <a href=$email>$email</a> must be confirmed before using Healthy Tasks. To confirm it, please use <a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>confirmation link</a> and then Sign in. The link is valid only once.</p> <br>Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
+    $MessageTEXT = "Dear $firstname, <br><br><p>Welcome to Healthy Tasks! We hope that it will be a great experince!</p> <p>Your email address <a href=$email>$email</a> must be confirmed before using Healthy Tasks. To confirm it, please use <a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>confirmation link</a> and then Sign in. The link is valid only once.</p> <br>Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
 
     include('send_mail.php');
 
@@ -81,10 +81,8 @@ function register($firstname, $lastname, $username, $email, $password) {
                     title: 'Registration Successful\\n\\nPlease check your mail to validate the account!',
                     text: '',
                     type: 'success' 
-                },
-                function(){
-                  //window.location.href = 'http://localhost/healthytasks/login.php';
-              });
+                });
+               
             });
             </script>";
 
@@ -99,7 +97,7 @@ function register($firstname, $lastname, $username, $email, $password) {
 }
 }
 
-function login($username, $password) {
+function signIn($username, $password) {
     $query = mysql_query("SELECT * FROM users WHERE username='$username'");
     $count = mysql_num_rows($query);
 

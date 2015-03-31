@@ -2,19 +2,19 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Login page</title>
+        <title>Sign in</title>
         
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
         
-        <link rel="stylesheet" type="text/css" href="css/login.css">
-        <script src="js/jquery-2.1.3.min.js"></script>
-        <script src="js/jquery.validate.js"></script>
-        <script src="js/validateJQueryPlugin.js"></script>
-        <script src="js/jquery.fullbg.js"></script>
-        <script src="js/jquery.fullbg.min.min"></script>
+        <link rel="stylesheet" type="text/css" href="css/login/sign_in.css">
+        <script src="js/login/jquery-2.1.3.min.js"></script>
+        <script src="js/login/jquery.validate.js"></script>
+        <script src="js/login/validateJQueryPlugin.js"></script>
+        <script src="js/login/jquery.fullbg.js"></script>
+        <script src="js/login/jquery.fullbg.min.min"></script>
 
-        <script src="js/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+        <script src="js/login/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="css/login/sweet-alert.css">
 
         <script type="text/javascript">
             $(window).load(function () {
@@ -25,13 +25,13 @@
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="images/background_login.jpg" alt="" id="background" />
+        <img src="images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
-            <section class="login">
+            <section class="signIn">
                 <div class="top">
-                    <h2><b>Login</b></h2>
+                    <h2><b>Sign in</b></h2>
                 </div>
-                <form id="loginForm" method="post" action="login.php">
+                <form id="signInForm" method="post" action="sign_in.php">
                     <div class="middle">
                         <label for="usernameLogin"> Username: </label>
                         <input id="usernameLogin" name="usernameLogin" type="text" />
@@ -43,7 +43,7 @@
                         <table >
                             <tr>
                                 <td>
-                                    <input id ="submitLoginSibmit" name="submitLoginSibmit" type="submit" value="Login"/>
+                                    <input id ="submitLoginSibmit" name="submitLoginSibmit" type="submit" value="Sign in"/>
                                 </td>
                                 <td>
                                     <a class="yellow_text" href="register.php" >You don't have an account yet? <br>Register here</a>
@@ -67,7 +67,8 @@ if (isset($_POST['submitLoginSibmit'])) {
     require_once 'php_functions/db_connect.php';
     databaseConnect();
 
-    login($username, $password);
+    signIn($username, $password);
+    
 }
 ?>
 

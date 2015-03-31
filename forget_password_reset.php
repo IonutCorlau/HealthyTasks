@@ -10,7 +10,7 @@
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="../images/background_login.jpg" alt="" id="background" />
+        <img src="../images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
             <section class="resetPassword">
                 <div class="top">
@@ -20,7 +20,7 @@
                     <div class="middle">
                         <label for="resetPassoword"> Password: </label>
                         <input id="resetPassoword" name="resetPassword" type="password" autocomplete="off"/>
-                        <input id="password-clear" name="password-clear" type="text" autocomplete="off" value="At least an uppercase or a digit"/>
+                        <input id="passwordClear" name="passwordClear" type="text" autocomplete="off" value="At least an uppercase or a digit"/>
 
                         <div class="password-meter">
                             <div class="password-meter-message">&nbsp;</div>
@@ -45,17 +45,17 @@
                 $("#background").fullBg();
             });
 
-            $('#password-clear').show();
+            $('#passwordClear').show();
             $('#resetPassoword').hide();
 
-            $('#password-clear').focus(function () {
-                $('#password-clear').hide();
+            $('#passwordClear').focus(function () {
+                $('#passwordClear').hide();
                 $('#resetPassoword').show();
                 $('#resetPassoword').focus();
             });
             $('#resetPassoword').blur(function () {
-                if ($('#resetPassoword').val() == '') {
-                    $('#password-clear').show();
+                if ($('#resetPassoword').val() === '') {
+                    $('#passwordClear').show();
                     $('#resetPassoword').hide();
                 }
             });

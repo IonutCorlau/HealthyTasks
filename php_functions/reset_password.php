@@ -3,19 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <title>Forget Password page</title>
-        <link rel="stylesheet" type="text/css" href="../css/forget_password_reset.css">
-        <link rel="stylesheet" type="text/css" href="../css/forget_password.css">
+        <link rel="stylesheet" type="text/css" href="../css/login/forget_password_reset.css">
+        <link rel="stylesheet" type="text/css" href="../css/login/forget_password.css">
 
-        <script src="../js/jquery-2.1.3.min.js"></script>
-        <script src="../js/jquery.validate.js"></script>
-        <script src="../js/validateJQueryPlugin.js"></script>
-        <script src="../js/jquery.fullbg.js"></script>
-        <script src="../js/jquery.fullbg.min"></script>
-        <link rel="stylesheet" type="text/css" media="screen" href="../css/jquery.validate.password.css" />
-        <script type="text/javascript" src="../js/jquery.validate.password.js"></script>
+        <script src="../js/login/jquery-2.1.3.min.js"></script>
+        <script src="../js/login/jquery.validate.js"></script>
+        <script src="../js/login/validateJQueryPlugin.js"></script>
+        <script src="../js/login/jquery.fullbg.js"></script>
+        <script src="../js/login/jquery.fullbg.min"></script>
+        <link rel="stylesheet" type="text/css" media="screen" href="../css/login/jquery.validate.password.css" />
+        <script type="text/javascript" src="../js/login/jquery.validate.password.js"></script>
 
-        <script src="../js/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="../css/sweet-alert.css">
+        <script src="../js/login/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="../css/login/sweet-alert.css">
 
     </head>
 </html>
