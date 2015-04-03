@@ -12,12 +12,13 @@
         <script src="js/main_page/skel-layers.min.js"></script>
         <script src="js/main_page/init.js"></script>
         <noscript>
-        <link rel="stylesheet" href="css/skel.css" />
-        <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="css/style-wide.css" />
+        <link rel="stylesheet" href="css/main_page/skel.css" />
+        <link rel="stylesheet" href="css/main_page/style.css" />
+        <link rel="stylesheet" href="css/main_page/style-wide.css" />
 
         </noscript>
         <!--<link rel="stylesheet" href="css/myStyle.css" />-->
+        
     </head>
     <body>
         <div id="header" class="skel-layers-fixed">
@@ -25,10 +26,51 @@
             <div class="top">
 
 
-                <div id="logo">
+                <div id="logo" >
                     <span class="image avatar"><img src="images/avatar.jpg" alt="" /></span>
-                    <h1 id="title">Ionut Corlau</h1>
-                    <p>Student</p>
+                    <?php
+                    session_start();
+
+                    echo $_SESSION['firstName'] . " " . $_SESSION['lastName'];
+                    echo "
+                        <script>
+
+                        function formatTime(i) {
+                            if (i<10) {
+                            i = '0' + i}; 
+                        return i;
+                        }                        
+                        
+                        function startTime() {
+                        var date = new Date();
+                        
+                        var day = date.getUTCDate();
+                        var dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June','July', 'August', 'September', 'October', 'November', 'December'];
+                        var year = date.getFullYear();
+                        
+                        var hour = date.getHours();
+                        var minute = date.getMinutes();
+                        var second = date.getSeconds();
+                        
+                        hour = formatTime(hour);
+                        minute = formatTime(minute);
+                        second = formatTime(second);
+
+                        document.getElementById('date').innerHTML = dayNames[date.getDay()] + ', ' + day  + ' ' + monthNames[date.getMonth()] + ' '+year;
+                        document.getElementById('time').innerHTML = hour + ' : ' + minute + ' : ' + second;
+                        var t = setTimeout(function(){startTime()},500);
+                        }
+                        
+                        
+                    </script>
+                    <body onload='startTime()'>
+                        <p id='date' ></p>
+                        <p id='time'></p>
+                    </body>";
+                    ?>  
+
+
                 </div>
                 <nav id="nav">
 
@@ -40,9 +82,9 @@
                         <li><a href="#find_places" id="find_places-link" class="skel-layers-ignoreHref"><span class="fa fa-map-marker">Find Places</span></a></li>
                         <li><a href="#edit_profile" id="edit_profile-link" class="skel-layers-ignoreHref"><span class="fa fa-edit">Edit profile</span></a></li>
                         <li><a href="#contact" id="contact-link" class="skel-layers-ignoreHref"><span class="fa fa-envelope">Contact</span></a></li>
-                        <li><a href="#logout" id="logout-link" class="skel-layers-ignoreHref"><span class="fa fa-sign-out">Sign out</span></a></li>
+                        <li><a href="#sign_out" id="sign_out-link" class="skel-layers-ignoreHref"><span class="fa fa-sign-out">Sign out</span></a></li>
                     </ul>
-
+                   
 
 
 
@@ -56,7 +98,8 @@
             <section id="home" class="one">
                 <div class="container">
                     <header>
-                        <h2>Home</h2>
+                        <p>Healthy Tasks</p>
+                        
 
                     </header>
 
@@ -68,6 +111,9 @@
                 <div class="container">
                     <header>
                         <h2>Status</h2>
+                        <?php
+                        echo session_status();
+                        ?>
 
                     </header>
 
@@ -100,7 +146,7 @@
 
                 </div>
             </section>
-             <section id="edit_profile" class="six">
+            <section id="edit_profile" class="six">
                 <div class="container">
                     <header>
                         <h2>Edit Profile</h2>
@@ -108,7 +154,7 @@
 
                 </div>
             </section>
-            
+
             <section id="contact" class="seven">
                 <div class="container">
                     <header>
@@ -117,7 +163,7 @@
 
                 </div>
             </section>
-            
+
 
         </div>
 

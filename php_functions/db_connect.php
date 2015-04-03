@@ -108,6 +108,8 @@ function signIn($username, $password) {
 
         if ($username == $dbusername && $password == $dbpassword) {
             header('Location: main_page.php');
+            $_SESSION['firstName']=$row['firstName'];
+            $_SESSION['lastName']=$row['lastName'];
             exit;
         } else {
             echo "<script>swal('Incorrect password', 'Try again!', 'error');</script>";
