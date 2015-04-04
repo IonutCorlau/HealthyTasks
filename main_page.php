@@ -1,9 +1,19 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
         <title>Healthy Tasks</title>
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
+
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <link href="css/main_page/myStyle.css" rel="stylesheet">
+        
 
         <script src="js/main_page/jquery.min.js"></script>
         <script src="js/main_page/jquery.scrolly.min.js"></script>
@@ -182,6 +192,26 @@
                 <div class="container">
                     <header>
                         <h2>Contact</h2>
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="message" class="col-sm-2 control-label">Message</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="8" name="message"></textarea>
+                                </div>
+                            </div>
+                             
+                            <div class="form-group">     
+
+                                    <div class="col-sm-10 col-sm-offset-2">
+                                        <button id="sendContact" name="sendContact" class="btn btn-success btn-lg pull-left" >Send  </button>
+                                        <button id="cancelContact" name="cancelContact" class="btn btn-danger btn-lg pull-left" >Cancel</button>
+
+                                    </div>
+                            </div>
+                            
+
+
+                        </div>
                     </header>
 
                 </div>
