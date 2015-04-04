@@ -86,12 +86,12 @@
 
 		header > p
 		{
-			margin: 1em 0 0 0;
+			margin: 2em 0 0 0;
 		}
 
 	footer
 	{
-		margin: 2em 0 0 0;
+		margin: 1em 0 0 0;
 	}
 
 	strong, b
@@ -767,7 +767,19 @@
 			{
 				background-color: #81918E;
 				background-image: url('../../images/banner.jpg');
-                                font-size: 2em;
+                               
+			}
+                        #main > section.one h1
+			{
+				
+                                font-size: 2.5em;
+                                color:#f5fafa;
+			}
+                        #main > section.one p
+			{
+				
+                                font-size: 1.5em;
+                                color:#f5fafa;
 			}
 
 			#main > section.two

@@ -11,6 +11,10 @@
         <script src="js/main_page/skel.min.js"></script>
         <script src="js/main_page/skel-layers.min.js"></script>
         <script src="js/main_page/init.js"></script>
+
+        <script src="js/login/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="css/login/sweet-alert.css">
+
         <noscript>
         <link rel="stylesheet" href="css/main_page/skel.css" />
         <link rel="stylesheet" href="css/main_page/style.css" />
@@ -18,7 +22,15 @@
 
         </noscript>
         <!--<link rel="stylesheet" href="css/myStyle.css" />-->
-        
+
+        <style>
+            .top a:hover {
+                background: rgba(0,0,0,0.15);
+                box-shadow: inset 0 0 0.25em 0 rgba(0,0,0,0.125);
+                color: #fff;
+            }          
+        </style>
+
     </head>
     <body>
         <div id="header" class="skel-layers-fixed">
@@ -30,9 +42,9 @@
                     <span class="image avatar"><img src="images/avatar.jpg" alt="" /></span>
                     <?php
                     session_start();
-
-                    echo $_SESSION['firstName'] . " " . $_SESSION['lastName'];
-                    echo "
+                    if (isset($_SESSION['firstName']) && isset($_SESSION['lastName'])) {
+                        echo $_SESSION['firstName'] . " " . $_SESSION['lastName'];
+                        echo "
                         <script>
 
                         function formatTime(i) {
@@ -68,6 +80,20 @@
                         <p id='date' ></p>
                         <p id='time'></p>
                     </body>";
+                    } else {
+                        echo "<script>
+                        $(document).ready(function() {
+                            swal({ 
+                            title: 'Please Sign in',
+                            text: '',
+                            type: 'warning' 
+                        },
+                        function(){
+                        window.location.href = 'http://localhost/healthytasks/sign_in.php';
+              });
+            });
+            </script>";
+                    }
                     ?>  
 
 
@@ -82,11 +108,8 @@
                         <li><a href="#find_places" id="find_places-link" class="skel-layers-ignoreHref"><span class="fa fa-map-marker">Find Places</span></a></li>
                         <li><a href="#edit_profile" id="edit_profile-link" class="skel-layers-ignoreHref"><span class="fa fa-edit">Edit profile</span></a></li>
                         <li><a href="#contact" id="contact-link" class="skel-layers-ignoreHref"><span class="fa fa-envelope">Contact</span></a></li>
-                        <li><a href="#sign_out" id="sign_out-link" class="skel-layers-ignoreHref"><span class="fa fa-sign-out">Sign out</span></a></li>
+                        <li><a href="sign_out.php" id="sign_out-link" class="skel-layers-ignoreHre" ><span class="fa fa-sign-out">Sign out</span></a></li>
                     </ul>
-                   
-
-
 
                 </nav>
 
@@ -98,8 +121,8 @@
             <section id="home" class="one">
                 <div class="container">
                     <header>
-                        <p>Healthy Tasks</p>
-                        
+                        <h1>Healthy Tasks</h1>
+                        <p><i>Have a healthy life and manage you daily tasks</i></p>
 
                     </header>
 
@@ -163,6 +186,7 @@
 
                 </div>
             </section>
+
 
 
         </div>
