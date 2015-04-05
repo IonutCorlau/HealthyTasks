@@ -13,22 +13,25 @@
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <link href="css/main_page/myStyle.css" rel="stylesheet">
-        
 
-        <script src="js/main_page/jquery.min.js"></script>
-        <script src="js/main_page/jquery.scrolly.min.js"></script>
-        <script src="js/main_page/jquery.scrollzer.min.js"></script>
-        <script src="js/main_page/skel.min.js"></script>
-        <script src="js/main_page/skel-layers.min.js"></script>
+
+        <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
+        
+        <script src="plugins/scrolly/jquery.scrolly.min.js"></script>
+        <!--<script src="plugins/scrolly/jquery.scrollzer.min.js"></script>-->
+        
+        <script src="plugins/skel/skel.min.js"></script>
+        <script src="plugins/skel/skel-layers.min.js"></script>
+        
         <script src="js/main_page/init.js"></script>
 
-        <script src="js/login/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="css/login/sweet-alert.css">
+        <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
 
         <noscript>
-        <link rel="stylesheet" href="css/main_page/skel.css" />
-        <link rel="stylesheet" href="css/main_page/style.css" />
-        <link rel="stylesheet" href="css/main_page/style-wide.css" />
+        <link rel="stylesheet" href="plugins/skel/skel.css" />
+        <link rel="stylesheet" href="plugins/skel/style.css" />
+        <link rel="stylesheet" href="plugins/skel/style-wide.css" />
 
         </noscript>
         <!--<link rel="stylesheet" href="css/myStyle.css" />-->
@@ -193,23 +196,35 @@
                     <header>
                         <h2>Contact</h2>
                         <div class="container">
-                            <div class="form-group">
-                                <label for="message" class="col-sm-2 control-label">Message</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" rows="8" name="message"></textarea>
+                            <form id="contactForm" method="post" action="main_page.php">
+                                <div class="form-group">
+                                    <label for="message" class="col-sm-2 control-label">Message</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="8" name="message"></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                             
-                            <div class="form-group">     
+
+                                <div class="form-group">     
 
                                     <div class="col-sm-10 col-sm-offset-2">
                                         <button id="sendContact" name="sendContact" class="btn btn-success btn-lg pull-left" >Send  </button>
                                         <button id="cancelContact" name="cancelContact" class="btn btn-danger btn-lg pull-left" >Cancel</button>
 
                                     </div>
-                            </div>
-                            
+                                    <?php
+                                        if(isset($_POST['sendContact'])){
+                                            $comment=$_POST['sendContact'];
+                                            
+                                            require_once 'php_functions/main_page_functions.php';
+                                            sendContact($comment);
+                                        }
+                                            
+                                              
+                                       
+                                    ?>
+                                </div>
 
+                            </form>
 
                         </div>
                     </header>

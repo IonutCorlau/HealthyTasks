@@ -12,23 +12,27 @@ $lang = 'en';
 
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
         
-        <link rel="stylesheet" type="text/css" href="css/login/register.css">
+        <link rel="stylesheet" type="text/css" href="css/account/register.css">
+        <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
+        
+        <script src="plugins/jquery_fullbg/jquery.fullbg.js" ></script>
+        <script src="plugins/jquery_fullbg/jquery.fullbg.min.js"></script>
+        
+        <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
+        <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+        
+        <link rel="stylesheet" type="text/css" media="screen" href="plugins/password_meter/jquery.validate.password.css" />
+        <script type="text/javascript" src="plugins/password_meter/jquery.validate.password.js"></script>
+        
+        
 
-        <link rel="stylesheet" type="text/css" media="screen" href="css/login/jquery.validate.password.css" />
-
-        <script type="text/javascript" src="js/login/jquery.js"></script>
-        <script src="js/login/jquery-2.1.3.min.js"></script>
-        <script src="js/login/jquery.validate.js"></script>
-        <script src="js/login/validateJQueryPlugin.js"></script>
-        <script type="text/javascript" src="js/login/jquery.validate.password.js"></script>
-
+        
         <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl= <?php echo $lang; ?>"></script>
 
-        <script src="js/login/jquery.fullbg.js" ></script>
-        <script src="js/login/jquery.fullbg.min.min"></script>
+        
 
-        <script src="js/login/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="css/login/sweet-alert.css">
+        <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
         
     
      
@@ -134,7 +138,7 @@ if (isset($_POST['registerButton'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            require_once "php_functions/db_connect.php";
+            require_once "php_functions/account_functions.php";
             databaseConnect();
             register($firstname, $lastname, $username, $email, $password);
         } else {

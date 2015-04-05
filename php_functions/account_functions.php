@@ -20,7 +20,7 @@ function databaseConnect() {
 }
 
 function register($firstname, $lastname, $username, $email, $password) {
-    require_once ( 'phpmailer/class.phpmailer.php' );
+    require_once ( 'plugins/phpmailer/class.phpmailer.php' );
 
     $_SESSION['firstName'] = $firstname;
     $_SESSION['lastName'] = $lastname;
@@ -147,7 +147,7 @@ function forgetPassword($forgetPass) {
 }
 
 function recoverPasswordMail($email, $id) {
-    require_once ( 'phpmailer/class.phpmailer.php' );
+    require_once ( 'plugins/phpmailer/class.phpmailer.php' );
 
 
     $tokenKey = rand(1000, 10000);

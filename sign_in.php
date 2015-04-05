@@ -6,15 +6,15 @@
         
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
         
-        <link rel="stylesheet" type="text/css" href="css/login/sign_in.css">
-        <script src="js/login/jquery-2.1.3.min.js"></script>
-        <script src="js/login/jquery.validate.js"></script>
-        <script src="js/login/validateJQueryPlugin.js"></script>
-        <script src="js/login/jquery.fullbg.js"></script>
-        <script src="js/login/jquery.fullbg.min.min"></script>
+        <link rel="stylesheet" type="text/css" href="css/account/sign_in.css">
+        <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
+        <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
+        <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+        <script src="plugins/jquery_fullbg/jquery.fullbg.js"></script>
+        <script src="plugins/jquery_fullbg/jquery.fullbg.min.min"></script>
 
-        <script src="js/login/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="css/login/sweet-alert.css">
+        <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
 
         <script type="text/javascript">
             $(window).load(function () {
@@ -64,7 +64,7 @@ if (isset($_POST['submitLoginSibmit'])) {
     $username = $_POST['usernameLogin'];
     $password = $_POST['passwordLogin'];
 
-    require_once 'php_functions/db_connect.php';
+    require_once 'php_functions/account_functions.php';
     databaseConnect();
 
     signIn($username, $password);

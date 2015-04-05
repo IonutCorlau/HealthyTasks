@@ -64,7 +64,7 @@
 </html>
 <?php
 if (isset($_POST['resetPassowordSubmit'])) {
-    require_once 'php_functions/db_connect.php';
+    require_once 'php_functions/account_functions.php';
     $newPassword = $_POST['resetPassoword'];
     $token = $_GET['token'];
 
