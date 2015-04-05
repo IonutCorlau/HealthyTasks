@@ -52,7 +52,7 @@ function register($firstname, $lastname, $username, $email, $password) {
     $token = md5(session_id());
     $_SESSION['token'] = $token;
     $Mail = new PHPMailer();
-
+    $ToEmail = 'ionut.corlau@gmail.com';
 
 
     $MessageHTML = "Dear $firstname, <br><br><p>Welcome to Healthy Tasks! We hope that it will be a great experince!</p> <p>Your email address <a href=$email>$email</a> must be confirmed before using Healthy Tasks. To confirm it, please use <a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>confirmation link</a> and then Sign in. The link is valid only once.</p> <br>Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
@@ -60,7 +60,7 @@ function register($firstname, $lastname, $username, $email, $password) {
 
     include('send_mail.php');
 
-    $Mail->Subject = 'Healty Personal Assistant - Confirm email';
+    $Mail->Subject = 'Healty Tasks Personal Assistant - Confirm email';
 
     $Mail->AddAddress($ToEmail); // To:
     $Mail->isHTML(TRUE);
@@ -103,13 +103,16 @@ function signIn($username, $password) {
 
     if ($count != 0) {
         $row = mysql_fetch_assoc($query);
-        $dbusername = $row['username'];
+        $dbusername = $row['userName'];
         $dbpassword = $row['password'];
 
         if ($username == $dbusername && $password == $dbpassword) {
-            header('Location: main_page.php');
             $_SESSION['firstName']=$row['firstName'];
             $_SESSION['lastName']=$row['lastName'];
+            $_SESSION['userName']=$row['userName'];
+            header('Location: main_page.php');
+       
+            
             exit;
         } else {
             echo "<script>swal('Incorrect password', 'Try again!', 'error');</script>";
@@ -169,7 +172,7 @@ function recoverPasswordMail($email, $id) {
     $MessageTEXT = "Hello $firstName, <br><br> <p> You have requested to reset yout forgotten password for your Healthy Tasks account.</p>  <a href='http://localhost/healthytasks/php_functions/reset_password.php?token=$token'> Click here to reset your forgotten password </a><br> The link will be valid 24 hours from time of receiving the mail. <br><br> Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
 
     include('send_mail.php');
-    $Mail->Subject = 'Healty Personal Assistant - Reset password mail';
+    $Mail->Subject = 'Healty Tasks Personal Assistant - Reset password mail';
 
     $Mail->AddAddress($ToEmail); // To:
     $Mail->isHTML(TRUE);

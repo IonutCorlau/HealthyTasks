@@ -16,10 +16,10 @@
                 <div class="top">
                     <h2>Reset Password</h2>
                 </div>
-                <form id="resetPassowordForm" method="post" >
+                <form id="resetPasswordForm" method="post" >
                     <div class="middle">
-                        <label for="resetPassoword"> Password: </label>
-                        <input id="resetPassoword" name="resetPassword" type="password" autocomplete="off"/>
+                        <label for="resetPassword"> Password: </label>
+                        <input id="resetPassword" name="resetPassword" type="password" autocomplete="off"/>
                         <input id="passwordClear" name="passwordClear" type="text" autocomplete="off" value="At least an uppercase or a digit"/>
 
                         <div class="password-meter">
@@ -30,11 +30,11 @@
                             </div>
                         </div>
                         <br>
-                        <label for="resetPassowordConfirm">Password confirmation: </label>
-                        <input id="resetPassowordConfirm" name="resetPassowordConfirm" type="password" autocomplete="off"/>
+                        <label for="resetPasswordConfirm">Password confirmation: </label>
+                        <input id="resetPasswordConfirm" name="resetPasswordConfirm" type="password" autocomplete="off"/>
                     </div>
                     <div class="bottom">
-                        <input id ="resetPassowordSubmit" name="resetPassowordSubmit" type="submit" value="Update password"/>
+                        <input id ="resetPasswordSubmit" name="resetPasswordSubmit" type="submit" value="Update password"/>
 
                     </div>
                 </form>
@@ -46,26 +46,26 @@
             });
 
             $('#passwordClear').show();
-            $('#resetPassoword').hide();
+            $('#resetPassword').hide();
 
             $('#passwordClear').focus(function () {
                 $('#passwordClear').hide();
-                $('#resetPassoword').show();
-                $('#resetPassoword').focus();
+                $('#resetPassword').show();
+                $('#resetPassword').focus();
             });
-            $('#resetPassoword').blur(function () {
-                if ($('#resetPassoword').val() === '') {
+            $('#resetPassword').blur(function () {
+                if ($('#resetPassword').val() === '') {
                     $('#passwordClear').show();
-                    $('#resetPassoword').hide();
+                    $('#resetPassword').hide();
                 }
             });
         </script>
     </body>
 </html>
 <?php
-if (isset($_POST['resetPassowordSubmit'])) {
+if (isset($_POST['resetPasswordSubmit'])) {
     require_once 'php_functions/account_functions.php';
-    $newPassword = $_POST['resetPassoword'];
+    $newPassword = $_POST['resetPassword'];
     $token = $_GET['token'];
 
     resetPassword($newPassword, $token);

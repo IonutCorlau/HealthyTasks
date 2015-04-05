@@ -9,14 +9,18 @@ $lang = 'en';
     <head>
         <meta charset="UTF-8">
         <title>Register page</title>
-
+       
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
         
         <link rel="stylesheet" type="text/css" href="css/account/register.css">
         <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
+          <script>
+             $(window).load(function () {
+                $("#background").fullBg();
+            });
+        </script>
         
         <script src="plugins/jquery_fullbg/jquery.fullbg.js" ></script>
-        <script src="plugins/jquery_fullbg/jquery.fullbg.min.js"></script>
         
         <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
@@ -27,22 +31,22 @@ $lang = 'en';
         
 
         
-        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl= <?php echo $lang; ?>"></script>
+       <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl= <?php echo $lang; ?>"></script>
 
         
 
         <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
-        
     
-     
+    
+       
         
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
         <img src="images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
-            <section class="register">
+            <section class="register animation">
                 <div class="top">
                     <h2> Register </h2>
                 </div>
@@ -96,9 +100,7 @@ $lang = 'en';
             </section>
         </div>
         <script type="text/javascript">
-            $(window).load(function () {
-                $("#background").fullBg();
-            });
+       
 
             $('#passwordClear').show();
             $('#password').hide();
@@ -120,6 +122,7 @@ $lang = 'en';
         </script>
 
     </body>
+    
 </html>
 
 <?php

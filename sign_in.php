@@ -8,10 +8,12 @@
         
         <link rel="stylesheet" type="text/css" href="css/account/sign_in.css">
         <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
+        
         <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+        
         <script src="plugins/jquery_fullbg/jquery.fullbg.js"></script>
-        <script src="plugins/jquery_fullbg/jquery.fullbg.min.min"></script>
+      
 
         <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
