@@ -37,6 +37,8 @@
         <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
         
+        
+        
         <noscript>
         <link rel="stylesheet" href="plugins/skel/skel.css" />
         <link rel="stylesheet" href="plugins/skel/style.css" />

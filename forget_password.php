@@ -19,6 +19,8 @@
         <script src="..plugins/sweet_alert/sweet-alert.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
         <link rel="stylesheet" type="text/css" href="..pluging/sweet_alert/sweet-alert.css">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
         <script type="text/javascript">
             $(window).load(function () {

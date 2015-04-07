@@ -9,38 +9,39 @@ $lang = 'en';
     <head>
         <meta charset="UTF-8">
         <title>Register page</title>
-       
+
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
-        
+
         <link rel="stylesheet" type="text/css" href="css/account/register.css">
         <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
-          <script>
-             $(window).load(function () {
+        <script>
+            $(window).load(function () {
                 $("#background").fullBg();
             });
         </script>
-        
+
         <script src="plugins/jquery_fullbg/jquery.fullbg.js" ></script>
-        
+
         <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
-        
+
         <link rel="stylesheet" type="text/css" media="screen" href="plugins/password_meter/jquery.validate.password.css" />
         <script type="text/javascript" src="plugins/password_meter/jquery.validate.password.js"></script>
-        
-        
 
-        
-       <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl= <?php echo $lang; ?>"></script>
 
-        
+
+
+        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl= <?php echo $lang; ?>"></script>
+
+
 
         <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
-    
-    
-       
-        
+
+        <meta name="viewport" content="width=device-width, initial-scale=0.8">
+
+
+
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
@@ -100,7 +101,7 @@ $lang = 'en';
             </section>
         </div>
         <script type="text/javascript">
-       
+
 
             $('#passwordClear').show();
             $('#password').hide();
@@ -118,11 +119,11 @@ $lang = 'en';
                 }
             });
 
-        
+
         </script>
 
     </body>
-    
+
 </html>
 
 <?php
@@ -131,10 +132,10 @@ if (isset($_POST['registerButton'])) {
 
         require_once('C:\Users\Ionut\vendor\autoload.php');
         $recaptcha = new \ReCaptcha\ReCaptcha($secret);
-
-        $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+       
+        $resp = $recaptcha->verify($_POST['g-recaptcha-response'],0);
         if ($resp->isSuccess()) {
-
+//$_SERVER['REMOTE_ADDR']
             $firstname = $_POST['firstName'];
             $lastname = $_POST['lastName'];
             $username = $_POST['username'];

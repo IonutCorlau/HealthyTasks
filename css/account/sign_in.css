@@ -101,7 +101,7 @@
 
 .signIn .middle input[type="text"], 
 .signIn .middle input[type="password"]{
-	width: 280px;
+	width: 300px;
 	background: #FFFFFF;
 	border: solid 1px #E5E5E5;
 	padding: 10px;
@@ -190,6 +190,3 @@ label.error{
 input.error{
     border:2px solid red !important;
 }
-
-
-

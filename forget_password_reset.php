@@ -3,9 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>Reset Password</title>	
-        
+
         <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
-        
+
+
        
     </head>
     <body>
@@ -40,7 +41,7 @@
                 </form>
             </section>
         </div>
- <script type="text/javascript">
+        <script type="text/javascript">
             $(window).load(function () {
                 $("#background").fullBg();
             });
