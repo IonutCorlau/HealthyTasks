@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Confirm mail</title>
+         <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
 
+        <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
 
-        <script src="../plugins/jquery/jquery-2.1.3.min.js"></script>
-
-        <script src="../plugins/sweet_alert/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="../plugins/sweet_alert/sweet-alert.css">
+        <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
 
     </head>
 </html>
@@ -22,8 +22,10 @@ if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
     if ($token == md5(session_id())) {
-
-        $query = "INSERT INTO users (firstName,lastName,username,email,password) VALUES ('" . $_SESSION['firstName'] . "','" . $_SESSION['lastName'] . "','" . $_SESSION['userName'] . "','" . $_SESSION['email'] . "','" . $_SESSION['password'] . "')";
+        
+        
+        $date = date("Y-m-d",time());
+        $query = "INSERT INTO users (firstName,lastName,username,email,password,creationTime) VALUES ('" . $_SESSION['firstName'] . "','" . $_SESSION['lastName'] . "','" . $_SESSION['userName'] . "','" . $_SESSION['email'] . "','" . $_SESSION['password'] . "','". $date.  "')";
         $result = mysql_query($query) or die("Error : " . mysql_error());
         
         echo "<script>

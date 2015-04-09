@@ -7,45 +7,45 @@
 
 
         <title>Healthy Tasks</title>
-        <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
+        <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
 
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        
+        <link href="/healthytasks/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script src="/healthytasks/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/healthytasks/bootstrap/js/bootstrap.min.js"></script>
 
 
-        <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
-        
-        <script src="plugins/scrolly/jquery.scrolly.min.js"></script>
-        <script src="plugins/scrolly/jquery.scrollzer.min.js"></script>
-        
-        <script src="plugins/skel/skel.min.js"></script>
-        <script src="plugins/skel/skel-layers.min.js"></script>
-        
-        <script src="js/main_page/init.js"></script>
 
-        <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
-        
-        <link href="plugins/star_rating/star-rating.css" media="all" rel="stylesheet" type="text/css" />
-        <script src="plugins/star_rating/star-rating.js" type="text/javascript"></script>
-        
-        <script src="js/main_page//my_functions.js" type="text/javascript"></script>
+        <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
+
+        <script src="/healthytasks/plugins/scrolly/jquery.scrolly.min.js"></script>
+        <script src="/healthytasks/plugins/scrolly/jquery.scrollzer.min.js"></script>
+
+        <script src="/healthytasks/plugins/skel/skel.min.js"></script>
+        <script src="/healthytasks/plugins/skel/skel-layers.min.js"></script>
+
+        <script src="/healthytasks/js/main_page/init.js"></script>
+
+        <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
+
+        <link href="/healthytasks/plugins/star_rating/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+        <script src="/healthytasks/plugins/star_rating/star-rating.js" type="text/javascript"></script>
+
+        <script src="/healthytasks/js/main_page/my_functions.js" type="text/javascript"></script>
         <link rel="stylesheet" href="css/main_page/my_style.css" />
 
-        <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
-        <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
-        
-        
-        
+        <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
+        <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+
+
+
         <noscript>
-        <link rel="stylesheet" href="plugins/skel/skel.css" />
-        <link rel="stylesheet" href="plugins/skel/style.css" />
-        <link rel="stylesheet" href="plugins/skel/style-wide.css" />
+        <link rel="stylesheet" href="/healthytasks/plugins/skel/skel.css" />
+        <link rel="stylesheet" href="/healthytasks/plugins/skel/style.css" />
+        <link rel="stylesheet" href="/healthytasks/plugins/skel/style-wide.css" />
 
         </noscript>
- 
+
     </head>
     <body>
         <div id="header" class="skel-layers-fixed">
@@ -54,10 +54,10 @@
 
 
                 <div id="logo">
-                    <span class="image avatar"><img src="images/avatar.jpg" alt="" /></span>
+                    <span class="image avatar"><img src="/healthytasks/images/avatar.jpg" alt="" /></span>
                     <?php
                     session_start();
-                    if (isset($_SESSION['firstName']) && isset($_SESSION['lastName']) &&  isset($_SESSION['userName'])) {
+                    if (isset($_SESSION['firstName']) && isset($_SESSION['lastName']) && isset($_SESSION['userName'])) {
                         echo $_SESSION['firstName'] . " " . $_SESSION['lastName'];
                         echo "
                        
@@ -169,19 +169,19 @@
                         <h2>Contact</h2>
                         <div class="container">
                             <form id="contactForm" method="post" action="main_page.php">
-                                
+
                                 <div class="form-group">
                                     <label for="message" class="col-sm-2 control-label">Message</label>
                                     <div class="col-sm-10">
                                         <textarea id="commentInput" name="commentInput" class="form-control" rows="8"></textarea>
-                                       
+
                                         <span class="pull-left">Please rate your experience with Healthy Tasks</span>
-                                        <span class="pull-left"><input id="input-21b" value="0" type="number" class="rating" min=0 max=5 step=0.1 data-size="xs"></span>
+                                        <span class="pull-left" id="starRating"><input id="input-21b" value="0" type="number" class="rating" min=0 max=5 step=0.1 data-size="xs"></span>
                                     </div>
-                                    
+
                                 </div>
-                                
-                               
+
+
                                 <div class="form-group">     
 
                                     <div class="col-sm-10 col-sm-offset-2">
@@ -189,15 +189,15 @@
                                         <button id="cancelContact" name="cancelContact" onclick="reset()" class="btn btn-danger btn-lg pull-left" type="button" >Cancel</button>
 
                                     </div>
-                                   <?php
-                                    if(isset($_POST['sendContact'])){
+                                    <?php
+                                    if (isset($_POST['sendContact'])) {
                                         $contactText = $_POST['commentInput'];
-                                        
+
                                         require_once 'php_functions/main_page_functions.php';
                                         sendContact($contactText);
                                     }
-                                   ?>
-                                    
+                                    ?>
+
                                 </div>
 
                             </form>

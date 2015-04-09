@@ -18,3 +18,7 @@ label.error{
 textarea.error{
     border:2px solid red !important;
 }
+
+#starRating{
+    padding-right:  10px;
+}

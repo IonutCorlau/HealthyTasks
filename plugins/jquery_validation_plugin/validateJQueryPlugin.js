@@ -107,27 +107,27 @@ $(document).ready(function () {
 
         }
     });
-    $("#resetPassowordForm").validate({
+    $("#resetPasswordForm").validate({
         rules: {
-            resetPassoword: {
+            resetPassword: {
                 required: true,
                 minlength: 8,
                 maxlength: 25
             },
-            resetPassowordConfirm: {
+            resetPasswordConfirm: {
                 required: true,
                 minlength: 8,
                 maxlength: 25,
-                equalTo: "#resetPassoword"
+                equalTo: "#resetPassword"
             }
 
         },
         messages: {
-            resetPassoword: {
+            resetPassword: {
                 required: "Please specify your Password",
                 minlength: "Password must be least 8 characters long "
             },
-            resetPassowordConfirm: {
+            resetPasswordConfirm: {
                 required: "Please confirm your Password",
                 minlength: "Password must be least 8 characters long",
                 equalTo: "Please enter the same password as above"

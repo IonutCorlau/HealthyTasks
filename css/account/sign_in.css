@@ -121,6 +121,7 @@
 	margin-top: 5px;
 	margin-bottom: 10px;
     transition: background 2s;
+     font-weight: bol
 }
 
 .signIn input[type="text"]:focus,

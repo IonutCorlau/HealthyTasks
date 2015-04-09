@@ -4,36 +4,33 @@
         <meta charset="UTF-8">
         <title>Sign in</title>
         
-        <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
+        <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
         
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <link href="/healthytasks/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script src="/healthytasks/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/healthytasks/bootstrap/js/bootstrap.min.js"></script>
         
-        <link rel="stylesheet" type="text/css" href="css/account/sign_in.css">
-        <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/healthytasks/css/account/sign_in.css">
+        <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
         
-        <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
-        <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+        <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
+        <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
         
-        <script src="plugins/jquery_fullbg/jquery.fullbg.js"></script>
+        <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js"></script>
       
 
-        <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
+        <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
+        
+        <script src="/healthytasks/js/account/my_functions.js"></script>
         
         <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
-        <script type="text/javascript">
-            $(window).load(function () {
-                $("#background").fullBg();
-            });
-
-        </script>
+        
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="images/background_signIn.jpg" alt="" id="background" />
+        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
         
                 <div id="maincontent">
                     <section class="signIn">

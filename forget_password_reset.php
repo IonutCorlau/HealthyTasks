@@ -4,14 +4,13 @@
         <meta charset="UTF-8">
         <title>Reset Password</title>	
 
-        <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
-
-
+        <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
+        
        
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="../images/background_signIn.jpg" alt="" id="background" />
+        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
             <section class="resetPassword">
                 <div class="top">
@@ -42,9 +41,7 @@
             </section>
         </div>
         <script type="text/javascript">
-            $(window).load(function () {
-                $("#background").fullBg();
-            });
+         
 
             $('#passwordClear').show();
             $('#resetPassword').hide();

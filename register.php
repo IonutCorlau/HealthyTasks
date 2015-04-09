@@ -10,23 +10,21 @@ $lang = 'en';
         <meta charset="UTF-8">
         <title>Register page</title>
 
-        <link rel="done icon" href="images/tab_icon.png" type="image/x-icon"/>
 
-        <link rel="stylesheet" type="text/css" href="css/account/register.css">
-        <script src="plugins/jquery/jquery-2.1.3.min.js"></script>
-        <script>
-            $(window).load(function () {
-                $("#background").fullBg();
-            });
-        </script>
 
-        <script src="plugins/jquery_fullbg/jquery.fullbg.js" ></script>
+        <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
 
-        <script src="plugins/jquery_validation_plugin/jquery.validate.js"></script>
-        <script src="plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+        <link rel="stylesheet" type="text/css" href="/healthytasks/css/account/register.css">
+        <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="plugins/password_meter/jquery.validate.password.css" />
-        <script type="text/javascript" src="plugins/password_meter/jquery.validate.password.js"></script>
+
+        <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js" ></script>
+
+        <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
+        <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+
+        <link rel="stylesheet" type="text/css" media="screen" href="/healthytasks/plugins/password_meter/jquery.validate.password.css" />
+        <script type="text/javascript" src="/healthytasks/plugins/password_meter/jquery.validate.password.js"></script>
 
 
 
@@ -35,8 +33,10 @@ $lang = 'en';
 
 
 
-        <script src="plugins/sweet_alert/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="plugins/sweet_alert/sweet-alert.css">
+        <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
+
+        <script src="/healthytasks/js/account/my_functions.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
@@ -45,7 +45,7 @@ $lang = 'en';
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="images/background_signIn.jpg" alt="" id="background" />
+        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
             <section class="register animation">
                 <div class="top">
@@ -102,7 +102,6 @@ $lang = 'en';
         </div>
         <script type="text/javascript">
 
-
             $('#passwordClear').show();
             $('#password').hide();
 
@@ -132,10 +131,9 @@ if (isset($_POST['registerButton'])) {
 
         require_once('C:\Users\Ionut\vendor\autoload.php');
         $recaptcha = new \ReCaptcha\ReCaptcha($secret);
-       
-        $resp = $recaptcha->verify($_POST['g-recaptcha-response'],0);
+
+        $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
         if ($resp->isSuccess()) {
-//$_SERVER['REMOTE_ADDR']
             $firstname = $_POST['firstName'];
             $lastname = $_POST['lastName'];
             $username = $_POST['username'];

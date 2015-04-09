@@ -3,21 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <title>Forget Password page</title>
-        <link rel="stylesheet" type="text/css" href="../css/account/forget_password_reset.css">
-        <link rel="stylesheet" type="text/css" href="../css/account/forget_password.css">
-
-        <script src="../plugins/jquery/jquery-2.1.3.min.js"></script>
-        <script src="../plugins/jquery_validation_plugin/jquery.validate.js"></script>
-        <script src="../plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+        <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
         
-        <script src="../plugins/jquery_fullbg/jquery.fullbg.js"></script>
-        <script src="../plugins/jquery_fullbg/jquery.fullbg.min.js"></script>
-        
-        <link rel="stylesheet" type="text/css" media="screen" href="../plugins/password_meter/jquery.validate.password.css" />
-        <script type="text/javascript" src="../plugins/password_meter/jquery.validate.password.js"></script>
+        <link rel="stylesheet" type="text/css" href="/healthytasks/css/account/forget_password_reset.css">
+        <link rel="stylesheet" type="text/css" href="/healthytasks/css/account/forget_password.css">
 
-        <script src="../plugins/sweet_alert/sweet-alert.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="../plugins/sweet_alert/sweet-alert.css">
+        <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
+        
+        <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
+        <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
+        
+      
+        <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js"></script>
+        <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.min.js"></script>
+        
+     
+
+        <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
+        
+        <script src="/healthytasks/js/account/my_functions.js"></script>
         
         <meta name="viewport" content="width=device-width, initial-scale=0.8">
 

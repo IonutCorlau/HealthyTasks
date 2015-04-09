@@ -70,6 +70,8 @@
     color: #C7C7C7;
     
     overflow: hidden;
+    padding-top:10px;
+    padding-bottom:10px;
 }
 
 .rating-container:before {
@@ -80,10 +82,13 @@
     position: absolute;
     left: 0;
     top: 0;
+    padding-top:10px;
+    padding-bottom:10px;
+    //padding-left:10px;
     white-space: nowrap;
     overflow: hidden;
     color: #fde16d;
-    
+        
     transition: all 0.25s ease-out;
     -o-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
