@@ -13,7 +13,9 @@
         <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
         
-        <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js"></script>      
+        <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js"></script>   
+        
+      
         
         <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
         <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
@@ -26,7 +28,7 @@
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
+        <!--<img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />-->
         <div id="maincontent">
             <section class="forget_password">
                 <div class="top">
@@ -59,11 +61,10 @@
 </html>
 
 <?php
+require_once 'php_functions/account_functions.php';
 if (isset($_POST['forgetPasswordSubmit'])) {
     $forgetPass = $_POST['usernamePasswordForget'];
 
-    require_once 'php_functions/account_functions.php';
-    databaseConnect();
     forgetPassword($forgetPass);
 }
 ?>

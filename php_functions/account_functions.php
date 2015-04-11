@@ -1,32 +1,22 @@
 <?php
 
-session_start();
-
-function databaseConnect() {
-    $server = "localhost";
-    $database = "personal assistant";
-    $username = "root";
-    $password = "";
-
-
-    $connect = mysql_connect($server, $username, $password) or die("Failed to connect to MySQL: " . mysql_error());
-    $db = mysql_select_db($database) or die("Failed to connect to MySQL: " . mysql_error());
-
-
-
-    if (mysqli_connect_errno($connect)) {
-        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    }
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
 }
 
+require_once 'db_connect.php';
+
+
 function register($firstname, $lastname, $username, $email, $password) {
-    require_once ( 'plugins/phpmailer/class.phpmailer.php' );
+    require_once ( '/../plugins/phpmailer/class.phpmailer.php' );
 
     $_SESSION['firstName'] = $firstname;
     $_SESSION['lastName'] = $lastname;
     $_SESSION['userName'] = $username;
     $_SESSION['email'] = $email;
     $_SESSION['password'] = $password;
+    
+    
 
     $queryDuplicateUsername = mysql_query("SELECT * FROM users WHERE username='$username'");
     $countUsername = mysql_num_rows($queryDuplicateUsername);
@@ -109,7 +99,7 @@ function signIn($username, $password) {
         if ($username == $dbusername && $password == $dbpassword) {
             $_SESSION['firstName']=$row['firstName'];
             $_SESSION['lastName']=$row['lastName'];
-            $_SESSION['userName']=$row['userName'];
+            $_SESSION['userId']=$row['id'];
             header('Location: main_page.php');
        
             
@@ -210,10 +200,10 @@ function resetPassword($newPassword, $token) {
     $queryResetUpdate = mysql_query("UPDATE users SET password='$newPassword' WHERE id='$id'");
     if ($queryResetUpdate) {
         echo "<script>
-        swal({  title: 'Your password has been successfully updated!',   text: 'Go to main page in 3 seconds.',   timer: 3000,   showConfirmButton: false });
+        swal({  title: 'Your password has been successfully updated!',   text: 'Go Sign in page in 3 seconds.',   timer: 3000,   showConfirmButton: false });
         window.setTimeout(changeLink,3000);
         function changeLink(){
-         window.location.href = '../main_page.php';
+         window.location.href = '/healthytasks/sign_in.php';
         }
        </script>";
     } else {

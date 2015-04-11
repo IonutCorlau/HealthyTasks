@@ -56,8 +56,11 @@
                 <div id="logo">
                     <span class="image avatar"><img src="/healthytasks/images/avatar.jpg" alt="" /></span>
                     <?php
-                    session_start();
-                    if (isset($_SESSION['firstName']) && isset($_SESSION['lastName']) && isset($_SESSION['userName'])) {
+                    if (session_status() == PHP_SESSION_NONE) {
+                        session_start();
+                    }
+
+                    if (isset($_SESSION['firstName']) && isset($_SESSION['lastName'])) {
                         echo $_SESSION['firstName'] . " " . $_SESSION['lastName'];
                         echo "
                        
@@ -176,7 +179,13 @@
                                         <textarea id="commentInput" name="commentInput" class="form-control" rows="8"></textarea>
 
                                         <span class="pull-left">Please rate your experience with Healthy Tasks</span>
-                                        <span class="pull-left" id="starRating"><input id="input-21b" value="0" type="number" class="rating" min=0 max=5 step=0.1 data-size="xs"></span>
+                                        <span class="pull-left" id="starRating"><input id="input-21b" name="starInput" value="0" type="number" class="rating" min=0 max=5 step=0.1 data-size="xs"></span>
+                                        <script>
+                                            $('#input-21b').on('rating.change', function (event, value) {
+                                                var valueStar = "bla";
+                                                $.post('main_page.php',{variable: valueStar});
+                                            });
+                                        </script>
                                     </div>
 
                                 </div>
@@ -190,10 +199,11 @@
 
                                     </div>
                                     <?php
+                                    require_once 'php_functions/main_page_functions.php';
                                     if (isset($_POST['sendContact'])) {
                                         $contactText = $_POST['commentInput'];
-
-                                        require_once 'php_functions/main_page_functions.php';
+                                        
+                                       
                                         sendContact($contactText);
                                     }
                                     ?>

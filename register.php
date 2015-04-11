@@ -1,5 +1,6 @@
 <?php
 require_once('C:\Users\Ionut\vendor\autoload.php');
+require_once ('php_functions/account_functions.php');
 $siteKey = '6LcePAATAAAAAGPRWgx90814DTjgt5sXnNbV5WaW';
 $secret = '6LcePAATAAAAABjXaTsy7gwcbnbaF5XgJKwjSNwT';
 $lang = 'en';
@@ -45,7 +46,7 @@ $lang = 'en';
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
+        <!--<img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />-->
         <div id="maincontent">
             <section class="register animation">
                 <div class="top">
@@ -61,7 +62,7 @@ $lang = 'en';
                         <br>
 
                         <label for="username">Username:</label>
-                        <input id="username" name="username" type="text"/>
+                        <input id="userName" name="userName" type="text"/>
                         <br>
 
                         <label for="email">Email:</label>
@@ -114,6 +115,7 @@ $lang = 'en';
             $('#password').blur(function () {
                 if ($('#password').val() === '') {
                     $('#passwordClear').show();
+                    $("label.error").hide();
                     $('#password').hide();
                 }
             });
@@ -126,6 +128,7 @@ $lang = 'en';
 </html>
 
 <?php
+
 if (isset($_POST['registerButton'])) {
     if (isset($_POST['g-recaptcha-response'])) {
 
@@ -136,12 +139,11 @@ if (isset($_POST['registerButton'])) {
         if ($resp->isSuccess()) {
             $firstname = $_POST['firstName'];
             $lastname = $_POST['lastName'];
-            $username = $_POST['username'];
+            $username = $_POST['userName'];
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            require_once "php_functions/account_functions.php";
-            databaseConnect();
+            
             register($firstname, $lastname, $username, $email, $password);
         } else {
 
@@ -163,6 +165,7 @@ if (isset($_POST['registerButton'])) {
     }
 }
 ?>
+
 
 
 

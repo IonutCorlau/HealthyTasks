@@ -30,7 +30,7 @@
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
+        <!--<img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />-->
         
                 <div id="maincontent">
                     <section class="signIn">
@@ -67,12 +67,11 @@
 
 
 <?php
+ require_once 'php_functions/account_functions.php';
 if (isset($_POST['submitLoginSibmit'])) {
     $username = $_POST['usernameLogin'];
     $password = $_POST['passwordLogin'];
 
-    require_once 'php_functions/account_functions.php';
-    databaseConnect();
 
     signIn($username, $password);
     

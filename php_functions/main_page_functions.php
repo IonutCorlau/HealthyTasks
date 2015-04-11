@@ -1,13 +1,44 @@
 <?php
 
+if(session_status()==PHP_SESSION_NONE){
+    session_start();
+}
+
+require_once 'db_connect.php';
+
+class User{
+    public $firstName;
+    public $id;
+    
+    function __construct($id) {
+        
+        $query = mysql_query("SELECT * FROM users WHERE id='$id'");
+        $row = mysql_fetch_assoc($query);
+        
+        $this->id=$id;
+        $this->firstName=$row['firstName'];
+        $this->lastName=$row['lastName'];
+        $this->userName=$row['userName'];
+        $this->email=$row['email'];
+        $this->creationTime=$row['creationTime'];
+    }
+}
+
 function sendContact($contactText){
-    require_once ( 'plugins/phpmailer/class.phpmailer.php' );
-    print_r($_SESSION);
+    require_once ( '/../plugins/phpmailer/class.phpmailer.php' );
+    
+    $query = "INSERT INTO contact (comment) VALUES ('" . $contactText . "')";
+    mysql_query($query) or die("Error : " . mysql_error());
+   
     $Mail = new PHPMailer();
     $ToEmail = 'healthy.tasks@gmail.com';
     
-    $MessageHTML = "<b>You received the following message using contact page.</b> <br><br> First name: ".$_SESSION['firstName']. "<br>Last name: ". $_SESSION['lastName']."<br>Username: ". $_SESSION['userName'] ;
-    $MessageTEXT = $contactText;
+    $user = new User($_SESSION['userId']);
+   
+    
+    
+    $MessageHTML = "<b>You received the following message using contact page.</b> <br><br> First name: ".$user->firstName. "<br>Last name: ". $user->lastName."<br>Username: ". $user->userName."<br>Member since: " .$user->creationTime."<br><br>Contact text:<br><br>\"". $contactText ."\"";
+    $MessageTEXT = "<b>You received the following message using contact page.</b> <br><br> First name: ".$user->firstName. "<br>Last name: ". $user->lastName."<br>Username: ". $user->userName."<br>Member since: " .$user->creationTime."<br><br>Contact text:<br><br>\"". $contactText ."\"";;
     
     include('send_mail.php');
     $Mail->Subject = 'Healty Tasks Personal Assistant - Contact form';

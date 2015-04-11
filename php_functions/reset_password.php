@@ -17,7 +17,8 @@
         <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js"></script>
         <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.min.js"></script>
         
-     
+        <script src="/healthytasks/plugins/password_meter/jquery.validate.password.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/password_meter/jquery.validate.password.css">
 
         <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
         <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
@@ -29,9 +30,8 @@
     </head>
 </html>
 <?php
-require_once 'account_functions.php';
-databaseConnect();
-
+require_once 'db_connect.php';
+session_start();
 
 if (isset($_GET['token']) && (isset($_SESSION['tokenKey']))) {
 
@@ -63,10 +63,10 @@ if (isset($_GET['token']) && (isset($_SESSION['tokenKey']))) {
             //86400
 
             echo "<script>swal('Sorry, your link has expired', 'Please enter again your username or email!', 'error');</script>";
-            include '../forget_password.php';
+            include '/../forget_password.php';
         } else {
 
-            include '../forget_password_reset.php';
+            include '/../forget_password_reset.php';
         }
     }
 }

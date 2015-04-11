@@ -14,9 +14,8 @@
 </html>
 
 <?php
-require_once 'account_functions.php';
-databaseConnect();
 
+require_once ('account_functions.php');
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
@@ -42,6 +41,7 @@ if (isset($_GET['token'])) {
             </script>";
         session_regenerate_id();
     } else {
+        echo $_SESSION['userName'];
         echo "<script>
                 $(document).ready(function() {
                 swal({ 

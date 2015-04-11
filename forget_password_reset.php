@@ -10,7 +10,7 @@
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
+        <!--<img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />-->
         <div id="maincontent">
             <section class="resetPassword">
                 <div class="top">
@@ -54,6 +54,7 @@
             $('#resetPassword').blur(function () {
                 if ($('#resetPassword').val() === '') {
                     $('#passwordClear').show();
+                    $("label.error").hide();
                     $('#resetPassword').hide();
                 }
             });
@@ -61,8 +62,9 @@
     </body>
 </html>
 <?php
+require_once 'php_functions/account_functions.php';
 if (isset($_POST['resetPasswordSubmit'])) {
-    require_once 'php_functions/account_functions.php';
+    
     $newPassword = $_POST['resetPassword'];
     $token = $_GET['token'];
 
