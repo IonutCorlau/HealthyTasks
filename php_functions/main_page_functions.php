@@ -27,8 +27,8 @@ class User{
 function sendContact($contactText){
     require_once ( '/../plugins/phpmailer/class.phpmailer.php' );
     
-    $query = "INSERT INTO contact (comment) VALUES ('" . $contactText . "')";
-    mysql_query($query) or die("Error : " . mysql_error());
+    /*$query = "INSERT INTO contact (comment) VALUES ('" . $contactText . "')";
+    mysql_query($query) or die("Error : " . mysql_error());*/
    
     $Mail = new PHPMailer();
     $ToEmail = 'healthy.tasks@gmail.com';

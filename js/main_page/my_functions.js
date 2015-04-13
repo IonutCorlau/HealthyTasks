@@ -1,7 +1,5 @@
 
-function reset() {
-    document.getElementById("commentInput").value = null;
-}
+
 function formatTime(i) {
     if (i < 10) {
         i = '0' + i
@@ -32,5 +30,7 @@ function startTime() {
         startTime()
     }, 500);
 }
+
+$(":file").filestyle({buttonName: "btn-primary"});
 
 

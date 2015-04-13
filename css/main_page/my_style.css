@@ -1,9 +1,7 @@
-#sendContact, #cancelContact{
+input[type="submit"],  input[type="reset"] {
     margin: 10px 10px 0px 0px;
 }
-.container{
-    margin-top: 20px;
-}
+
 .top a:hover {
     background: rgba(0,0,0,0.15);
     box-shadow: inset 0 0 0.25em 0 rgba(0,0,0,0.125);
@@ -22,3 +20,9 @@ textarea.error{
 #starRating{
     padding-right:  10px;
 }
+
+control-label{
+    padding-top: 0px !important;
+}
+
+
