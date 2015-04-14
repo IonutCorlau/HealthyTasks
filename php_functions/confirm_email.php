@@ -16,6 +16,7 @@
 <?php
 
 require_once ('account_functions.php');
+require_once ('db_connect.php');
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
@@ -25,7 +26,7 @@ if (isset($_GET['token'])) {
         
         $date = date("Y-m-d",time());
         $query = "INSERT INTO users (firstName,lastName,username,email,password,creationTime) VALUES ('" . $_SESSION['firstName'] . "','" . $_SESSION['lastName'] . "','" . $_SESSION['userName'] . "','" . $_SESSION['email'] . "','" . $_SESSION['password'] . "','". $date.  "')";
-        $result = mysql_query($query) or die("Error : " . mysql_error());
+        $result = mysqli_query($connect , $query) or die("Error : " . mysql_error());
         
         echo "<script>
                 $(document).ready(function() {

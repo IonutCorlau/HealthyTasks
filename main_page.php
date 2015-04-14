@@ -1,3 +1,6 @@
+<?php
+require_once '/php_functions/main_page_functions.php';
+?>
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
@@ -9,14 +12,14 @@
         <title>Healthy Tasks</title>
         <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
         <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
-        
+
         <link href="/healthytasks/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="/healthytasks/bootstrap/js/bootstrap.js"></script>
-       
-        <script type="text/javascript" src="/healthytasks/plugins/filestyle/bootstrap-filestyle.js"> </script>
+
+        <script type="text/javascript" src="/healthytasks/plugins/filestyle/bootstrap-filestyle.js"></script>
 
 
-        
+
 
         <script src="/healthytasks/plugins/scrolly/jquery.scrolly.min.js"></script>
         <script src="/healthytasks/plugins/scrolly/jquery.scrollzer.min.js"></script>
@@ -163,76 +166,113 @@
                     <header>
                         <h2>Edit Profile</h2>
                     </header>
+
+
+                </div>
+
+
+                <div class="container">
                     <div class="row">
-                        <!-- left column -->
+
                         <div class="col-md-3">
-                            <div class="center-block">
+                            <div class="text-center">
                                 <img src="//placehold.it/100" class="avatar img-circle"  alt="avatar">
                                 <h6>Upload a different photo...</h6>
-                               
+
                                 <input id="uploadAvatar" type="file" class="filestyle " data-input="false" data-buttonName="btn-primary "  >
-                                
+
                             </div>
                         </div>
 
-                        <!-- edit form column -->
+
                         <div class="col-md-9 personal-info">
-                            
+
                             <h3>Personal info</h3>
 
-                            <form class="form-horizontal" role="form">
+                            <form id="editProfileInfo" class="form-horizontal"  method="post" action="main_page.php" >
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">First name:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value="Jane">
+                                    <label class="col-md-3 control-label">First name:</label>
+                                    <div class="col-md-8">
+
+                                        <?php
+                                        $user = new User($_SESSION['userId']);
+                                        ?>
+
+                                        <input id="firstNameEditForm" name="firstNameEditForm" class="form-control " type="text" value="<?php echo $user->firstName ?>">
+
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Last name:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value="Bishop">
+                                    <label class="col-md-3 control-label">Last name:</label>
+                                    <div class="col-md-8">
+                                        <input id="lastNameEditForm" name="lastNameEditForm" class="form-control" type="text" value="<?php echo $user->lastName ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Username:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value="janeuser">
+                                    <label class="col-md-3 control-label">Username:</label>
+                                    <div class="col-md-8">
+                                        <input id="userNameEditForm" name="userNameEditForm" class="form-control" type="text" value="<?php echo $user->userName ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Email:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value="janesemail@gmail.com">
+                                    <label class="col-md-3 control-label">Email:</label>
+                                    <div class="col-md-8">
+                                        <input id="emailEditForm" name="emailEditForm" class="form-control" type="email" value="<?php echo $user->email ?>">
                                     </div>
                                 </div>
-                               
-                            
+
+
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Password:</label>
                                     <div class="col-md-8">
-                                        <input type="button" class="btn btn-primary btn-lg pull-left" value="Change Password">
+                                        <input name="changePassMain" type="submit" class="btn btn-primary btn-lg pull-left" value="Change Password">
+                                        <?php
+                                        if (isset($_POST['changePassMain'])) {
+
+                                            require_once '/php_functions/account_functions.php';
+                                            recoverPasswordMail($user->email, $user->id);
+                                        }
+                                        ?>
                                     </div>
                                 </div>
-                              
+
+
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-8">
-                                        <input type="submit" class="btn btn-primary btn-lg pull-left" value="Save Changes">
+                                        <input name="submitEditProfile" id="submitEditProfile" type="submit" class="btn btn-primary btn-lg pull-left" value="Save Changes" >
+
                                         <span></span>
-                                        <input type="reset" class="btn btn-danger btn-lg pull-left" value="Cancel">
+                                        <input id="cancelEditProfile" type="reset" class="btn btn-danger btn-lg pull-left" value="Cancel">
+                                        <br>
+
                                     </div>
+                                    <script>
+                                       
+                                    </script>
+                                    <?php
+                                    if (isset($_POST['submitEditProfile'])) {
+
+                                        require_once '/php_functions/account_functions.php';
+                                        $firstNameEdit = $_POST['firstNameEditForm'];
+                                        $lastNameEdit = $_POST['lastNameEditForm'];
+                                        $userNameEdit = $_POST['userNameEditForm'];
+                                        $emailEdit = $_POST['emailEditForm'];
+                                        editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit);
+                                    }
+                                    ?>
                                 </div>
                             </form>
                         </div>
                     </div>
-
-                    <hr>
-
-
-
-
                 </div>
-                
+                <hr>
+
+
+
+
+
+
             </section>
 
             <section id="contact" class="seven">
@@ -240,19 +280,19 @@
                     <header>
                         <h2>Contact</h2>
                         <div class="container">
-                            <form id="contactForm" method="post" action="main_page.php">
+                            <form id="contactForm" method="post" action="main_page.php" >
 
                                 <div class="form-group">
-                                    <label for="message" class="col-sm-2 control-label">Message</label>
-                                    <div class="col-sm-10">
+                                    <label for="message" class="col-md-2 control-label">Message</label>
+                                    <div class="col-md-10">
                                         <textarea id="commentInput" name="commentInput" class="form-control" rows="8"></textarea>
 
                                         <span class="pull-left">Please rate your experience with Healthy Tasks</span>
                                         <span class="pull-left" id="starRating"><input id="input-21b" name="starInput" value="0" type="number" class="rating" min=0 max=5 step=0.1 data-size="xs"></span>
                                         <script>
                                             $('#input-21b').on('rating.change', function (event, value) {
-                                                var valueStar = "bla";
-                                                $.post('main_page.php', {variable: valueStar});
+                                                //alert(value);
+                                                
                                             });
                                         </script>
                                     </div>
@@ -262,8 +302,8 @@
 
                                 <div class="form-group">     
 
-                                    <div class="col-sm-10 col-sm-offset-2">
-                                        <input type="submit" name="sendContact" class="btn btn-success btn-lg pull-left"  onclick="main_page.php" value="Send">
+                                    <div class="col-md-10 col-md-offset-2">
+                                        <input type="submit" id="sendContact" name="sendContact" class="btn btn-success btn-lg pull-left"  onclick="main_page.php" value="Send">
                                         <input type="reset" name="cancelContact"  class="btn btn-danger btn-lg pull-left" value="Cancel">
 
                                     </div>

@@ -17,6 +17,10 @@ textarea.error{
     border:2px solid red !important;
 }
 
+input.error{
+     border:2px solid red !important;
+}
+
 #starRating{
     padding-right:  10px;
 }
@@ -24,5 +28,4 @@ textarea.error{
 control-label{
     padding-top: 0px !important;
 }
-
 

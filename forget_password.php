@@ -1,3 +1,6 @@
+<?php
+require_once 'php_functions/account_functions.php';
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -61,7 +64,7 @@
 </html>
 
 <?php
-require_once 'php_functions/account_functions.php';
+
 if (isset($_POST['forgetPasswordSubmit'])) {
     $forgetPass = $_POST['usernamePasswordForget'];
 

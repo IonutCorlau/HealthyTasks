@@ -153,4 +153,53 @@ $(document).ready(function () {
         }
 
     });
+    $("#editProfileInfo").validate({
+        rules: {
+            firstNameEditForm: {
+                required: true,
+                minlength: 3,
+                maxlength: 25
+            },
+            lastNameEditForm: {
+                required: true,
+                minlength: 3,
+                maxlength: 25
+            },
+            userNameEditForm: {
+                required: true,
+                minlength: 6,
+                maxlength: 25
+            },
+            emailEditForm: {
+                required: true,
+                email: true,
+                maxlength: 35
+            }
+           
+            
+
+        },
+        messages: {
+            firstNameEditForm: {
+                required: "Please specify your First Name",
+                minlength: "First Name must be least 3 characters long"
+            },
+            lastNameEditForm: {
+                required: "Please specify your Last Name",
+                minlength: "Last Name must be least 3 characters long"
+            },
+            userNameEditForm: {
+                required: "Please specify your Username",
+                minlength: "Username must be least 6 characters long"
+            },
+            emailEditForm: {
+                required: "Please specify your Email",
+                email: "Please enter a valid email address"
+            }
+            
+
+
+        }
+    });
 });
+

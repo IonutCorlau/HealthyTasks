@@ -1,3 +1,6 @@
+<?php
+require_once 'php_functions/account_functions.php';
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -62,7 +65,7 @@
     </body>
 </html>
 <?php
-require_once 'php_functions/account_functions.php';
+
 if (isset($_POST['resetPasswordSubmit'])) {
     
     $newPassword = $_POST['resetPassword'];

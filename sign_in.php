@@ -1,3 +1,6 @@
+<?php
+require_once 'php_functions/account_functions.php';
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -67,13 +70,15 @@
 
 
 <?php
- require_once 'php_functions/account_functions.php';
+
 if (isset($_POST['submitLoginSibmit'])) {
+     
     $username = $_POST['usernameLogin'];
     $password = $_POST['passwordLogin'];
 
 
     signIn($username, $password);
+    
     
 }
 ?>

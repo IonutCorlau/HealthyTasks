@@ -41,9 +41,9 @@ if (isset($_GET['token']) && (isset($_SESSION['tokenKey']))) {
 
     $time = $_SESSION['timeStamp'];
 
-    $queryToken = mysql_query("SELECT * FROM users WHERE md5($tokenKey+id)='$token'");
-    $row = mysql_fetch_array($queryToken);
-    $count = mysql_num_rows($queryToken);
+    $queryToken = mysqli_query($connect,"SELECT * FROM users WHERE md5($tokenKey+id)='$token'");
+    $row = mysqli_fetch_array($queryToken);
+    $count = mysqli_num_rows($queryToken);
     if ($count == false) {
 
         echo "<script>
