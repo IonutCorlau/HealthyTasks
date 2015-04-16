@@ -61,7 +61,7 @@ $user = new User($_SESSION['userId']);
 
 
                 <div id="logo">
-                    <span id="menuAvatar">
+                    <div id="menuAvatar">
                         <?php
                             $query = mysqli_query($connect, "SELECT avatar FROM users WHERE id='$user->id'") or die ("Connection failed: " . mysqli_connect_error());
                             $row = mysqli_fetch_assoc($query);
@@ -71,14 +71,15 @@ $user = new User($_SESSION['userId']);
                         
                         
                      
-                   </span>
+                   </div>
+                    <div id="menuNameTime">
                     <?php
                     if (session_status() == PHP_SESSION_NONE) {
                         session_start();
                     }
 
                     if (isset($_SESSION['firstName']) && isset($_SESSION['lastName'])) {
-                        echo $_SESSION['firstName'] . " " . $_SESSION['lastName'];
+                        echo $user->firstName . " " . $user->lastName;
                         echo "
                        
                     <body onload='startTime()'>
@@ -100,7 +101,7 @@ $user = new User($_SESSION['userId']);
             </script>";
                     }
                     ?>  
-
+                </div>
 
                 </div>
                 <nav id="nav">
@@ -246,7 +247,7 @@ $user = new User($_SESSION['userId']);
 
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Password:</label>
-                                    <div class="col-md-8">
+                                    <div id="pass-b" class="col-md-8">
                                         <input name="changePassMain" type="submit" class="btn btn-primary btn-lg pull-left" value="Change Password">
 <?php
 if (isset($_POST['changePassMain'])) {

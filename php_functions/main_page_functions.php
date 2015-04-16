@@ -70,7 +70,6 @@ die;
 
 function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
 require 'db_connect.php';
- //require_once '/../plugins/sample_image/SampleImage.php';
 $userId = $_SESSION['userId'];
 $user = new User($userId);
 $modified = false;
@@ -123,26 +122,52 @@ die('Invalid query: ' . mysqli_error($connect));
 
 if ($user->userName != $userNameEdit) {
 
-$query = mysqli_query($connect, "UPDATE users SET userName='$userNameEdit' WHERE id='$userId'");
-if ($query) {
-$modified = true;
-} else {
-echo "<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>";
-die('Invalid query: ' . mysqli_error($connect));
+$queryDuplicateUsername = mysqli_query($connect, "SELECT * FROM users WHERE username='$userNameEdit'");
+if($queryDuplicateUsername){
+    $countUsername = mysqli_num_rows($queryDuplicateUsername);
+    if($countUsername > 0){
+        echo "<script>swal('Someone already has that username', 'Try another? No modifications were found.', 'warning');</script>";
+        exit();
+    }
+    else{
+        $query = mysqli_query($connect, "UPDATE users SET userName='$userNameEdit' WHERE id='$userId'");
+        if ($query) {
+            $modified = true;
+        } else {
+            echo "<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>";
+            die('Invalid query: ' . mysqli_error($connect));
+        }    
+    }
+}else{
+    die('Invalid query: ' . mysqli_error($connect));  
 }
+    
+    
+
 
 }
 
 if ($user->email != $emailEdit) {
 
-
-$query = mysqli_query($connect, "UPDATE users SET email='$emailEdit' WHERE id='$userId'");
-if ($query) {
-$modified = true;
-} else {
-echo "<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>";
-die('Invalid query: ' . mysqli_error($connect));
+ $queryDuplicateEmail = mysqli_query($connect, "SELECT * FROM users WHERE email='$emailEdit'");
+ if($queryDuplicateEmail){
+    $countEmail = mysqli_num_rows($queryDuplicateEmail); 
+    if($countEmail > 0){
+        echo "<script>swal('Someone already has that email address', 'Try another? No modifications were found.', 'warning');</script>";
+        exit();
+    }else{
+        $query = mysqli_query($connect, "UPDATE users SET email='$emailEdit' WHERE id='$userId'");
+        if($query) {
+            $modified = true;
+        }else{
+            echo "<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>";
+            die('Invalid query: ' . mysqli_error($connect));
+        }
+    }
+ }else{
+     die('Invalid query: ' . mysqli_error($connect));  
 }
+
 
 }
 

@@ -18,7 +18,7 @@ textarea.error{
 }
 
 input.error{
-     border:2px solid red !important;
+    border:2px solid red !important;
 }
 
 #starRating{
@@ -29,8 +29,64 @@ control-label{
     padding-top: 0px !important;
 }
 
-#menuAvatar{
-   
-  
+
+#responsive-b{
+    margin: 0 auto;
 }
 
+
+@media (min-width: 737px) and (max-width: 993px) {
+
+    .control-label{
+        float:left;
+        margin-left: 50px;
+    }
+
+    form input[type="text"], form input[type="email"], form input[type="password"], form select {
+        width: 250px;
+        float: right;
+    }
+    .personal-info{
+          margin-left: 50px;
+    }
+    #editProfileInfo{
+        width: 460px;
+    }
+    
+    #pass-b {
+        float: left;
+        margin-left: 5px;
+        margin-top: 0px;
+    }
+
+}
+@media (max-width:991px){
+    
+    #submitEditProfile{
+        margin-left: 147px;
+    }
+    #pass-b {
+        margin-left: 37px;
+    }
+    
+}
+
+@media (max-width:735px){
+      #submitEditProfile{
+        margin-left: 0px;
+    }
+    #pass-b {
+        margin-left: 0px;
+    }
+    
+}
+
+#menuAvatar img{
+    display: block;
+    margin: 0 auto;
+    
+}
+#menuNameTime{
+    
+    text-align: center;
+}

@@ -228,7 +228,7 @@
 
 			html = _self.options.buttonBefore ? btn + _self.htmlInput() : _self.htmlInput() + btn;
 
-			_self.$elementFilestyle = $('<div class="bootstrap-filestyle input-group">' + html + '</div>');
+			_self.$elementFilestyle = $('<div id="responsive-b" class="bootstrap-filestyle input-group">' + html + '</div>');
 			_self.$elementFilestyle.find('.group-span-filestyle').attr('tabindex', "0").keypress(function(e) {
 				if (e.keyCode === 13 || e.charCode === 32) {
 					_self.$elementFilestyle.find('label').click();
