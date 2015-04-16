@@ -1,5 +1,7 @@
 <?php
-require_once '/php_functions/main_page_functions.php';
+require_once 'php_functions/main_page_functions.php';
+require_once 'php_functions/db_connect.php';
+$user = new User($_SESSION['userId']);
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -52,13 +54,24 @@ require_once '/php_functions/main_page_functions.php';
 
     </head>
     <body>
+        
         <div id="header" class="skel-layers-fixed">
 
             <div class="top">
 
 
                 <div id="logo">
-                    <span class="image avatar"><img src="/healthytasks/images/avatar.jpg" alt="" /></span>
+                    <span id="menuAvatar">
+                        <?php
+                            $query = mysqli_query($connect, "SELECT avatar FROM users WHERE id='$user->id'") or die ("Connection failed: " . mysqli_connect_error());
+                            $row = mysqli_fetch_assoc($query);
+                            $pathAvatar = '/healthytasks/'.$row['avatar'];
+                            echo "<img src='$pathAvatar' class='avatar '  onerror=\"this.src='/healthytasks/images/userAvatars/user_not_found.jpg';\" alt='Image not found'  weight=100px width=100px; >";
+                            ?>
+                        
+                        
+                     
+                   </span>
                     <?php
                     if (session_status() == PHP_SESSION_NONE) {
                         session_start();
@@ -174,29 +187,38 @@ require_once '/php_functions/main_page_functions.php';
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-md-3">
-                            <div class="text-center">
-                                <img src="//placehold.it/100" class="avatar img-circle"  alt="avatar">
-                                <h6>Upload a different photo...</h6>
+                        <div class="col-md-3" >
 
-                                <input id="uploadAvatar" type="file" class="filestyle " data-input="false" data-buttonName="btn-primary "  >
+                            <div class="text-center">
+                                <?php
+                                $query = mysqli_query($connect, "SELECT avatar FROM users WHERE id='$user->id'") or die("Connection failed: " . mysqli_connect_error()); 
+                                $row = mysqli_fetch_assoc($query);
+                                $pathAvatar = '/healthytasks/'.$row['avatar'];
+                              
+                                
+                                
+                                echo "<img src='$pathAvatar' class='avatar '  onerror=\"this.src='/healthytasks/images/userAvatars/user_not_found.jpg';\" alt='Image not found'  weight=100px width=100px; >";
+                               ?>
+                                <h6>Upload a different photo...</h6>
+                                <input id="uploadAvatarBtn" name="uploadAvatarBtn" type="file" class="filestyle " data-input="false" data-buttonName="btn-primary " form="editProfileInfo" >
+
+
 
                             </div>
+
                         </div>
 
 
                         <div class="col-md-9 personal-info">
 
                             <h3>Personal info</h3>
+                            <form id="editProfileInfo" class="form-horizontal"  method="post" action="" enctype="multipart/form-data">
 
-                            <form id="editProfileInfo" class="form-horizontal"  method="post" action="main_page.php" >
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">First name:</label>
                                     <div class="col-md-8">
 
-                                        <?php
-                                        $user = new User($_SESSION['userId']);
-                                        ?>
+
 
                                         <input id="firstNameEditForm" name="firstNameEditForm" class="form-control " type="text" value="<?php echo $user->firstName ?>">
 
@@ -226,13 +248,13 @@ require_once '/php_functions/main_page_functions.php';
                                     <label class="col-md-3 control-label">Password:</label>
                                     <div class="col-md-8">
                                         <input name="changePassMain" type="submit" class="btn btn-primary btn-lg pull-left" value="Change Password">
-                                        <?php
-                                        if (isset($_POST['changePassMain'])) {
+<?php
+if (isset($_POST['changePassMain'])) {
 
-                                            require_once '/php_functions/account_functions.php';
-                                            recoverPasswordMail($user->email, $user->id);
-                                        }
-                                        ?>
+    require_once '/php_functions/account_functions.php';
+    recoverPasswordMail($user->email, $user->id);
+}
+?>
                                     </div>
                                 </div>
 
@@ -248,19 +270,25 @@ require_once '/php_functions/main_page_functions.php';
 
                                     </div>
                                     <script>
-                                       
-                                    </script>
-                                    <?php
-                                    if (isset($_POST['submitEditProfile'])) {
 
-                                        require_once '/php_functions/account_functions.php';
-                                        $firstNameEdit = $_POST['firstNameEditForm'];
-                                        $lastNameEdit = $_POST['lastNameEditForm'];
-                                        $userNameEdit = $_POST['userNameEditForm'];
-                                        $emailEdit = $_POST['emailEditForm'];
-                                        editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit);
-                                    }
-                                    ?>
+                                    </script>
+<?php
+if (isset($_POST['submitEditProfile'])) {
+
+    require_once '/php_functions/account_functions.php';
+    $firstNameEdit = $_POST['firstNameEditForm'];
+    $lastNameEdit = $_POST['lastNameEditForm'];
+    $userNameEdit = $_POST['userNameEditForm'];
+    $emailEdit = $_POST['emailEditForm'];
+
+
+    
+  
+
+
+    editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit);
+}
+?>
                                 </div>
                             </form>
                         </div>
@@ -292,7 +320,7 @@ require_once '/php_functions/main_page_functions.php';
                                         <script>
                                             $('#input-21b').on('rating.change', function (event, value) {
                                                 //alert(value);
-                                                
+
                                             });
                                         </script>
                                     </div>
@@ -307,15 +335,15 @@ require_once '/php_functions/main_page_functions.php';
                                         <input type="reset" name="cancelContact"  class="btn btn-danger btn-lg pull-left" value="Cancel">
 
                                     </div>
-                                    <?php
-                                    require_once 'php_functions/main_page_functions.php';
-                                    if (isset($_POST['sendContact'])) {
-                                        $contactText = $_POST['commentInput'];
+<?php
+require_once 'php_functions/main_page_functions.php';
+if (isset($_POST['sendContact'])) {
+    $contactText = $_POST['commentInput'];
 
 
-                                        sendContact($contactText);
-                                    }
-                                    ?>
+    sendContact($contactText);
+}
+?>
 
                                 </div>
 

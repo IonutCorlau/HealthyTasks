@@ -46,7 +46,7 @@ $lang = 'en';
     </head>
     <body>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <!--<img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />-->
+        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
             <section class="register animation">
                 <div class="top">
