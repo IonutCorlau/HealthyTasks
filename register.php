@@ -18,6 +18,10 @@ $lang = 'en';
         <link rel="stylesheet" type="text/css" href="/healthytasks/css/account/register.css">
         <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
 
+        <script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>
+        
+        <script src="/healthytasks/plugins/fake_loader/fakeLoader.js"></script>
+        <link rel="stylesheet" href="/healthytasks/plugins/fake_loader/fakeLoader.css">
 
         <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js" ></script>
 
@@ -37,7 +41,9 @@ $lang = 'en';
         <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
         <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
 
+
         <script src="/healthytasks/js/account/my_functions.js"></script>
+
 
         <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
@@ -45,6 +51,20 @@ $lang = 'en';
 
     </head>
     <body>
+
+        <div class="fakeloader">
+            <script>
+                $(".fakeloader").fakeLoader({
+                    timeToHide: 600,
+                    spinner: "spinner2",
+                    bgColor: "#e74c3c"
+
+
+                });
+            </script>
+
+
+        </div>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
         <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
@@ -122,13 +142,12 @@ $lang = 'en';
 
 
         </script>
-
+        <!--</div>-->
     </body>
 
 </html>
 
 <?php
-
 if (isset($_POST['registerButton'])) {
     if (isset($_POST['g-recaptcha-response'])) {
 
@@ -143,7 +162,7 @@ if (isset($_POST['registerButton'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            
+
             register($firstname, $lastname, $username, $email, $password);
         } else {
 

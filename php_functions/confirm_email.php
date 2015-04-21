@@ -6,7 +6,8 @@
          <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
 
         <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
-
+        
+        <script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>
         <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
         <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
 

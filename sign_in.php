@@ -16,6 +16,8 @@ require_once 'php_functions/account_functions.php';
         <link rel="stylesheet" type="text/css" href="/healthytasks/css/account/sign_in.css">
         <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
         
+        <script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>
+        
         <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
         

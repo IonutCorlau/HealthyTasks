@@ -90,3 +90,5 @@ control-label{
     
     text-align: center;
 }
+
+.parallax-item{position:absolute;z-index:5;top:40px;left:400px;}

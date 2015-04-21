@@ -33,4 +33,6 @@ function startTime() {
 
 $(":file").filestyle({buttonName: "btn-primary"});
 
-
+  $(document).ready(function() {
+    nice = $("html").niceScroll();
+  });
