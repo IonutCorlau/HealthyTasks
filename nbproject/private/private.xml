@@ -8,7 +8,7 @@
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/images/userAvatars/default_avatar.png</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/account/register.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/main_page_functions.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/images/userAvatars/user6.png</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/contact.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/fake_loader/fakeLoader.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/skel-layers.min.js</file>
@@ -35,6 +35,7 @@
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/filestyle/bootstrap-filestyle.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/sign_out.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/forget_password_reset.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/edit_profile.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/bootstrap/js/bootstrap.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/star_rating/star-rating.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/style-wide.css</file>
@@ -53,6 +54,7 @@
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/account/forget_password.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/sweet_alert/sweet-alert.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/send_mail.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/image_resize/resize-class.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/bootstrap/js/npm.js</file>
         </group>
     </open-files>

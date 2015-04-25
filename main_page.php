@@ -27,9 +27,7 @@ require_once 'php_functions/db_connect.php';
         
         <script src="/healthytasks/plugins/fake_loader/fakeLoader.js"></script>
         <link rel="stylesheet" href="/healthytasks/plugins/fake_loader/fakeLoader.css">
-        
-       
-        
+   
          <script type="text/javascript" src="/healthytasks/plugins/filestyle/bootstrap-filestyle.js"></script>
 
         <script src="/healthytasks/plugins/scrolly/jquery.scrolly.min.js"></script>
@@ -68,8 +66,9 @@ require_once 'php_functions/db_connect.php';
         
         <div class="fakeloader">
         <script>
+            function fakeLoaderFunction(timer){
                 $(".fakeloader").fakeLoader({
-                    timeToHide: 1000,
+                    timeToHide: timer,
 
                     spinner: "spinner2", 
 
@@ -77,6 +76,7 @@ require_once 'php_functions/db_connect.php';
 
 
                 });
+            }
             </script>
             
             
@@ -97,7 +97,7 @@ require_once 'php_functions/db_connect.php';
                             $query = mysqli_query($connect, "SELECT avatar FROM users WHERE id='$user->id'") or die("Connection failed: " . mysqli_connect_error());
                             $row = mysqli_fetch_assoc($query);
                             $pathAvatar = '/healthytasks/' . $row['avatar'];
-                            echo "<img src='$pathAvatar' class='avatar '  onerror=\"this.src='/healthytasks/images/userAvatars/user_not_found.jpg';\" alt='Image not found'  weight=100px width=100px; >";
+                            echo "<img src='$pathAvatar' class='avatar'  onerror=\"this.src='/healthytasks/images/userAvatars/user_not_found.jpg';\" alt='Image not found'  width=80px; >";
                             }
                         ?>
 
@@ -183,9 +183,93 @@ require_once 'php_functions/db_connect.php';
 
                 <section id="add_task" class="three">
                     <div class="container">
-                        <header>
-                            <h2>Add task</h2>
-                        </header>
+                        <div class="container">
+	<div class="row">
+        <div class="col-sm-12">
+            <legend>Mr. Sosa:</legend>
+        </div>
+        <!-- panel preview -->
+        <div class="col-sm-5">
+            <h4>Add payment:</h4>
+            <div class="panel panel-default">
+                <div class="panel-body form-horizontal payment-form">
+                    <div class="form-group">
+                        <label for="concept" class="col-sm-3 control-label">Concept</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="concept" name="concept">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="description" name="description">
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label for="amount" class="col-sm-3 control-label">Amount</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="amount" name="amount">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status" class="col-sm-3 control-label">Status</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="status" name="status">
+                                <option>Paid</option>
+                                <option>Unpaid</option>
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label for="date" class="col-sm-3 control-label">Date</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" id="date" name="date">
+                        </div>
+                    </div>   
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            <button type="button" class="btn btn-default preview-add-button">
+                                <span class="glyphicon glyphicon-plus"></span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> <!-- / panel preview -->
+        <div class="col-sm-7">
+            <h4>Preview:</h4>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table preview-table">
+                            <thead>
+                                <tr>
+                                    <th>Concept</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody> <!-- preview content goes here-->
+                        </table>
+                    </div>                            
+                </div>
+            </div>
+            <div class="row text-right">
+                <div class="col-xs-12">
+                    <h4>Total: <strong><span class="preview-total"></span></strong></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr style="border:1px dashed #dddddd;">
+                    <button type="button" class="btn btn-primary btn-block">Submit all and finish</button>
+                </div>                
+            </div>
+        </div>
+	</div>
+</div>
 
                     </div>
                 </section>
@@ -208,173 +292,11 @@ require_once 'php_functions/db_connect.php';
                     </div>
                 </section>
                 <section id="edit_profile" class="six">
-                    <div class="container">
-                        <header>
-                            <h2>Edit Profile</h2>
-                        </header>
-
-
-                    </div>
-
-
-                    <div class="container">
-                        <div class="row">
-
-                            <div class="col-md-3" >
-
-                                <div class="text-center">
-                                    <?php
-                                    $query = mysqli_query($connect, "SELECT avatar FROM users WHERE id='$user->id'") or die("Connection failed: " . mysqli_connect_error());
-                                    $row = mysqli_fetch_assoc($query);
-                                    $pathAvatar = '/healthytasks/' . $row['avatar'];
-                                    echo "<img src='$pathAvatar' class='avatar '  onerror=\"this.src='/healthytasks/images/userAvatars/user_not_found.jpg';\" alt='Image not found'  weight=100px width=100px; >";
-                                    ?>
-                                    <h6>Upload a different photo...</h6>
-                                    <input id="uploadAvatarBtn" name="uploadAvatarBtn" type="file" class="filestyle " data-input="false" data-buttonName="btn-primary " form="editProfileInfo" >
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-md-9 personal-info">
-
-                                <h3>Personal info</h3>
-                                <form id="editProfileInfo" class="form-horizontal"  method="post" action="" enctype="multipart/form-data">
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">First name:</label>
-                                        <div class="col-md-8">
-
-
-
-                                            <input id="firstNameEditForm" name="firstNameEditForm" class="form-control " type="text" value="<?php echo $user->firstName ?>">
-
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">Last name:</label>
-                                        <div class="col-md-8">
-                                            <input id="lastNameEditForm" name="lastNameEditForm" class="form-control" type="text" value="<?php echo $user->lastName ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">Username:</label>
-                                        <div class="col-md-8">
-                                            <input id="userNameEditForm" name="userNameEditForm" class="form-control" type="text" value="<?php echo $user->userName ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">Email:</label>
-                                        <div class="col-md-8">
-                                            <input id="emailEditForm" name="emailEditForm" class="form-control" type="email" value="<?php echo $user->email ?>">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">Password:</label>
-                                        <div id="pass-b" class="col-md-8">
-                                            <input name="changePassMain" type="submit" class="btn btn-primary btn-lg pull-left" value="Change Password">
-                                            <?php
-                                            if (isset($_POST['changePassMain'])) {
-
-                                                require_once '/php_functions/account_functions.php';
-                                                recoverPasswordMail($user->email, $user->id);
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label"></label>
-                                        <div class="col-md-8">
-                                            <input name="submitEditProfile" id="submitEditProfile" type="submit" class="btn btn-primary btn-lg pull-left" value="Save Changes" >
-
-                                            <span></span>
-                                            <input id="cancelEditProfile" type="reset" class="btn btn-danger btn-lg pull-left" value="Cancel">
-                                            <br>
-
-                                        </div>
-                                        <script>
-
-                                        </script>
-                                            <?php
-                                                if (isset($_POST['submitEditProfile'])) {
-
-                                                    require_once '/php_functions/account_functions.php';
-                                                    $firstNameEdit = $_POST['firstNameEditForm'];
-                                                    $lastNameEdit = $_POST['lastNameEditForm'];
-                                                    $userNameEdit = $_POST['userNameEditForm'];
-                                                    $emailEdit = $_POST['emailEditForm'];
-                                                    editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit);
-                                                }
-                                                ?>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-
-
-
-
-
-
+                    <?php include ('/index/edit_profile.php') ?> 
                 </section>
 
                 <section id="contact" class="seven">
-                    <div class="container">
-                        <header>
-                            <h2>Contact</h2>
-                            <div class="container">
-                                <form id="contactForm" method="post" action="main_page.php" >
-
-                                    <div class="form-group">
-                                        <label for="message" class="col-md-2 control-label">Message</label>
-                                        <div class="col-md-10">
-                                            <textarea id="commentInput" name="commentInput" class="form-control" rows="8"></textarea>
-
-                                            <span class="pull-left">Please rate your experience with Healthy Tasks</span>
-                                            <span class="pull-left" id="starRating"><input id="input-21b" name="starInput" value="0" type="number" class="rating" min=0 max=5 step=0.1 data-size="xs"></span>
-                                            <script>
-                                                $('#input-21b').on('rating.change', function (event, value) {
-                                                    //$('#input-21b').html(value);
-
-                                                });
-                                            </script>
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="form-group">     
-
-                                        <div class="col-md-10 col-md-offset-2">
-                                            <input type="submit" id="sendContact" name="sendContact" class="btn btn-success btn-lg pull-left"  onclick="main_page.php" value="Send">
-                                            <input type="reset" name="cancelContact"  class="btn btn-danger btn-lg pull-left" value="Cancel">
-
-                                        </div>
-                                            <?php
-                                            require_once 'php_functions/main_page_functions.php';
-                                            if (isset($_POST['sendContact'])) {
-                                                $contactText = $_POST['commentInput'];
-                                                $starInput = $_POST['starInput'];
-                                                echo $starInput;
-                                                sendContact($contactText, $starInput);
-                                            }
-                                            ?>
-
-                                    </div>
-
-                                </form>
-
-                            </div>
-                        </header>
-
-                    </div>
+                     <?php include ('/index/contact.php') ?> 
                 </section>
 
 

@@ -91,7 +91,9 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
 
         $imageFileType = pathinfo($pathFile, PATHINFO_EXTENSION);
         $checkSize = getimagesize($_FILES['uploadAvatarBtn']['tmp_name']);
+        
         if ($checkSize !== false) {
+            
             $isImage = true;
         } else {
             $isImage = false;
@@ -175,8 +177,10 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
             if ($modifiedImage == true) {
                 if ($isImage == false) {
                     echo "<script>swal('Please upload an image file', 'The file that you uploaded is not an image format', 'warning');</script>";
-                } else {//upload image format but not modify the fields
-                    
+                } else {
+                    if($_FILES['uploadAvatarBtn']['size']>3000000){
+                         echo "<script>swal('Image exceeds 3 megabytes', 'Please upload a smaller image', 'warning');</script>";
+                }else{
                         $image = new resize($_FILES['uploadAvatarBtn']['tmp_name'], 150, $pathDir);
                         $dbImageName = basename($image->src, '.' . 'tmp');
                         $imageExtension = "." . explode('.', $_FILES['uploadAvatarBtn']['name'], 2)[1];
@@ -195,14 +199,12 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
                     function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
                     });
                         </script>";
-                        } else {
+                        }else {
                             echo "<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>";
                             die('Invalid query: ' . mysqli_error($connect));
                         }
                     }
-                }
-            }
-        
+        }   }   }
     } else {
         if ($modified == true) {
             if ($modifiedImage == false) {
@@ -247,21 +249,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
     }
 }
 
-/* echo "<script>
-  $(document).ready(function() {
-  swal({title: 'Profile updated',text: 'Your personal info have been updated successfully',type: 'success' },
-  function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
-  });
-  </script>";
-  }
-  else{
-  if($modified == true && $isImage == false){
-  echo "<script>swal('Please upload an image file', 'The file that you uploaded is not an image', 'warning');</script>";
 
-  }
-  }
-  }
-  } */
 ?>
 
 

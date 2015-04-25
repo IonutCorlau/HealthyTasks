@@ -6,32 +6,48 @@ require_once 'php_functions/account_functions.php';
     <head>
         <meta charset="UTF-8">
         <title>Forget Password page</title>
-        
+
         <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
-        
+
         <link rel="stylesheet" type="text/css" href="/healthytasks/css/account/forget_password.css">
 
         <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
-        
+
+        <script src="/healthytasks/plugins/fake_loader/fakeLoader.js"></script>
+        <link rel="stylesheet" href="/healthytasks/plugins/fake_loader/fakeLoader.css">
+
         <script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>
-        
+
         <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
-        
+
         <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js"></script>   
-        
-      
-        
+
+
         <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
         <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
-     
+
         <script src="/healthytasks/js/account/my_functions.js"></script> 
-        
+
         <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
-        
+
     </head>
     <body>
+
+        <div class="fakeloader">
+            <script>
+                function fakeLoaderFunction(timer) {
+                    $(".fakeloader").fakeLoader({
+                        timeToHide: timer,
+                        spinner: "spinner2",
+                        bgColor: "#e74c3c"
+
+
+                    });
+                }
+            </script>
+        </div>
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
         <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
         <div id="maincontent">
@@ -48,7 +64,7 @@ require_once 'php_functions/account_functions.php';
                         <table>
                             <tr>
                                 <td>
-                                    <input id="forgetPasswordSubmit" name="forgetPasswordSubmit" type="submit" value="Submit"/>
+                                    <input id="forgetPasswordSubmit" name="forgetPasswordSubmit" type="submit" value="Submit" onclick="fakeLoaderFunction(4000);"/>
                                 </td>
                                 <td>
                                     <a class="yellow_text" href="sign_in.php" >Suddenly remembered? Sign in here</a>
@@ -66,7 +82,6 @@ require_once 'php_functions/account_functions.php';
 </html>
 
 <?php
-
 if (isset($_POST['forgetPasswordSubmit'])) {
     $forgetPass = $_POST['usernamePasswordForget'];
 

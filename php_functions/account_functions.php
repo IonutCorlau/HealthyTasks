@@ -97,6 +97,9 @@ function signIn($username, $password) {
             $_SESSION['firstName'] = $row['firstName'];
             $_SESSION['lastName'] = $row['lastName'];
             $_SESSION['userId'] = $row['id'];
+           
+            
+            
             header('Location: main_page.php');
 
 
