@@ -33,7 +33,7 @@
             <form id="editProfileInfo" class="form-horizontal"  method="post" action="" enctype="multipart/form-data">
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">First name:</label>
+                    <label class="col-md-3 control-label">First name</label>
                     <div class="col-md-8">
 
 
@@ -43,19 +43,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Last name:</label>
+                    <label class="col-md-3 control-label">Last name</label>
                     <div class="col-md-8">
                         <input id="lastNameEditForm" name="lastNameEditForm" class="form-control" type="text" value="<?php echo $user->lastName ?>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Username:</label>
+                    <label class="col-md-3 control-label">Username</label>
                     <div class="col-md-8">
                         <input id="userNameEditForm" name="userNameEditForm" class="form-control" type="text" value="<?php echo $user->userName ?>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Email:</label>
+                    <label class="col-md-3 control-label">Email</label>
                     <div class="col-md-8">
                         <input id="emailEditForm" name="emailEditForm" class="form-control" type="email" value="<?php echo $user->email ?>">
                     </div>
@@ -63,7 +63,7 @@
 
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Password:</label>
+                    <label class="col-md-3 control-label">Password</label>
                     <div id="pass-b" class="col-md-8">
                         <input name="changePassMain" type="submit" class="btn btn-primary btn-lg pull-left" value="Change Password" onclick="fakeLoaderFunction(4000);">
                         <?php
@@ -87,9 +87,7 @@
                         <br>
 
                     </div>
-                    <script>
-
-                    </script>
+                    
                     <?php
                     if (isset($_POST['submitEditProfile'])) {
 

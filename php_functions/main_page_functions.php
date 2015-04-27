@@ -248,6 +248,12 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
         }
     }
 }
+function addTask($taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance){
+    require 'db_connect.php';
+    $query  = mysqli_query($connect,"INSERT INTO tasks (taskName) VALUES ('$taskName')" ) or die('Invalid query: ' . mysql_error());
+    
+    
+}
 
 
 ?>

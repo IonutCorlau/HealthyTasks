@@ -4,58 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/js/main_page/my_functions.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/register.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/images/userAvatars/default_avatar.png</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/account/register.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/main_page_functions.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/contact.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/fake_loader/fakeLoader.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/skel-layers.min.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/scrolly/jquery.scrolly.min.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/style-narrower.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/style.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/account_functions.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/bootstrap/css/bootstrap-theme.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/account/forget_password_reset.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/style-mobile.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_fullbg/jquery.fullbg.js</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/add_task.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/js/main_page/google_geolocation.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/main_page/my_style.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery/jquery-2.1.3.min.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/account/sign_in.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/skel.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/images/userAvatars/user_not_found.jpg</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/js/main_page/init.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/reset_password.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/star_rating/star-rating.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/db_connect.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/confirm_email.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/phpmailer/class.phpmailer.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/skel.min.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/filestyle/bootstrap-filestyle.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/sign_out.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/forget_password_reset.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/edit_profile.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/bootstrap/js/bootstrap.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/star_rating/star-rating.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/style-wide.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/main_page.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/password_meter/jquery.validate.password.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/images/overlay.png</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_validation_plugin/jquery.validate.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/forget_password.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/font_awesome/font-awesome.min.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/bootstrap/css/bootstrap-theme.css.map</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/sign_in.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/js/account/my_functions.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/bootstrap/css/bootstrap.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/fake_loader/fakeLoader.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/password_meter/jquery.validate.password.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/account/forget_password.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/sweet_alert/sweet-alert.css</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/send_mail.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/image_resize/resize-class.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/bootstrap/js/npm.js</file>
         </group>
     </open-files>
 </project-private>

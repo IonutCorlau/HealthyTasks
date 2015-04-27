@@ -1,4 +1,4 @@
-input[type="submit"],  input[type="reset"] {
+input[type="submit"],  input[type="reset"], button[type="submit"], button[type="reset"] {
     margin: 10px 10px 0px 0px;
 }
 
@@ -92,3 +92,10 @@ control-label{
 }
 
 .parallax-item{position:absolute;z-index:5;top:40px;left:400px;}
+
+form {
+    width: 100%;
+}
+
+
+

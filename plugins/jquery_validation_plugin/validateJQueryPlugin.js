@@ -142,7 +142,6 @@ $(document).ready(function () {
 
             }
 
-
         },
         messages: {
             commentInput: {
@@ -175,9 +174,6 @@ $(document).ready(function () {
                 email: true,
                 maxlength: 35
             }
-           
-            
-
         },
         messages: {
             firstNameEditForm: {
@@ -196,10 +192,23 @@ $(document).ready(function () {
                 required: "Please specify your Email",
                 email: "Please enter a valid email address"
             }
-            
-
-
         }
+    });
+    $("#addTask").validate({
+        rules: {
+            taskName: {
+                required: true,
+                minlength: 5,
+                maxlength: 25
+            }
+        },
+        messages: {
+            taskName: {
+                required: "Please specify a name for the activity",
+                minlength: "Task name must be least 5 characters long "
+            }
+        }
+
     });
 });
 
