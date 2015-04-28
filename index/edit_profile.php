@@ -65,7 +65,9 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Password</label>
                     <div id="pass-b" class="col-md-8">
-                        <input name="changePassMain" type="submit" class="btn btn-primary btn-lg pull-left" value="Change Password" onclick="fakeLoaderFunction(4000);">
+                        <button name="changePassMain" type="submit" class="btn btn-primary btn-sm pull-left" value="Change Password" onclick="fakeLoaderFunction(4000);">
+                            <i class="glyphicon glyphicon-edit"></i>Change Password
+                        </button>
                         <?php
                         if (isset($_POST['changePassMain'])) {
 
@@ -80,10 +82,14 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
                     <div class="col-md-8">
-                        <input name="submitEditProfile" id="submitEditProfile" type="submit" class="btn btn-primary btn-lg pull-left" value="Save Changes" onclick="fakeLoaderFunction(1000);">
+                        <button name="submitEditProfile" id="submitEditProfile" type="submit" class="btn btn-primary btn-lg pull-left"  onclick="fakeLoaderFunction(1000);">
+                            <i class="glyphicon glyphicon-floppy-disk"></i>Save
+                        </button>
 
                         <span></span>
-                        <input id="cancelEditProfile" type="reset" class="btn btn-danger btn-lg pull-left" value="Cancel">
+                        <button id="cancelEditProfile" type="reset" class="btn btn-danger btn-lg pull-left" >
+                            <i class="glyphicon glyphicon-remove"></i>Cancel
+                        </button>
                         <br>
 
                     </div>

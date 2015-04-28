@@ -5,6 +5,7 @@ require_once 'php_functions/db_connect.php';
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
+
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,12 +47,19 @@ require_once 'php_functions/db_connect.php';
         <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
 
-        
+
         <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
         <script src="/healthytasks/js/main_page/google_geolocation.js" type="text/javascript"></script>
 
-
+        <script type="text/javascript" src="/healthytasks/plugins/autosize_textarea/autosize.js"></script>
+        
+        <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/moment.min.js"></script>
+        <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.js"></script>
+        <link rel="stylesheet" href="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.css" />
+        
+        
+        
         <noscript>
         <link rel="stylesheet" href="/healthytasks/plugins/skel/skel.css" />
         <link rel="stylesheet" href="/healthytasks/plugins/skel/style.css" />
@@ -61,15 +69,19 @@ require_once 'php_functions/db_connect.php';
 
 
 
-        <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/moment.min.js"></script>
-        <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.js"></script>
-        <link rel="stylesheet" href="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.css" />
-
+        
+        <?php
+        header("Content-type: text/html; charset=utf-8");
+        ?>
+        <script>
+            function start(){
+                initialize(); 
+                startTime();
+            }
+        </script>
     </head>
 
-    <body onload='initialize()'>
-
-
+    <body onload='start()'>
         <div class="fakeloader">
             <script>
                 function fakeLoaderFunction(timer) {
@@ -93,17 +105,17 @@ require_once 'php_functions/db_connect.php';
 
                 <div id="logo">
                     <div id="menuAvatar">
-<?php
-if (isset($_SESSION['userId'])) {
+                        <?php
+                        if (isset($_SESSION['userId'])) {
 
-    $user = new User($_SESSION['userId']);
+                            $user = new User($_SESSION['userId']);
 
-    $query = mysqli_query($connect, "SELECT avatar FROM users WHERE id='$user->id'") or die("Connection failed: " . mysqli_connect_error());
-    $row = mysqli_fetch_assoc($query);
-    $pathAvatar = '/healthytasks/' . $row['avatar'];
-    echo "<img src='$pathAvatar' class='avatar'  onerror=\"this.src='/healthytasks/images/userAvatars/user_not_found.jpg';\" alt='Image not found'  width=80px; >";
-}
-?>
+                            $query = mysqli_query($connect, "SELECT avatar FROM users WHERE id='$user->id'") or die("Connection failed: " . mysqli_connect_error());
+                            $row = mysqli_fetch_assoc($query);
+                            $pathAvatar = '/healthytasks/' . $row['avatar'];
+                            echo "<img src='$pathAvatar' class='avatar'  onerror=\"this.src='/healthytasks/images/userAvatars/user_not_found.jpg';\" alt='Image not found'  width=80px; >";
+                        }
+                        ?>
 
 
 
@@ -184,7 +196,7 @@ if (isset($_SESSION['userId'])) {
             </section>
 
             <section id="add_task" class="three">
-<?php include ('/index/add_task.php') ?> 
+                <?php include ('/index/add_task.php') ?> 
             </section>
 
             <section id="health_zone" class="four">
@@ -205,11 +217,11 @@ if (isset($_SESSION['userId'])) {
                 </div>
             </section>
             <section id="edit_profile" class="six">
-<?php include ('/index/edit_profile.php') ?> 
+                <?php include ('/index/edit_profile.php') ?> 
             </section>
 
             <section id="contact" class="seven">
-<?php include ('/index/contact.php') ?> 
+                <?php include ('/index/contact.php') ?> 
             </section>
 
 

@@ -24,13 +24,35 @@ class User {
 
 }
 
-function sendContact($contactText, $starInput) {
+class Task{
+    public $id;
+    
+    function __construct($id) {
+        require 'db_connect.php';
+        $query = mysqli_query($connect, "SELECT * FROM tasks WHERE id='$id'");
+        $row = mysqli_fetch_assoc($query);
+        
+        $this->id = $id;
+        $this->userId = $row['userId'];
+        $this->name = $row['name'];
+        $this->category = $row['category'];
+        $this->description = $row['description'];
+        $this->time = $row['time'];
+        $this->location = $row['location'];
+        $this->duration = $row['duration'];
+        $this->importance = $row['importance'];
+              
+    }
+}
+
+function sendContact($contactText, $ratingInput) {
 
     require_once ( '/../plugins/phpmailer/class.phpmailer.php' );
     require ('db_connect.php');
 
     $user = new User($_SESSION['userId']);
-    $query = "INSERT INTO contacts (userId ,comment) VALUES ($user->id, '" . $contactText . "')";
+   
+    $query = "INSERT INTO contacts (userId ,comment, rating) VALUES ('$user->id','$contactText', '$ratingInput')";
     mysqli_query($connect, $query) or die("Error : " . mysql_error());
 
     $Mail = new PHPMailer();
@@ -38,10 +60,10 @@ function sendContact($contactText, $starInput) {
 
     $MessageHTML = "<b>You received the following message using contact page.</b> <br><br> First name: "
             . $user->firstName . "<br>Last name: " . $user->lastName . "<br>Username: " . $user->userName .
-            "<br>Member since: " . $user->creationTime . "<br>Rating: " . $starInput . " from " . "5" . " <br><br>Contact text:<br><br>\"" . $contactText . "\"";
+            "<br>Member since: " . $user->creationTime . "<br>Rating: " . $ratingInput . " from " . "5" . " <br><br>Contact text:<br><br>\"" . $contactText . "\"";
     $MessageTEXT = "<b>You received the following message using contact page.</b> <br><br> First name: "
             . $user->firstName . "<br>Last name: " . $user->lastName . "<br>Username: " . $user->userName .
-            "<br>Member since: " . $user->creationTime . "<br><br>Contact text:<br><br>\"" . $contactText . "\"";
+            "<br>Member since: " . $user->creationTime . "<br>Rating: " . $ratingInput . " from " . "5" . " <br><br>Contact text:<br><br>\"" . $contactText . "\"";
 
 
     include('send_mail.php');
@@ -248,9 +270,34 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
         }
     }
 }
-function addTask($taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance){
+function addTask($userId ,$taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance){  
     require 'db_connect.php';
-    $query  = mysqli_query($connect,"INSERT INTO tasks (taskName) VALUES ('$taskName')" ) or die('Invalid query: ' . mysql_error());
+    
+    date_default_timezone_set('UTC');
+    $unixDate = strtotime($taskDuration);//get the unix time of the current day + task duration
+    $unixDay = strtotime(date('Y-m-d'));//get the unix time of the current day
+    $taskDurationMilisecond = $unixDate - $unixDay;
+    
+    $query =  mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, importance  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDate', '$taskLocation','$taskDurationMilisecond', '$taskImportance')");
+    if($query){
+        echo "<script>
+                        $(document).ready(function() {
+                        swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
+                        function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
+                     });
+                    </script>";
+    }
+    else {
+        echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
+        die('Invalid query: ' . mysqli_error($connect));
+    }
+    
+    
+//or die("Error : " . mysqli_error($connect));
+    
+    
+
+  
     
     
 }

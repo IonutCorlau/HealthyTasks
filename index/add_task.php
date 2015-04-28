@@ -17,17 +17,19 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="taskCategory">Category</label>
                 <div class="col-md-2">   
-                        <select class="form-control" id="taskCategory" name="taskCategory">
-                            <option>Work</option>
-                            <option>Personal</option>
-                            <option>Health</option>
-                        </select>                                                       
+                    <select class="form-control" id="taskCategory" name="taskCategory">
+                        <option>Work</option>
+                        <option>Personal</option>
+                        <option>Health</option>
+                    </select>                                                       
                 </div>
             </div>
             <div class="form-group">
                 <label for="taskDescription" class="col-md-2 control-label">What to do?</label>
                 <div class="col-md-10">
-                    <textarea  class="form-control" rows="1" id="taskDescription" name="taskDescription"></textarea>
+                  
+                    <textarea  class="form-control"  id="taskDescription" name="taskDescription"></textarea>
+                    
                 </div>
             </div> 
             <div class="form-group">
@@ -52,10 +54,10 @@
                 <div class="col-md-10">
                     <script type="text/javascript">
                         $(function () {
-                            var dateNow = new Date('3/16/2013 00:00:00');
+                            var dateNow = new Date('1/1/1970 00:00:00');
                             $('#datetimepickerDuration').datetimepicker({
-                                format: ' HH:mm ',
-                                defaultDate: dateNow
+                                defaultDate: dateNow,
+                                format: ' HH:mm '
                             });
                         });
                     </script>
@@ -81,7 +83,7 @@
                 <label class="col-md-2 "></label>
                 <div class="col-md-10 ">
 
-                    <button class="btn btn-success btn-lg pull-left" name="submitAddTask" id="submitAddTask" type="submit">
+                    <button class="btn btn-success btn-lg pull-left" name="submitAddTask" id="submitAddTask" type="submit" onclick="fakeLoaderFunction(1000);">
                         <i class="glyphicon glyphicon-check"></i>Add task
                     </button>
                     <span></span>
@@ -94,20 +96,18 @@
     </div>
 </div>
 <?php
-if(isset($_POST['submitAddTask'])){
+if (isset($_POST['submitAddTask'])) {
     $taskName = $_POST['taskName'];
     $taskCategory = $_POST['taskCategory'];
     $taskDescription = $_POST['taskDescription'];
     $taskDate = $_POST['datetimepickerWhen'];
-    echo $taskDate;
-    $taskLocation  = $_POST['taskLocation'];
+
+    $taskLocation = $_POST['taskLocation'];
     $taskDuration = $_POST['taskDuration'];
     $taskImportance = $_POST['taskImportance'];
-    addTask($taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance);
+
+
+    addTask($_SESSION['userId'], $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance);
     
-    echo "<script>alert('$taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance');</script>";
 }
-
-
-
 ?>

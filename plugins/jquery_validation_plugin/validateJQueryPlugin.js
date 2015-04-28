@@ -138,7 +138,8 @@ $(document).ready(function () {
     $("#contactForm").validate({
         rules: {
             commentInput: {
-                required: true
+                required: true,
+                maxlength: 500
 
             }
 
@@ -199,7 +200,10 @@ $(document).ready(function () {
             taskName: {
                 required: true,
                 minlength: 5,
-                maxlength: 25
+                maxlength: 100
+            },
+            taskDescription:{
+                maxlength: 255
             }
         },
         messages: {
