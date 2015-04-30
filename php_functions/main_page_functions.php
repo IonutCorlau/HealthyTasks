@@ -24,14 +24,15 @@ class User {
 
 }
 
-class Task{
+class Task {
+
     public $id;
-    
+
     function __construct($id) {
         require 'db_connect.php';
         $query = mysqli_query($connect, "SELECT * FROM tasks WHERE id='$id'");
         $row = mysqli_fetch_assoc($query);
-        
+
         $this->id = $id;
         $this->userId = $row['userId'];
         $this->name = $row['name'];
@@ -41,8 +42,8 @@ class Task{
         $this->location = $row['location'];
         $this->duration = $row['duration'];
         $this->importance = $row['importance'];
-              
     }
+
 }
 
 function sendContact($contactText, $ratingInput) {
@@ -51,7 +52,7 @@ function sendContact($contactText, $ratingInput) {
     require ('db_connect.php');
 
     $user = new User($_SESSION['userId']);
-   
+
     $query = "INSERT INTO contacts (userId ,comment, rating) VALUES ('$user->id','$contactText', '$ratingInput')";
     mysqli_query($connect, $query) or die("Error : " . mysql_error());
 
@@ -97,8 +98,7 @@ function sendContact($contactText, $ratingInput) {
 function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
     require 'db_connect.php';
     require_once '/../plugins/image_resize/resize-class.php';
-
-
+    
     $userId = $_SESSION['userId'];
     $user = new User($userId);
     $modified = false;
@@ -113,9 +113,9 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
 
         $imageFileType = pathinfo($pathFile, PATHINFO_EXTENSION);
         $checkSize = getimagesize($_FILES['uploadAvatarBtn']['tmp_name']);
-        
+
         if ($checkSize !== false) {
-            
+
             $isImage = true;
         } else {
             $isImage = false;
@@ -200,40 +200,54 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
                 if ($isImage == false) {
                     echo "<script>swal('Please upload an image file', 'The file that you uploaded is not an image format', 'warning');</script>";
                 } else {
-                    if($_FILES['uploadAvatarBtn']['size']>3000000){
-                         echo "<script>swal('Image exceeds 3 megabytes', 'Please upload a smaller image', 'warning');</script>";
-                }else{
+                    if ($_FILES['uploadAvatarBtn']['size'] > 3000000) {
+                        echo "<script>swal('Image exceeds 3 megabytes', 'Please upload a smaller image', 'warning');</script>";
+                    } else {
                         $image = new resize($_FILES['uploadAvatarBtn']['tmp_name'], 150, $pathDir);
                         $dbImageName = basename($image->src, '.' . 'tmp');
                         $imageExtension = "." . explode('.', $_FILES['uploadAvatarBtn']['name'], 2)[1];
-                        echo $imageExtension;
 
+                        $query = mysqli_query($connect, "UPDATE users SET avatar='$pathDir$dbImageName$imageExtension' WHERE id='$userId'") or die("<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>Invalid query: " . mysqli_error($connect));
 
-                        $query = mysqli_query($connect, "UPDATE users SET avatar='$pathDir$dbImageName$imageExtension' WHERE id='$userId'");
-                        if ($query) {
-
-                            $crispy = new resize($_FILES['uploadAvatarBtn']['tmp_name'], 150, $pathDir);
-                            $src = $crispy->resizeImage();
-
-                            echo "<script>
-                    $(document).ready(function() {
-                    swal({title: 'Profile updated',text: 'Your personal info have been updated successfully',type: 'success' },
-                    function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
-                    });
+                        $detect = new Mobile_Detect();
+                        $crispy = new resize($_FILES['uploadAvatarBtn']['tmp_name'], 150, $pathDir);
+                        $src = $crispy->resizeImage();
+                        echo "<script>
+                                    $(document).ready(function() {
+                                    swal({title: 'Profile updated',text: 'Your personal info have been updated successfully',type: 'success' },
+                                    function(){window.location.href = ''; });
+                                    });
                         </script>";
-                        }else {
-                            echo "<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>";
-                            die('Invalid query: ' . mysqli_error($connect));
-                        }
+                        
+
+                        /* if ($query) {
+
+                          $crispy = new resize($_FILES['uploadAvatarBtn']['tmp_name'], 150, $pathDir);
+                          $src = $crispy->resizeImage();
+
+                          echo "<script>
+                          $(document).ready(function() {
+                          swal({title: 'Profile updated',text: 'Your personal info have been updated successfully',type: 'success' },
+                          function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
+                          });
+                          </script>";
+                          }
+
+                          else {
+                          echo "<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>";
+                          die('Invalid query: ' . mysqli_error($connect));
+                          } */
                     }
-        }   }   }
+                }
+            }
+        }
     } else {
         if ($modified == true) {
             if ($modifiedImage == false) {
                 echo "<script>
                 $(document).ready(function() {
                 swal({title: 'Profile updated',text: 'Your personal info have been updated successfully',type: 'success' },
-                function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
+                function(){window.location.href = ''; });
             });
             </script>";
             } else {
@@ -242,7 +256,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
                         echo "<script>
                     $(document).ready(function() {
                     swal({title: 'Profile updated without image',text: 'Please upload an image file. The file that you uploaded is not an image format',type: 'warning' },
-                    function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
+                    function(){window.location.href = ''; });
                  });
             </script>";
                     } else {
@@ -256,7 +270,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
                                 echo "<script>
                         $(document).ready(function() {
                         swal({title: 'Profile updated',text: 'Your personal info have been updated successfully',type: 'success' },
-                        function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
+                        function(){window.location.href = ''.php'; });
                      });
                     </script>";
                             } else {
@@ -270,39 +284,32 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
         }
     }
 }
-function addTask($userId ,$taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance){  
+
+function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance) {
     require 'db_connect.php';
-    
+
+
     date_default_timezone_set('UTC');
-    $unixDate = strtotime($taskDuration);//get the unix time of the current day + task duration
-    $unixDay = strtotime(date('Y-m-d'));//get the unix time of the current day
+    $unixDate = strtotime($taskDuration); //get the unix time of the current day + task duration
+    $unixDay = strtotime(date('Y-m-d')); //get the unix time of the current day
     $taskDurationMilisecond = $unixDate - $unixDay;
-    
-    $query =  mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, importance  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDate', '$taskLocation','$taskDurationMilisecond', '$taskImportance')");
-    if($query){
+
+    $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, importance  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDate', '$taskLocation','$taskDurationMilisecond', '$taskImportance')");
+    if ($query) {
         echo "<script>
                         $(document).ready(function() {
                         swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
                         function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
                      });
                     </script>";
-    }
-    else {
+    } else {
         echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
         die('Invalid query: ' . mysqli_error($connect));
     }
-    
-    
+
+
 //or die("Error : " . mysqli_error($connect));
-    
-    
-
-  
-    
-    
 }
-
-
 ?>
 
 

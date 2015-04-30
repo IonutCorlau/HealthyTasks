@@ -355,10 +355,11 @@
 					background: #fff;
 				}
 				
-				form textarea
+				/*form textarea
 				{
 					min-height: 14em;
-				}
+				}*/
+    
 
 				form .formerize-placeholder
 				{

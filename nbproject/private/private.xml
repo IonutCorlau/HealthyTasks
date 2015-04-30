@@ -5,17 +5,24 @@
         <group>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/js/main_page/my_functions.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_validation_plugin/jquery.validate.js</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/style.css</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/register.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/account_functions.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/add_task.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/slider_button/bootstrap-slider.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/js/main_page/google_geolocation.js</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/sign_in.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/slider_button/slider.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/main_page/my_style.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/edit_profile.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/main_page_functions.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/contact.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/reset_password.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/db_connect.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/main_page.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/confirm_email.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/health_zone.php</file>
         </group>
     </open-files>
 </project-private>

@@ -203,7 +203,7 @@ $(document).ready(function () {
                 maxlength: 100
             },
             taskDescription:{
-                maxlength: 255
+                maxlength: 500
             }
         },
         messages: {

@@ -65,7 +65,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Password</label>
                     <div id="pass-b" class="col-md-8">
-                        <button name="changePassMain" type="submit" class="btn btn-primary btn-sm pull-left" value="Change Password" onclick="fakeLoaderFunction(4000);">
+                        <button name="changePassMain" type="submit" class="btn btn-primary btn-sm pull-left" value="Change Password" onclick="fakeLoaderFunction(9000);">
                             <i class="glyphicon glyphicon-edit"></i>Change Password
                         </button>
                         <?php

@@ -17,19 +17,22 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="taskCategory">Category</label>
                 <div class="col-md-2">   
-                    <select class="form-control" id="taskCategory" name="taskCategory">
-                        <option>Work</option>
-                        <option>Personal</option>
-                        <option>Health</option>
+                    <select class="form-control selectpicker" id="taskCategory" name="taskCategory">
+                        <option data-icon="glyphicon glyphicon-briefcase">Work</option>
+                        <option data-icon="glyphicon glyphicon-user">Personal</option>
+                        <option data-icon="glyphicon glyphicon-heart">Health</option>
                     </select>                                                       
                 </div>
             </div>
             <div class="form-group">
                 <label for="taskDescription" class="col-md-2 control-label">What to do?</label>
                 <div class="col-md-10">
-                  
-                    <textarea  class="form-control"  id="taskDescription" name="taskDescription"></textarea>
-                    
+
+                   
+                    <textarea id="taskDescription" name="taskDescription" class="js-auto-size form-control" rows="1"></textarea>
+                    <script>
+                        $('textarea.js-auto-size').textareaAutoSize();
+                    </script>
                 </div>
             </div> 
             <div class="form-group">
@@ -73,9 +76,9 @@
                 <label for="taskImportance" class="col-md-2 control-label">Importance</label>
                 <div class="col-md-2">
                     <select class="selectpicker form-control" name="taskImportance" id="taskImportance">
-                        <option>Low</option>
-                        <option>Medium</option>
-                        <option>High</option>
+                        <option class="taskImportanceLow">Low</option>
+                        <option class="taskImportanceMedium">Medium</option>
+                        <option class="taskImportanceHigh">High</option>
                     </select>
                 </div>
             </div>   
@@ -108,6 +111,5 @@ if (isset($_POST['submitAddTask'])) {
 
 
     addTask($_SESSION['userId'], $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance);
-    
 }
 ?>
