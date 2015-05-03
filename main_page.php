@@ -83,6 +83,8 @@ require_once 'php_functions/db_connect.php';
         
         <?php
         header("Content-type: text/html; charset=utf-8");
+        
+        
         ?>
         <script>
             function start(){

@@ -42,6 +42,8 @@ class Task {
         $this->location = $row['location'];
         $this->duration = $row['duration'];
         $this->importance = $row['importance'];
+        $this->reminderInput = $row['reminderInput'];
+        $this->reminderTime = $row['reminderTime'];
     }
 
 }
@@ -209,7 +211,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
 
                         $query = mysqli_query($connect, "UPDATE users SET avatar='$pathDir$dbImageName$imageExtension' WHERE id='$userId'") or die("<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>Invalid query: " . mysqli_error($connect));
 
-                        $detect = new Mobile_Detect();
+                        
                         $crispy = new resize($_FILES['uploadAvatarBtn']['tmp_name'], 150, $pathDir);
                         $src = $crispy->resizeImage();
                         echo "<script>
@@ -285,30 +287,63 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
     }
 }
 
-function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance) {
+function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder) {
     require 'db_connect.php';
 
+    
 
     date_default_timezone_set('UTC');
+    $unixDeadline = strtotime($taskDate);
     $unixDate = strtotime($taskDuration); //get the unix time of the current day + task duration
     $unixDay = strtotime(date('Y-m-d')); //get the unix time of the current day
     $taskDurationMilisecond = $unixDate - $unixDay;
-
-    $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, importance  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDate', '$taskLocation','$taskDurationMilisecond', '$taskImportance')");
-    if ($query) {
-        echo "<script>
-                        $(document).ready(function() {
-                        swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
-                        function(){window.location.href = 'http://localhost/healthytasks/main_page.php'; });
-                     });
-                    </script>";
-    } else {
-        echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
-        die('Invalid query: ' . mysqli_error($connect));
+    $taskReminderSend = $unixDeadline-$taskReminder;
+    
+    if($unixDeadline!=null){
+        $queryDuplicateTask =  mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
+        $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
     }
+    if($countTaskDuplicate > 0){
+         echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
+    }else{
+    
+        $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, importance, reminderInput, reminderTime  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationMilisecond', '$taskImportance','$taskReminder','$taskReminderSend')");
+        if ($query) {
+            echo "<script>
+                            $(document).ready(function() {
+                            swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
+                            function(){window.location.href = ''; });
+                         });
+                        </script>";
+            } else {
+                echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
+                die('Invalid query: ' . mysqli_error($connect));
+    }}
 
 
 //or die("Error : " . mysqli_error($connect));
+}
+
+function computeCalories($height, $weight, $age, $gender, $activityLevel){
+   
+   if($gender == 'Female'){
+       $BMR = 655 + (9.6 * $weight) + (1.8 * $height) - (4.7 * $age);
+   }
+   else if($gender == 'Male'){
+       $BMR = 66 + (13.7 * $weight) + (5 * $height) - (6.8 * $age);
+   }
+   
+   if($activityLevel == 'Sedentary'){
+       $calories = $BMR + $BMR*0.2;
+    }else if($activityLevel == 'Light'){
+       $calories = $BMR + $BMR*0.3;
+    }else if($activityLevel == 'Medium'){
+        $calories = $BMR + $BMR*0.4;
+    }else if($activityLevel == 'Heavy'){
+        $calories = $BMR + $BMR*0.5;
+    }
+    
+    echo $calories;
 }
 ?>
 

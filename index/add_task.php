@@ -28,7 +28,7 @@
                 <label for="taskDescription" class="col-md-2 control-label">What to do?</label>
                 <div class="col-md-10">
 
-                   
+
                     <textarea id="taskDescription" name="taskDescription" class="js-auto-size form-control" rows="1"></textarea>
                     <script>
                         $('textarea.js-auto-size').textareaAutoSize();
@@ -82,11 +82,51 @@
                     </select>
                 </div>
             </div>   
+
+            <div class="form-group ">
+                <label for="taskReminder" class="col-md-2 control-label">Reminder</label>
+
+                <div class="col-md-2">
+                    <input type="text" class="form-control pull-left" id="taskReminderInput" name="taskReminderInput1" >
+                </div>
+                <div id="taskReminderUnitDiv" class="col-md-2 " onclick="reminderUnit()" >
+                    <select class="selectpicker form-control " name="taskReminderUnit" id="taskReminderUnit" >
+                        <option value="1" >Minutes</option>
+                        <option value="2">Hours</option>
+                        <option value="3">Days</option>
+                    </select>
+
+                
+                </div>    
+            </div>
+            <script>
+                function reminderUnit() {
+                    
+                    var unit = document.getElementById("taskReminderUnit");
+                    var unitSelected = unit.options[unit.selectedIndex].value;
+                    
+                    var input = document.getElementById('taskReminderInput');
+                    
+                    if (unitSelected == 1) {
+                        
+                        input.name = 'taskReminderInput1';
+                    }
+                    else if (unitSelected == 2) {
+                        input.name = 'taskReminderInput2';
+                         
+                    }
+                    else if (unitSelected == 3) {
+                        input.name = 'taskReminderInput3';
+                    }
+                    
+                }
+
+            </script>
             <div class="form-group">
                 <label class="col-md-2 "></label>
                 <div class="col-md-10 ">
 
-                    <button class="btn btn-success btn-lg pull-left" name="submitAddTask" id="submitAddTask" type="submit" onclick="fakeLoaderFunction(1000);">
+                    <button class="btn btn-success btn-lg pull-left" name="submitAddTask" id="submitAddTask" type="submit"  >
                         <i class="glyphicon glyphicon-check"></i>Add task
                     </button>
                     <span></span>
@@ -95,6 +135,8 @@
                     </button>
                 </div>
             </div>
+
+
         </form>
     </div>
 </div>
@@ -109,7 +151,24 @@ if (isset($_POST['submitAddTask'])) {
     $taskDuration = $_POST['taskDuration'];
     $taskImportance = $_POST['taskImportance'];
 
+    $taskReminder = 0;
+    $reminderUnit = $_POST['taskReminderUnit'];
+    if($_POST['taskReminderInput1']!=null){
+        $reminderInput = $_POST['taskReminderInput1'];
+    }else if($_POST['taskReminderInput2']!=null){
+        $reminderInput = $_POST['taskReminderInput2'];
+    }else if($_POST['taskReminderInput3']!=null){
+        $reminderInput = $_POST['taskReminderInput3'];
+    }
+    
+    if($reminderUnit == 1){
+        $taskReminder = $reminderInput*60;
+    }else if($reminderUnit == 2){
+        $taskReminder = $reminderInput*3600;
+    }else if($reminderUnit == 3){
+        $taskReminder = $reminderInput*86400;
+    }
 
-    addTask($_SESSION['userId'], $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance);
+    addTask($_SESSION['userId'], $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder);
 }
 ?>

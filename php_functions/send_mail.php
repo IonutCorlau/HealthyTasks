@@ -1,7 +1,6 @@
 <?php
 
 
-
 $Mail->IsSMTP(); // Use SMTP
 $Mail->Host = "smtp.gmail.com"; // Sets SMTP server
 $Mail->SMTPDebug = 2; // 2 to enable SMTP debug information

@@ -204,12 +204,36 @@ $(document).ready(function () {
             },
             taskDescription:{
                 maxlength: 500
+            },
+            taskReminderInput1:{
+                min: 1,
+                max: 59
+            },
+            taskReminderInput2:{
+                min: 1,
+                max: 23
+            },
+            taskReminderInput3:{
+                min: 1,
+                max: 30
             }
         },
         messages: {
             taskName: {
                 required: "Please specify a name for the activity",
                 minlength: "Task name must be least 5 characters long "
+            },
+            taskReminderInput1:{
+                min: "1-59 Minutes",
+                max: "1-59 Minutes"
+            },
+            taskReminderInput2:{
+                min: "1-23 Hours",
+                max: "1-23 Hours"
+            },
+            taskReminderInput3:{
+                min: "1-30 Days",
+                max: "1-30 Days"
             }
         }
 
