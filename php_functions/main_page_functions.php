@@ -48,6 +48,28 @@ class Task {
 
 }
 
+class HealthProfile {
+
+    public $id;
+
+    function __construct($id) {
+        require 'db_connect.php';
+        $query = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$id'");
+        $row = mysqli_fetch_assoc($query);
+        
+        $this->id = $row['id'];
+        $this->userId = $row['userId'];
+        $this->height = $row['height'];
+        $this->weight = $row['weight'];
+        $this->age = $row['age'];
+        $this->gender = $row['gender'];
+        $this->activityLevel = $row['activityLevel'];
+        $this->calories = $row['calories'];
+        
+    }
+
+}
+
 function sendContact($contactText, $ratingInput) {
 
     require_once ( '/../plugins/phpmailer/class.phpmailer.php' );
@@ -100,7 +122,7 @@ function sendContact($contactText, $ratingInput) {
 function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
     require 'db_connect.php';
     require_once '/../plugins/image_resize/resize-class.php';
-    
+
     $userId = $_SESSION['userId'];
     $user = new User($userId);
     $modified = false;
@@ -211,7 +233,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
 
                         $query = mysqli_query($connect, "UPDATE users SET avatar='$pathDir$dbImageName$imageExtension' WHERE id='$userId'") or die("<script>swal('Error', 'The profile has not been updated, error occurred ', 'error');</script>Invalid query: " . mysqli_error($connect));
 
-                        
+
                         $crispy = new resize($_FILES['uploadAvatarBtn']['tmp_name'], 150, $pathDir);
                         $src = $crispy->resizeImage();
                         echo "<script>
@@ -220,7 +242,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
                                     function(){window.location.href = ''; });
                                     });
                         </script>";
-                        
+
 
                         /* if ($query) {
 
@@ -272,7 +294,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
                                 echo "<script>
                         $(document).ready(function() {
                         swal({title: 'Profile updated',text: 'Your personal info have been updated successfully',type: 'success' },
-                        function(){window.location.href = ''.php'; });
+                        function(){window.location.href = ''; });
                      });
                     </script>";
                             } else {
@@ -290,23 +312,21 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
 function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder) {
     require 'db_connect.php';
 
-    
-
     date_default_timezone_set('UTC');
     $unixDeadline = strtotime($taskDate);
     $unixDate = strtotime($taskDuration); //get the unix time of the current day + task duration
     $unixDay = strtotime(date('Y-m-d')); //get the unix time of the current day
     $taskDurationMilisecond = $unixDate - $unixDay;
-    $taskReminderSend = $unixDeadline-$taskReminder;
-    
-    if($unixDeadline!=null){
-        $queryDuplicateTask =  mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
+    $taskReminderSend = $unixDeadline - $taskReminder;
+
+    if ($unixDeadline != null) {
+        $queryDuplicateTask = mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
         $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
     }
-    if($countTaskDuplicate > 0){
-         echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
-    }else{
-    
+    if ($countTaskDuplicate > 0) {
+        echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
+    } else {
+
         $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, importance, reminderInput, reminderTime  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationMilisecond', '$taskImportance','$taskReminder','$taskReminderSend')");
         if ($query) {
             echo "<script>
@@ -315,35 +335,79 @@ function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate,
                             function(){window.location.href = ''; });
                          });
                         </script>";
-            } else {
-                echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
-                die('Invalid query: ' . mysqli_error($connect));
-    }}
+        } else {
+            echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
+            die('Invalid query: ' . mysqli_error($connect));
+        }
+    }
 
 
 //or die("Error : " . mysqli_error($connect));
 }
 
-function computeCalories($height, $weight, $age, $gender, $activityLevel){
-   
-   if($gender == 'Female'){
-       $BMR = 655 + (9.6 * $weight) + (1.8 * $height) - (4.7 * $age);
-   }
-   else if($gender == 'Male'){
-       $BMR = 66 + (13.7 * $weight) + (5 * $height) - (6.8 * $age);
-   }
-   
-   if($activityLevel == 'Sedentary'){
-       $calories = $BMR + $BMR*0.2;
-    }else if($activityLevel == 'Light'){
-       $calories = $BMR + $BMR*0.3;
-    }else if($activityLevel == 'Medium'){
-        $calories = $BMR + $BMR*0.4;
-    }else if($activityLevel == 'Heavy'){
-        $calories = $BMR + $BMR*0.5;
+function computeCalories($userId, $height, $weight, $age, $gender, $activityLevel) {
+    require 'db_connect.php';
+    
+    echo $height;
+
+    if ($gender == 'Female') {
+        $BMR = 655 + (9.6 * $weight) + (1.8 * $height) - (4.7 * $age);
+    } else if ($gender == 'Male') {
+        $BMR = 66 + (13.7 * $weight) + (5 * $height) - (6.8 * $age);
+    }
+
+    if ($activityLevel == 'Sedentary') {
+        $calories = $BMR + $BMR * 0.2;
+    } else if ($activityLevel == 'Light') {
+        $calories = $BMR + $BMR * 0.3;
+    } else if ($activityLevel == 'Medium') {
+        $calories = $BMR + $BMR * 0.4;
+    } else if ($activityLevel == 'Heavy') {
+        $calories = $BMR + $BMR * 0.5;
     }
     
-    echo $calories;
+    $userId = $_SESSION['userId'];
+    
+    
+    $queryUserId = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$userId'");
+    $count = mysqli_num_rows($queryUserId);
+    
+    
+   
+    
+ 
+        if ($count == 0) {
+            
+            $query = mysqli_query($connect, "INSERT INTO health_profile (userId, height, weight, age, gender, activityLevel, calories) VALUES ('$userId', '$height', '$weight', '$age', '$gender', '$activityLevel', '$calories')");
+            if ($query) {
+                echo "<script>
+                                $(document).ready(function() {
+                                swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
+                                function(){window.location.href = ''; });
+                             });
+                            </script>";
+            } else {
+                echo "<script>swal('Error', 'The values were not recorded, error occurred ', 'error');</script>";
+                die('Invalid query: ' . mysqli_error($connect));
+            }
+        } else {
+            $query = mysqli_query($connect, "UPDATE health_profile SET height='$height', weight='$weight', age='$age', gender='$gender', activityLevel='$activityLevel', calories='$calories' WHERE userId='$userId'");
+            if($query){
+                echo "<script>
+                                $(document).ready(function() {
+                                swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
+                                function(){window.location.href = ''; });
+                             });
+                            </script>";
+            } else {
+                echo "<script>swal('Error', 'The values were not recorded, error occurred ', 'error');</script>";
+                die('Invalid query: ' . mysqli_error($connect));
+            }
+
+            }
+    
+        
+    
 }
 ?>
 

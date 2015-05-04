@@ -1,5 +1,7 @@
 
-
+<?php
+$healthProfile = new HealthProfile($_SESSION['userId']);
+?>
 <div class="container">
     <header>
         <h2>Health Zone</h2>
@@ -12,8 +14,8 @@
             <div class="form-group ">
                 <label for="height" class="col-md-2 control-label ">Height</label>
                 <div class="col-md-10 ">
-                    <input id="height" name="height" class="form-control pull-left" type="text" data-slider-min="150" data-slider-max="210" data-slider-step="1" data-slider-value="170" data-slider-orientation="horizontal"/>
-                   
+                    <input id="height" name="height" class="form-control pull-left" type="text" data-slider-min="140" data-slider-max="210" data-slider-step="1" data-slider-value="<?php echo $healthProfile->height ?>" data-slider-orientation="horizontal"/>
+
                 </div>
                 <script>
                     $("#height").slider({
@@ -25,7 +27,7 @@
                 <label for="weight" class="col-md-2 control-label">Weight</label>
                 <div class="col-md-10 ">
 
-                    <input id="weight" name="weight" class="form-control pull-left" type="text" data-slider-min="45" data-slider-max="110" data-slider-step="1" data-slider-value="70" data-slider-orientation="horizontal"/>
+                    <input id="weight" name="weight" class="form-control pull-left" type="text" data-slider-min="45" data-slider-max="110" data-slider-step="1" data-slider-value="<?php echo $healthProfile->weight ?>" data-slider-orientation="horizontal"/>
 
                 </div>
                 <script>
@@ -39,7 +41,7 @@
                 <label for="age" class="col-md-2 control-label">Age</label>
                 <div class="col-md-10">
 
-                    <input id="age" name="age" class="form-control pull-left" type="text" data-slider-min="16" data-slider-max="80" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal"/>
+                    <input id="age" name="age" class="form-control pull-left" type="text" data-slider-min="16" data-slider-max="80" data-slider-step="1" data-slider-value="<?php echo $healthProfile->age ?>" data-slider-orientation="horizontal"/>
                     <script>
                         $("#age").slider({
                             //reversed: true
@@ -50,64 +52,90 @@
             <div class="form-group">
                 <label for="gender" class="col-md-2 control-label">Gender</label>
                 <div class="col-md-2">
+                    <script>
+                        $(document).ready(function () {
+                            $('#gender option[value=<?php echo $healthProfile->gender; ?>]').attr('selected', 'selected');
+
+                        });
+                    </script>
                     <select id="gender" name="gender" class="form-control selectpicker">
-                        <option>Female</option>
-                        <option>Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
+
                 <label for="activityLevel" class="col-md-2 control-label">Activity</label>
                 <div class="col-md-2">
-                    <select id="activityLevel" name="activityLevel" class="form-control selectpicker">
-                        <option data-subtext="e.g. I'm bedridden">Sedentary</option>
-                        <option data-subtext="e.g. an office worker">Light</option>
-                        <option data-subtext="e.g. a professional cleaner">Medium</option>
-                        <option data-subtext="e.g. a construction worker">Heavy</option>
-                    </select>
                     <script>
-                        $('.selectpicker').selectpicker();
+                        $(document).ready(function () {
+                            $('#activityLevel option[value=<?php echo $healthProfile->activityLevel; ?>]').attr('selected', 'selected');
+
+
+                        });
                     </script>
+                    <select id="activityLevel" name="activityLevel" class="form-control selectpicker" >
+                        <option value="Sedentary" data-subtext="e.g. I'm bedridden">Sedentary</option>
+                        <option value="Light" data-subtext="e.g. an office worker">Light</option>
+                        <option value="Medium" data-subtext="e.g. a professional cleaner">Medium</option>
+                        <option value="Heavy" data-subtext="e.g. a construction worker">Heavy</option>
+                    </select>
+
                 </div>
             </div>
             <div class="form-group">
-                    <label class="col-md-2 control-label"></label>
-                    <div class="col-md-8">
-                        <button name="computeCaloriesSubmit" id="computeCaloriesSubmit" type="submit" class="btn btn-success btn-lg pull-left"  >
-                            <i class="glyphicon glyphicon-scale"></i>Compute calories
-                        </button>
+                <label class="col-md-2 control-label"></label>
+                <div class="col-md-8">
+                    <button name="computeCaloriesSubmit" id="computeCaloriesSubmit" type="submit" class="btn btn-success btn-lg pull-left"  >
+                        <i class="glyphicon glyphicon-scale"></i>Compute calories
+                    </button>
 
-                        <span></span>
-                        <button id="computeCaloriesCancel" type="reset" class="btn btn-danger btn-lg pull-left" >
-                            <i class="glyphicon glyphicon-remove"></i>Cancel
-                        </button>
-                        <br>
+                    <span></span>
+                    <button name="computeCaloriesCancel" id="computeCaloriesCancel" type="submit" class="btn btn-danger btn-lg pull-left" >
+                        <i class="glyphicon glyphicon-remove"></i>Cancel
+                    </button>
+                    <br>
 
-                    </div>
+                </div>
             </div>
             <div class="col-md-12">
-                <label class="text-center">Calories:</label>
-                <span>
-                    
-                </span>
-               
+                <?php
+                require '/../php_functions/db_connect.php';
+                $userId = $_SESSION['userId'];
+                $queryUserId = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$userId'");
+                $count = mysqli_num_rows($queryUserId);
+
+                if ($count == 0) {
+                    echo "<p>You didn't configure you profile yet</p>";
+                } else {
+                    echo "<p>You need <span id='displayCalories'>$healthProfile->calories</span> calories daily in order to mentain your weight</p>";
+                }
+                ?>
+
+
             </div>
 <?php
 require_once 'php_functions/main_page_functions.php';
-if(isset($_POST['computeCaloriesSubmit'])){
-    
-    if($_POST['height']==null || $_POST['height']==null || $_POST['age']==null ){
-        echo "<script>swal('No modifications', 'Please modify height, weight or age', 'warning');</script>";
-    }else{
-    
-        $height = $_POST['height'];
-        $weight = $_POST['weight'];
-        $age = $_POST['age'];
-        $gender = $_POST['gender'];
-        $activityLevel = $_POST['activityLevel'];
+if (isset($_POST['computeCaloriesSubmit'])) {
 
-        computeCalories($height, $weight, $age, $gender, $activityLevel);
+    $height = $_POST['height'];
+    $weight = $_POST['weight'];
+    $age = $_POST['age'];
+    $gender = $_POST['gender'];
+    $activityLevel = $_POST['activityLevel'];
+
+    if ($height == 0 || $weight == 0 || $age == 0) {
+        echo "<script>swal('No enough modifications', 'Please modify fields height, weight and age', 'warning');</script>";
+    } else {
+
+        computeCalories($_SESSION['userId'], $height, $weight, $age, $gender, $activityLevel);
     }
+} else if (isset($_POST['computeCaloriesCancel'])) {
+   echo "<script>
+                                window.location.href = '#health_zone'; 
+                            
+                            </script>";
 }
 ?>
 

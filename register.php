@@ -149,6 +149,7 @@ $lang = 'en';
 
 <?php
 if (isset($_POST['registerButton'])) {
+    
     if (isset($_POST['g-recaptcha-response'])) {
 
         require_once('C:\Users\Ionut\vendor\autoload.php');

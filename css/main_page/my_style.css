@@ -288,3 +288,7 @@ body {
 .taskImportanceHigh{
     color:red !important;
 }
+#displayCalories{
+    font-weight: bold;
+    
+}
