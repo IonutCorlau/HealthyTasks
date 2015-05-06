@@ -277,7 +277,7 @@ body {
 }
 
 .slider.slider-horizontal{
-    width: 100%;
+    width: 100% !important;
 }
 .taskImportanceLow{
     color:green !important;
@@ -290,5 +290,18 @@ body {
 }
 #displayCalories{
     font-weight: bold;
-    
+
+}
+
+#searchTaskDropdown{
+    width:100% !important;
+    //padding: 10px !important;
+}
+
+
+#adv-search{
+
+}
+#searchTaskButtonDiv{
+    width:100%;
 }

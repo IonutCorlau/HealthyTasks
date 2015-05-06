@@ -36,7 +36,7 @@
                 </div>
             </div> 
             <div class="form-group">
-                <label for="amount" class="col-md-2 control-label">When?</label>
+                <label for="datetimepickerWhen" class="col-md-2 control-label">When?</label>
                 <script type="text/javascript">
                     $(function () {
                         $('#datetimepickerWhen').datetimepicker();

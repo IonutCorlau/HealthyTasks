@@ -69,6 +69,7 @@ require_once 'php_functions/db_connect.php';
         <script src="/healthytasks/plugins/select_picker/bootstrap-select.js" type="text/javascript"></script>
         <link rel="stylesheet" href="/healthytasks/plugins/select_picker/bootstrap-select.css" />
         
+        <!--<link rel="stylesheet" href="css/main_page/search_task_css.css" />-->
         <link rel="stylesheet" href="css/main_page/my_style.css" />
         
         <noscript>
@@ -170,7 +171,7 @@ require_once 'php_functions/db_connect.php';
                         <li><a href="#status" id="status-link" class="skel-layers-ignoreHref"><span class="fa fa-bar-chart">Status</span></a></li>
                         <li><a href="#add_task" id="add_task-link" class="skel-layers-ignoreHref"><span class="fa fa-plus-square">Add task</span></a></li>
                         <li><a href="#health_zone" id="health_zone-link" class="skel-layers-ignoreHref"><span class="fa fa-heart">Health zone</span></a></li>
-                        <li><a href="#search_task" id="seach_task-link" class="skel-layers-ignoreHref"><span class="fa fa-search">Search task</span></a></li>
+                        <li><a href="#search_task" id="search_task-link" class="skel-layers-ignoreHref"><span class="fa fa-search">Search task</span></a></li>
                         <li><a href="#edit_profile" id="edit_profile-link" class="skel-layers-ignoreHref"><span class="fa fa-edit">Edit profile</span></a></li>
                         <li><a href="#contact" id="contact-link" class="skel-layers-ignoreHref"><span class="fa fa-envelope">Contact</span></a></li>
                         <li><a href="sign_out.php" id="sign_out-link" class="skel-layers-ignoreHre" ><span class="fa fa-sign-out">Sign out</span></a></li>
@@ -215,13 +216,8 @@ require_once 'php_functions/db_connect.php';
             <section id="health_zone" class="four">
                  <?php include ('/index/health_zone.php'); ?>
             </section>
-            <section id="search_task" class="five">
-                <div class="container">
-                    <header>
-                        <h2>Search Task</h2>
-                    </header>
-
-                </div>
+            <section id="search_task" class="five" style="height:1000px;">
+                 <?php include ('/index/search_task.php') ?> 
             </section>
             <section id="edit_profile" class="six">
                 <?php include ('/index/edit_profile.php') ?> 

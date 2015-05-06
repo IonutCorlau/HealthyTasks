@@ -1,7 +1,9 @@
 
 <?php
 $healthProfile = new HealthProfile($_SESSION['userId']);
+
 ?>
+
 <div class="container">
     <header>
         <h2>Health Zone</h2>
@@ -105,6 +107,8 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                 $userId = $_SESSION['userId'];
                 $queryUserId = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$userId'");
                 $count = mysqli_num_rows($queryUserId);
+                
+                
 
                 if ($count == 0) {
                     echo "<p>You didn't configure you profile yet</p>";

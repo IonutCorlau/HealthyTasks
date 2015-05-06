@@ -332,6 +332,7 @@ function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate,
             echo "<script>
                             $(document).ready(function() {
                             swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
+                            alert('bla');
                             function(){window.location.href = ''; });
                          });
                         </script>";
@@ -348,8 +349,7 @@ function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate,
 function computeCalories($userId, $height, $weight, $age, $gender, $activityLevel) {
     require 'db_connect.php';
     
-    echo $height;
-
+    
     if ($gender == 'Female') {
         $BMR = 655 + (9.6 * $weight) + (1.8 * $height) - (4.7 * $age);
     } else if ($gender == 'Male') {
@@ -378,7 +378,10 @@ function computeCalories($userId, $height, $weight, $age, $gender, $activityLeve
  
         if ($count == 0) {
             
+            
+            
             $query = mysqli_query($connect, "INSERT INTO health_profile (userId, height, weight, age, gender, activityLevel, calories) VALUES ('$userId', '$height', '$weight', '$age', '$gender', '$activityLevel', '$calories')");
+            
             if ($query) {
                 echo "<script>
                                 $(document).ready(function() {
@@ -393,6 +396,7 @@ function computeCalories($userId, $height, $weight, $age, $gender, $activityLeve
         } else {
             $query = mysqli_query($connect, "UPDATE health_profile SET height='$height', weight='$weight', age='$age', gender='$gender', activityLevel='$activityLevel', calories='$calories' WHERE userId='$userId'");
             if($query){
+               
                 echo "<script>
                                 $(document).ready(function() {
                                 swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
