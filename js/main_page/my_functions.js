@@ -37,4 +37,3 @@ $(document).ready(function() {
     nice = $("html").niceScroll();
 });
 
-$('.selectpicker').selectpicker();

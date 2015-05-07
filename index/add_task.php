@@ -153,11 +153,11 @@ if (isset($_POST['submitAddTask'])) {
 
     $taskReminder = 0;
     $reminderUnit = $_POST['taskReminderUnit'];
-    if($_POST['taskReminderInput1']!=null){
+    if(isset($_POST['taskReminderInput1'])){
         $reminderInput = $_POST['taskReminderInput1'];
-    }else if($_POST['taskReminderInput2']!=null){
+    }else if(isset($_POST['taskReminderInput2'])){
         $reminderInput = $_POST['taskReminderInput2'];
-    }else if($_POST['taskReminderInput3']!=null){
+    }else if(isset($_POST['taskReminderInput3'])){
         $reminderInput = $_POST['taskReminderInput3'];
     }
     

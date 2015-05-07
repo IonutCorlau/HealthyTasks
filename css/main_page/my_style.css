@@ -1,3 +1,5 @@
+
+
 input[type="submit"],  input[type="reset"], button[type="submit"], button[type="reset"] {
     margin: 10px 10px 0px 0px;
 }
@@ -105,7 +107,7 @@ textarea {
 }
 
 .glyphicon{
-    margin-right: 5px;
+    margin: 2px;
 }
 
 //range weight
@@ -292,16 +294,31 @@ body {
     font-weight: bold;
 
 }
+  #taskTimeSearch{
+        margin-top:10px !important;
 
+    }
 #searchTaskDropdown{
     width:100% !important;
     //padding: 10px !important;
 }
 
 
-#adv-search{
 
-}
 #searchTaskButtonDiv{
     width:100%;
 }
+#searchTable { border-collapse: collapse; }
+
+#searchTable td {
+  border-left:  solid 2px #D8C4FF;
+  border-right: solid 2px #D8C4FF; 
+}
+#searchTable th{
+    border-left:  solid 2px #D8C4FF;
+    border-right: solid 2px #D8C4FF; 
+    border-bottom: solid 2px #D8C4FF; 
+    font-weight: bold;
+    
+}
+

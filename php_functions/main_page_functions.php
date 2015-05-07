@@ -332,7 +332,7 @@ function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate,
             echo "<script>
                             $(document).ready(function() {
                             swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
-                            alert('bla');
+                           
                             function(){window.location.href = ''; });
                          });
                         </script>";
