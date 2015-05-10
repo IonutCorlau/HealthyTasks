@@ -1,6 +1,7 @@
 <?php
 require_once 'php_functions/main_page_functions.php';
 require_once 'php_functions/db_connect.php';
+header("Content-type: text/html; charset=utf-8");
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -14,8 +15,8 @@ require_once 'php_functions/db_connect.php';
         <title>Healthy Tasks</title>
         <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
         <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
-        
-        
+
+
         <link href="/healthytasks/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="/healthytasks/bootstrap/js/bootstrap.js"></script>
 
@@ -42,7 +43,7 @@ require_once 'php_functions/db_connect.php';
         <link href="/healthytasks/plugins/star_rating/star-rating.css" media="all" rel="stylesheet" type="text/css" />
         <script src="/healthytasks/plugins/star_rating/star-rating.js" type="text/javascript"></script>
 
-        
+
 
         <script src="/healthytasks/plugins/jquery_validation_plugin/jquery.validate.js"></script>
         <script src="/healthytasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js"></script>
@@ -52,26 +53,29 @@ require_once 'php_functions/db_connect.php';
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
         <script src="/healthytasks/js/main_page/google_geolocation.js" type="text/javascript"></script>
 
-        
+
         <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/moment.min.js"></script>
         <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.js"></script>
         <link rel="stylesheet" href="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.css" />
-        
-        
+
+
 
         <script src="/healthytasks/plugins/textarea_autosize/jquery.textarea_autosize.js"></script>
-        
+
         <link rel="stylesheet" href="/healthytasks/plugins/slider_button/slider.css" />
         <script src="/healthytasks/plugins/slider_button/bootstrap-slider.js"></script>
-        
+
         <script src="/healthytasks/js/main_page/my_functions.js" type="text/javascript"></script>
-        
+
         <script src="/healthytasks/plugins/select_picker/bootstrap-select.js" type="text/javascript"></script>
         <link rel="stylesheet" href="/healthytasks/plugins/select_picker/bootstrap-select.css" />
-        
+
+        <script src="/healthytasks/plugins/resizable_table/jquery-ui.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="/healthytasks/plugins/resizable_table/jquery-ui.css" />
+
         <!--<link rel="stylesheet" href="css/main_page/search_task_css.css" />-->
         <link rel="stylesheet" href="css/main_page/my_style.css" />
-        
+
         <noscript>
         <link rel="stylesheet" href="/healthytasks/plugins/skel/skel.css" />
         <link rel="stylesheet" href="/healthytasks/plugins/skel/style.css" />
@@ -81,16 +85,13 @@ require_once 'php_functions/db_connect.php';
 
 
 
-        
-        <?php
-        header("Content-type: text/html; charset=utf-8");
-        
-        
-        ?>
+
+
         <script>
-            function start(){
-                initialize(); 
+            function start() {
+                initialize();
                 startTime();
+                ajaxSearch();
             }
         </script>
     </head>
@@ -137,7 +138,8 @@ require_once 'php_functions/db_connect.php';
                     <div id="menuNameTime">
                         <?php
                         if (isset($_SESSION['firstName']) && isset($_SESSION['lastName'])) {
-
+                            require 'php_functions/check_tasks.php';
+                            checkTasks();
                             echo $user->firstName . " " . $user->lastName;
                             echo "
 
@@ -214,10 +216,12 @@ require_once 'php_functions/db_connect.php';
             </section>
 
             <section id="health_zone" class="four">
-                 <?php include ('/index/health_zone.php'); ?>
+                <?php include ('/index/health_zone.php'); ?>
             </section>
-            <section id="search_task" class="five" style="height:1000px;">
-                 <?php include ('/index/search_task.php') ?> 
+            <section id="search_task" class="five" style="min-height: 1000px; height:auto;">
+                    <?php include ('/index/search_task.php') ?> 
+               
+          
             </section>
             <section id="edit_profile" class="six">
                 <?php include ('/index/edit_profile.php') ?> 

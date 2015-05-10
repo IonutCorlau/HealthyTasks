@@ -1,7 +1,6 @@
 
 <?php
 $healthProfile = new HealthProfile($_SESSION['userId']);
-
 ?>
 
 <div class="container">
@@ -15,41 +14,28 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
         <form id="computeCalories" class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="form-group ">
                 <label for="height" class="col-md-2 control-label ">Height</label>
-                <div class="col-md-10 ">
-                    <input id="height" name="height" class="form-control pull-left" type="text" data-slider-min="140" data-slider-max="210" data-slider-step="1" data-slider-value="<?php echo $healthProfile->height ?>" data-slider-orientation="horizontal"/>
+                <div class="col-md-2 ">
+                    <input id="height" name="height" value="<?php echo $healthProfile->height ?>" type="text" class="form-control pull-left"  autocomplete="off">
 
                 </div>
-                <script>
-                    $("#height").slider({
-                        //reversed: true
-                    });
-                </script>
-            </div>
-            <div class="form-group">
+
+            
                 <label for="weight" class="col-md-2 control-label">Weight</label>
-                <div class="col-md-10 ">
+                <div class="col-md-2 ">
 
-                    <input id="weight" name="weight" class="form-control pull-left" type="text" data-slider-min="45" data-slider-max="110" data-slider-step="1" data-slider-value="<?php echo $healthProfile->weight ?>" data-slider-orientation="horizontal"/>
+                    <input id="weight" name="weight" value="<?php echo $healthProfile->weight ?>" type="text" class="form-control pull-left"  autocomplete="off">
 
                 </div>
-                <script>
-                    $("#weight").slider({
-                        //reversed: true
-                    });
-                </script>
 
-            </div>
-            <div class="form-group">
+
+            
                 <label for="age" class="col-md-2 control-label">Age</label>
-                <div class="col-md-10">
+                <div class="col-md-2">
 
-                    <input id="age" name="age" class="form-control pull-left" type="text" data-slider-min="16" data-slider-max="80" data-slider-step="1" data-slider-value="<?php echo $healthProfile->age ?>" data-slider-orientation="horizontal"/>
-                    <script>
-                        $("#age").slider({
-                            //reversed: true
-                        });
-                    </script>
+                    <input id="age" name="age" value="<?php echo $healthProfile->age ?>" type="text" class="form-control pull-left"  autocomplete="off">
+
                 </div>
+                
             </div>
             <div class="form-group">
                 <label for="gender" class="col-md-2 control-label">Gender</label>
@@ -85,63 +71,60 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                     </select>
 
                 </div>
+                <div class="col-md-8">
+                    <?php
+                    require '/../php_functions/db_connect.php';
+                    $userId = $_SESSION['userId'];
+                    $queryUserId = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$userId'");
+                    $count = mysqli_num_rows($queryUserId);
+
+
+
+                    if ($count == 0) {
+                        echo "<p>You didn't configure you profile yet</p>";
+                    } else {
+                        echo "<p>You need <span id='displayCalories'>$healthProfile->calories</span> calories daily in order to mentain your weight</p>";
+                    }
+                    ?>
+
+
+                </div>
             </div>
             <div class="form-group">
-                <label class="col-md-2 control-label"></label>
-                <div class="col-md-8">
+               
+                <div class="col-md-6 col-md-offset-4">
                     <button name="computeCaloriesSubmit" id="computeCaloriesSubmit" type="submit" class="btn btn-success btn-lg pull-left"  >
                         <i class="glyphicon glyphicon-scale"></i>Compute calories
                     </button>
 
                     <span></span>
-                    <button name="computeCaloriesCancel" id="computeCaloriesCancel" type="submit" class="btn btn-danger btn-lg pull-left" >
+                    <button name="computeCaloriesCancel" id="computeCaloriesCancel" type="reset" class="btn btn-danger btn-lg pull-left" >
                         <i class="glyphicon glyphicon-remove"></i>Cancel
                     </button>
                     <br>
 
                 </div>
             </div>
-            <div class="col-md-12">
-                <?php
-                require '/../php_functions/db_connect.php';
-                $userId = $_SESSION['userId'];
-                $queryUserId = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$userId'");
-                $count = mysqli_num_rows($queryUserId);
-                
-                
+            
+            <?php
+            require_once 'php_functions/main_page_functions.php';
+            if (isset($_POST['computeCaloriesSubmit'])) {
 
-                if ($count == 0) {
-                    echo "<p>You didn't configure you profile yet</p>";
+                $height = $_POST['height'];
+                $weight = $_POST['weight'];
+                $age = $_POST['age'];
+                $gender = $_POST['gender'];
+                $activityLevel = $_POST['activityLevel'];
+
+                if ($height == $healthProfile->height && $weight == $healthProfile->weight && $age == $healthProfile->age && $gender == $healthProfile->gender && $activityLevel == $healthProfile->activityLevel) {
+                    echo "<script>swal('No modifications were found', 'Please modify the fields', 'warning');
+        window.location.href = '#health_zone';</script>";
                 } else {
-                    echo "<p>You need <span id='displayCalories'>$healthProfile->calories</span> calories daily in order to mentain your weight</p>";
+
+                    computeCalories($_SESSION['userId'], $height, $weight, $age, $gender, $activityLevel);
                 }
-                ?>
-
-
-            </div>
-<?php
-require_once 'php_functions/main_page_functions.php';
-if (isset($_POST['computeCaloriesSubmit'])) {
-
-    $height = $_POST['height'];
-    $weight = $_POST['weight'];
-    $age = $_POST['age'];
-    $gender = $_POST['gender'];
-    $activityLevel = $_POST['activityLevel'];
-
-    if ($height == 0 || $weight == 0 || $age == 0) {
-        echo "<script>swal('No enough modifications', 'Please modify fields height, weight and age', 'warning');</script>";
-    } else {
-
-        computeCalories($_SESSION['userId'], $height, $weight, $age, $gender, $activityLevel);
-    }
-} else if (isset($_POST['computeCaloriesCancel'])) {
-   echo "<script>
-                                window.location.href = '#health_zone'; 
-                            
-                            </script>";
-}
-?>
+            }
+            ?>
 
 
         </form>

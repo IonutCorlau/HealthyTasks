@@ -1,5 +1,5 @@
-<?php
 
+<?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -38,12 +38,40 @@ class Task {
         $this->name = $row['name'];
         $this->category = $row['category'];
         $this->description = $row['description'];
-        $this->time = $row['time'];
+
+        if ($row['time'] != '') {
+            $this->time = date("H:i", $row['time']) . "<br>" . date("d-m-y", $row['time']);
+        } else {
+            $this->time = "";
+        }
+
+
         $this->location = $row['location'];
-        $this->duration = $row['duration'];
+        if ($row['duration'] == 0) {
+            $this->duration = "";
+        } else {
+            $this->duration = date("H:i", $row['duration']);
+        }
+
         $this->importance = $row['importance'];
-        $this->reminderInput = $row['reminderInput'];
-        $this->reminderTime = $row['reminderTime'];
+
+        if ($row['reminderInput'] > 0 && $row['reminderInput'] <= 3540) {
+            $reminderReadable = date(" s", $row['reminderInput'] / 60) . ' ' . "Minutes";
+        } else if ($row['reminderInput'] >= 3600 && $row['reminderInput'] <= 82800) {
+            $reminderReadable = date(" i", $row['reminderInput'] / 60) . ' ' . "Hours";
+        } else if ($row['reminderInput'] >= 86400 && $row['reminderInput'] <= 2592000) {
+            $reminderReadable = date("d", $row['reminderInput']) - 1 . ' ' . "Days";
+        } else if ($row['reminderInput'] == 0) {
+            $reminderReadable = "";
+        }
+        $this->reminderInput = $reminderReadable;
+        
+        if($row['calorieConsumption'] == 0){
+            $this->calories = "";
+        }
+        else{
+            $this->calories = $row['calorieConsumption'];
+        }
     }
 
 }
@@ -56,7 +84,7 @@ class HealthProfile {
         require 'db_connect.php';
         $query = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$id'");
         $row = mysqli_fetch_assoc($query);
-        
+
         $this->id = $row['id'];
         $this->userId = $row['userId'];
         $this->height = $row['height'];
@@ -65,7 +93,6 @@ class HealthProfile {
         $this->gender = $row['gender'];
         $this->activityLevel = $row['activityLevel'];
         $this->calories = $row['calories'];
-        
     }
 
 }
@@ -309,47 +336,64 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
     }
 }
 
-function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder) {
+function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder, $taskActivity) {
     require 'db_connect.php';
 
     date_default_timezone_set('UTC');
     $unixDeadline = strtotime($taskDate);
     $unixDate = strtotime($taskDuration); //get the unix time of the current day + task duration
     $unixDay = strtotime(date('Y-m-d')); //get the unix time of the current day
-    $taskDurationMilisecond = $unixDate - $unixDay;
+    $taskDurationSeconds = $unixDate - $unixDay;
     $taskReminderSend = $unixDeadline - $taskReminder;
+    $finishTime = $unixDeadline+$taskDurationSeconds;
+    
+    $heathProfile = new HealthProfile($userId);
+    
 
-    if ($unixDeadline != null) {
-        $queryDuplicateTask = mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
-        $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
-    }
-    if ($countTaskDuplicate > 0) {
-        echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
-    } else {
+    if(!empty($taskActivity) && $taskDurationSeconds!=0 && empty($heathProfile->weight)){
+        echo "<script>swal('Please complete health profile ', 'In order to compute calories consumption we need to know your weight', 'warning');</script>";
+    }else{  
+    
+    if(!empty($taskActivity) && $taskDurationSeconds==0){   
+        echo "<script>swal('Please complete the duration ', 'In order to add a healthy activity you should specify the duration', 'warning');</script>";
+    }else{
+        if($unixDeadline!=0 && $unixDeadline < time()+10800){
+            echo "<script>swal('Wrong time', 'You cannot program tasks in the past. Please select a date from the future', 'warning');</script>";
+        }else{
 
-        $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, importance, reminderInput, reminderTime  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationMilisecond', '$taskImportance','$taskReminder','$taskReminderSend')");
-        if ($query) {
-            echo "<script>
-                            $(document).ready(function() {
-                            swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
-                           
-                            function(){window.location.href = ''; });
-                         });
-                        </script>";
-        } else {
-            echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
-            die('Invalid query: ' . mysqli_error($connect));
+        if ($unixDeadline != null) {
+            $queryDuplicateTask = mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
+            $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
         }
-    }
+        if ($countTaskDuplicate > 0) {
+            echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
+        } else {
+            
+            $calorieConsumptionActivity = computeCaloriesActivity($taskActivity, $taskDurationSeconds, $heathProfile->weight);
+            
+            $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, finishTime, importance, reminderInput, reminderTime, calorieConsumption  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationSeconds', '$finishTime', '$taskImportance','$taskReminder','$taskReminderSend', '$calorieConsumptionActivity')");
+            if ($query) {
+                echo "<script>
+                                $(document).ready(function() {
+                                swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
+
+                                function(){window.location.href = ''; });
+                             });
+                            </script>";
+            } else {
+                echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
+                die('Invalid query: ' . mysqli_error($connect));
+            }
+        }
 
 
 //or die("Error : " . mysqli_error($connect));
-}
+}}}}
 
 function computeCalories($userId, $height, $weight, $age, $gender, $activityLevel) {
     require 'db_connect.php';
-    
-    
+
+
     if ($gender == 'Female') {
         $BMR = 655 + (9.6 * $weight) + (1.8 * $height) - (4.7 * $age);
     } else if ($gender == 'Male') {
@@ -365,54 +409,353 @@ function computeCalories($userId, $height, $weight, $age, $gender, $activityLeve
     } else if ($activityLevel == 'Heavy') {
         $calories = $BMR + $BMR * 0.5;
     }
-    
+
     $userId = $_SESSION['userId'];
-    
-    
+
+
     $queryUserId = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$userId'");
     $count = mysqli_num_rows($queryUserId);
-    
-    
-   
-    
- 
-        if ($count == 0) {
-            
-            
-            
-            $query = mysqli_query($connect, "INSERT INTO health_profile (userId, height, weight, age, gender, activityLevel, calories) VALUES ('$userId', '$height', '$weight', '$age', '$gender', '$activityLevel', '$calories')");
-            
-            if ($query) {
-                echo "<script>
-                                $(document).ready(function() {
-                                swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
-                                function(){window.location.href = ''; });
-                             });
-                            </script>";
-            } else {
-                echo "<script>swal('Error', 'The values were not recorded, error occurred ', 'error');</script>";
-                die('Invalid query: ' . mysqli_error($connect));
-            }
-        } else {
-            $query = mysqli_query($connect, "UPDATE health_profile SET height='$height', weight='$weight', age='$age', gender='$gender', activityLevel='$activityLevel', calories='$calories' WHERE userId='$userId'");
-            if($query){
-               
-                echo "<script>
-                                $(document).ready(function() {
-                                swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
-                                function(){window.location.href = ''; });
-                             });
-                            </script>";
-            } else {
-                echo "<script>swal('Error', 'The values were not recorded, error occurred ', 'error');</script>";
-                die('Invalid query: ' . mysqli_error($connect));
-            }
 
-            }
-    
-        
-    
+
+
+
+
+    if ($count == 0) {
+
+
+
+        $query = mysqli_query($connect, "INSERT INTO health_profile (userId, height, weight, age, gender, activityLevel, calories) VALUES ('$userId', '$height', '$weight', '$age', '$gender', '$activityLevel', '$calories')");
+
+        if ($query) {
+            echo "<script>
+                                $(document).ready(function() {
+                                swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
+                                function(){window.location.href = ''; });
+                             });
+                            </script>";
+        } else {
+            echo "<script>swal('Error', 'The values were not recorded, error occurred ', 'error');</script>";
+            die('Invalid query: ' . mysqli_error($connect));
+        }
+    } else {
+        $query = mysqli_query($connect, "UPDATE health_profile SET height='$height', weight='$weight', age='$age', gender='$gender', activityLevel='$activityLevel', calories='$calories' WHERE userId='$userId'");
+        if ($query) {
+
+            echo "<script>
+                                $(document).ready(function() {
+                                swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
+                                function(){window.location.href = ''; });
+                             });
+                            </script>";
+        } else {
+            echo "<script>swal('Error', 'The values were not recorded, error occurred ', 'error');</script>";
+            die('Invalid query: ' . mysqli_error($connect));
+        }
+    }
 }
+
+
+function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch, $taskDeadlineSearchFrom, $taskDeadlineSearchTo, $taskLocationSearch, $taskImportanceSearch, $taskOrderUnitSearch, $taskOrderBySearch) {
+    require 'db_connect.php';
+//echo "<script>alert('$taskNameSearch')</script>;"; 
+
+    if ($taskNameSearch == '') {
+        $taskNameQuery = "''";
+    } else {
+        $taskNameQuery = 'name';
+    }
+
+    if ($taskCategorySearch == '') {
+        $taskCategoryQuery = "''";
+    } else {
+        $taskCategoryQuery = 'category';
+    }
+
+    if ($taskDescriptionSearch == '') {
+        $taskDescriptionQuery = "''";
+    } else {
+        $taskDescriptionQuery = 'description';
+    }
+
+    if ($taskDeadlineSearchFrom == '' && $taskDeadlineSearchTo == '') {
+        $taskDeadlineSearchFromQuery = "''";
+    } else {
+        $taskDeadlineSearchFromQuery = 'time';
+    }
+
+    if ($taskDeadlineSearchTo == '') {
+        $taskDeadlineSearchTo = 2147483648;
+    }
+
+    if ($taskLocationSearch == '') {
+        $taskLocationQuery = "''";
+    } else {
+        $taskLocationQuery = 'location';
+    }
+
+    if ($taskImportanceSearch == '') {
+        $taskImportanceQuery = "''";
+    } else {
+        $taskImportanceQuery = 'importance';
+    }
+
+    if ($taskOrderUnitSearch == '') {
+        $taskOrderUnitQuery = "";
+    } else {
+        $taskOrderUnitQuery = "name";
+    }
+    
+
+    if ($taskOrderBySearch == 'Ascending') {
+        $taskOrderBySearch = "ASC";
+    } else if ($taskOrderBySearch == 'Descending') {
+        $taskOrderBySearch = "DESC";
+    }
+
+    switch ($taskOrderUnitSearch) {
+        case "Name":
+            $taskOrderUnitSearch = "name";
+            break;
+        case "Description":
+            $taskOrderUnitSearch = "description";
+            break;
+        case "Deadline":
+            $taskOrderUnitSearch = "time";
+            break;
+        case "Location":
+            $taskOrderUnitSearch = "location";
+            break;
+        case "Duration":
+            $taskOrderUnitSearch = "duration";
+            break;
+        case "Reminder":
+            $taskOrderUnitSearch = "reminderInput";
+            break;
+        case "Calories":
+            $taskOrderUnitSearch = "calorieConsumption";
+            $taskCategoryQuery = "category";
+            $taskCategorySearch = "Health";
+            break;
+        default:
+            $taskOrderUnitSearch = "";
+    }
+
+    //echo "<script>alert('$taskOrderUnitSearch')</script>;"
+    //echo $taskDeadlineSearchFrom . " ". $taskDeadlineSearchTo;
+    //echo "<script>alert('$taskDeadlineSearchFrom')</script>;"; 
+    //echo "<script>alert('$taskDeadlineSearchTo')</script>;"; 
+    $query = mysqli_query($connect, "SELECT id FROM tasks WHERE $taskNameQuery='$taskNameSearch' AND $taskCategoryQuery='$taskCategorySearch ' AND $taskDescriptionQuery='$taskDescriptionSearch'  AND $taskDeadlineSearchFromQuery BETWEEN '$taskDeadlineSearchFrom' AND  '$taskDeadlineSearchTo' AND $taskLocationQuery='$taskLocationSearch' AND $taskImportanceQuery='$taskImportanceSearch' ORDER BY $taskOrderUnitSearch $taskOrderBySearch");
+    if ($query) {
+        while ($row = mysqli_fetch_assoc($query)) {
+            $result[] = $row;
+        }
+        //$task = new Task($row['id']);
+        if (!empty($result)) {
+            ?>
+            <style>
+                #searchTable{
+                    border-collapse: collapse; 
+                }
+                #searchTable td {
+                    //border-left:  solid 2px #D1D1D1;
+                    border-right: solid 2px #D1D1D1; 
+                    border-bottom: solid 2px #D1D1D1; 
+                    padding: 2px ;
+                }
+
+                #searchTable th{
+                    //border-left:  solid 2px #D1D1D1;
+                    border-right: solid 2px #D1D1D1; 
+                    border-bottom: solid 2px #D1D1D1; 
+                    font-weight: bold;
+                    text-align: center;
+                    padding: 5px ;              
+                }
+                .bigCellTd{
+                    //display: block ;
+                    //max-height: 100px ;
+                    max-width: 200px ;
+                    overflow-y: scroll ;
+                }
+
+            </style>
+            <div class="row" onclick='rowId()'>
+                <div class="col-md-12">
+                    <h3>Search Results</h3>
+                    <div class="table-responsive">
+                        <table id="searchTable" class="table table-bordred table-striped">
+                            <thread>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Deadline</th>
+                                <th>Location</th>
+                                <th>Duration</th>
+                                <th>Importance</th>
+                                <th>Reminder</th>
+                                <th>Calories</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </thread>
+
+                            <tbody>     
+
+
+
+
+
+                                <?php
+                                foreach ($result as $line) {
+                                    $task = new Task($line['id']);
+                                    ?>
+
+
+                                    <tr class="tableRow" id="<?php echo $task->id; ?>" >
+
+
+                                        <td class="bigCellTd"><?php echo $task->name ?></td>
+                                        <td ><?php echo $task->category ?></td>
+
+                                        <td class="bigCellTd"><?php echo $task->description ?></td>
+
+                                        <td ><?php echo $task->time ?></td>
+                                        <td class="bigCellTd"><?php echo $task->location ?></td>
+                                        <td ><?php echo $task->duration ?></td>
+                                        <td ><?php echo $task->importance ?></td>
+                                        <td ><?php echo $task->reminderInput ?></td>
+                                        <td> <?php echo $task->calories ?></td>
+                                        <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editTask" /><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteTask" ><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                                    </tr>
+
+
+
+
+
+
+                                    <?php
+                                }
+                                ?>
+                                                                                                                            <!--<script>
+                                                                                                                                $("td, tr").resizable();
+                                                                                                                            </script>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> 
+            <script>
+                $("td").resizable();
+            </script>
+            <div class="modal fade" id="deleteTask" tabindex="-1" role="dialog" area-hidden="true">
+                <div class='modal-dialog'>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Task?</div>
+
+                        </div>
+                        <div class="modal-footer ">
+                            <button id='deleteTask' type="button" class="btn btn-success pull-left" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                            
+                            <script>
+                                $('#deleteTask').click(function (){
+                                    var id = $('.tableRow').attr('id');
+                                    alert(id);
+
+                                });
+                            </script>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <?php
+        } else {
+            echo "<script>swal('No tasks', 'No tasks were found ', 'warning');</script>";
+        }
+    } else {
+        echo "<script>swal('Error', 'Search failed, error occurred ', 'error');</script>";
+        die('Invalid query: ' . mysqli_error($connect));
+    }
+}
+
+function computeCaloriesActivity($taskActivity, $taskDurationSeconds, $weight){
+    //echo "<script>alert('$taskActivity')</script>";
+    //echo "<script>alert($taskDurationSeconds)</script>";
+    //echo "<script>alert($weight)</script>";
+    if(!empty($taskActivity) && $taskDurationSeconds!=0){
+        switch($taskActivity){
+            case 'Badminton':
+                $taskCalories = round(0.044 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Basketball':
+                $taskCalories = round(0.063 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Bicycling (10 km/h)':
+                $taskCalories = round(0.029 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Bicycling (15 km/h)':
+                $taskCalories = round(0.045 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Bicycling (25 km/h)':
+                $taskCalories = round(0.171 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Golf':
+                $taskCalories = round(0.038 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Running (4 minutes per km)':
+                $taskCalories = round(0.115 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Running (5 minutes per km)':
+                $taskCalories = round(0.095 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Running (6 minutes per km)':
+                $taskCalories = round(0.087 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Swimming, crawl, slow':
+                $taskCalories = round(0.058 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Swimming, crawl, fast':
+                $taskCalories = round(0.071 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Swimming, breast stroke, fast':
+                $taskCalories = round(0.074 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Tennis':
+                $taskCalories = round(0.114 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Table tennis':
+                $taskCalories = round(0.031 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Walking, normal pace, asphalt road':
+                $taskCalories = round(0.036 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Walking, normal pace, fields & hills':
+                $taskCalories = round(0.037 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            case 'Volleyball':
+                $taskCalories = round(0.023 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                break;
+            default:
+                $taskCalories = 0;
+        }
+        return $taskCalories;
+            
+        
+    }else{
+        return -1;
+    }
+}
+
 ?>
 
 

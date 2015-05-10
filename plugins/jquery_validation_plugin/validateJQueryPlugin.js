@@ -200,7 +200,7 @@ $(document).ready(function () {
             taskName: {
                 required: true,
                 minlength: 5,
-                maxlength: 100
+                maxlength: 60
             },
             taskDescription:{
                 maxlength: 500
@@ -235,6 +235,48 @@ $(document).ready(function () {
                 min: "1-30 Days",
                 max: "1-30 Days"
             }
+        }
+
+    });
+    $("#computeCalories").validate({
+        rules: {
+            height: {
+                required: true,
+                min: 130,
+                max: 210
+            },
+            weight: {
+                required: true,
+                min: 40,
+                max: 110
+            },
+            age: {
+                required: true,
+                min: 18,
+                max: 90
+            }
+
+        },
+        messages: {
+            height: {
+                required: "Complete the input",
+                min: "Between 130 - 210 ",
+                max: "Between 130 - 210 "
+
+            },
+            weight: {
+                required: "Complete the input",
+                min: "Between 40 - 110 ",
+                max: "Between 40 - 110 "
+
+            },
+            age: {
+                required: "Complete the input",
+                min: "Between 18 - 90 ",
+                max: "Between 18 - 90 "
+
+            }
+
         }
 
     });

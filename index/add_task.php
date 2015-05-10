@@ -16,7 +16,7 @@
 
             <div class="form-group">
                 <label class="col-md-2 control-label" for="taskCategory">Category</label>
-                <div class="col-md-2">   
+                <div class="col-md-2" >   
                     <select class="form-control selectpicker" id="taskCategory" name="taskCategory">
                         <option data-icon="glyphicon glyphicon-briefcase">Work</option>
                         <option data-icon="glyphicon glyphicon-user">Personal</option>
@@ -24,6 +24,41 @@
                     </select>                                                       
                 </div>
             </div>
+            <script>
+                $(document).ready(function () {
+                    
+                    var categoryValue = $( "#taskCategory" ).val();
+                        //alert(categoryValue);
+                 
+                });
+            </script>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="taskCActivity">Activity</label>
+                <div class="col-md-4">   
+                    <select class="form-control selectpicker " id="taskActivity" name="taskActivity" >
+                        <option>Badminton</option>
+                        <option>Basketball</option>
+                        <option>Bicycling (10 km/h)</option>
+                        <option>Bicycling (15 km/h)</option>
+                        <option>Bicycling (25 km/h)</option>
+                        <option>Golf</option>
+                        <option>Running (4 minutes per km)</option>
+                        <option>Running (5 minutes per km)</option>
+                        <option>Running (6 minutes per km)</option>
+                        <option>Swimming, crawl, slow</option>
+                        <option>Swimming, crawl, fast</option>
+                        <option>Swimming, breast stroke, fast</option>
+                        <option>Tennis</option>
+                        <option>Table tennis</option>
+                        <option>Walking, normal pace, asphalt road</option>
+                        <option>Walking, normal pace, fields & hills</option>
+                        <option>Volleyball</option>
+                      
+                        
+                    </select>                                                       
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="taskDescription" class="col-md-2 control-label">What to do?</label>
                 <div class="col-md-10">
@@ -96,29 +131,29 @@
                         <option value="3">Days</option>
                     </select>
 
-                
+
                 </div>    
             </div>
             <script>
                 function reminderUnit() {
-                    
+
                     var unit = document.getElementById("taskReminderUnit");
                     var unitSelected = unit.options[unit.selectedIndex].value;
-                    
+
                     var input = document.getElementById('taskReminderInput');
-                    
+
                     if (unitSelected == 1) {
-                        
+
                         input.name = 'taskReminderInput1';
                     }
                     else if (unitSelected == 2) {
                         input.name = 'taskReminderInput2';
-                         
+
                     }
                     else if (unitSelected == 3) {
                         input.name = 'taskReminderInput3';
                     }
-                    
+
                 }
 
             </script>
@@ -150,25 +185,33 @@ if (isset($_POST['submitAddTask'])) {
     $taskLocation = $_POST['taskLocation'];
     $taskDuration = $_POST['taskDuration'];
     $taskImportance = $_POST['taskImportance'];
-
-    $taskReminder = 0;
-    $reminderUnit = $_POST['taskReminderUnit'];
-    if(isset($_POST['taskReminderInput1'])){
-        $reminderInput = $_POST['taskReminderInput1'];
-    }else if(isset($_POST['taskReminderInput2'])){
-        $reminderInput = $_POST['taskReminderInput2'];
-    }else if(isset($_POST['taskReminderInput3'])){
-        $reminderInput = $_POST['taskReminderInput3'];
+    if(isset($_POST['taskActivity'])){
+        $taskActivity = $_POST['taskActivity'];
+    }else{
+       $taskActivity=""; 
     }
     
-    if($reminderUnit == 1){
-        $taskReminder = $reminderInput*60;
-    }else if($reminderUnit == 2){
-        $taskReminder = $reminderInput*3600;
-    }else if($reminderUnit == 3){
-        $taskReminder = $reminderInput*86400;
+    
+    //echo "<script>alert('$taskActivity')</script>";
+    
+    $taskReminder = 0;
+    $reminderUnit = $_POST['taskReminderUnit'];
+    if (isset($_POST['taskReminderInput1'])) {
+        $reminderInput = $_POST['taskReminderInput1'];
+    } else if (isset($_POST['taskReminderInput2'])) {
+        $reminderInput = $_POST['taskReminderInput2'];
+    } else if (isset($_POST['taskReminderInput3'])) {
+        $reminderInput = $_POST['taskReminderInput3'];
     }
 
-    addTask($_SESSION['userId'], $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder);
+    if ($reminderUnit == 1) {
+        $taskReminder = $reminderInput * 60;
+    } else if ($reminderUnit == 2) {
+        $taskReminder = $reminderInput * 3600;
+    } else if ($reminderUnit == 3) {
+        $taskReminder = $reminderInput * 86400;
+    }
+
+    addTask($_SESSION['userId'], $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder, $taskActivity);
 }
 ?>
