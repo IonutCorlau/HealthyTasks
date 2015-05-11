@@ -59,28 +59,7 @@
         $("#taskLocationSearch").val(val);
         $("#suggestionLocation").hide();
     }
-    /*$(document).ready(function () {
-     //var timeFromJs = document.getElementById("datetimepickerWhenSearchFrom").value;
-     //var dateVar = $("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000;
-     //var dateVar = $("#datetimepickerWhenSearchFrom").val();
-     $(" #datetimepickerWhenSearchTo").blur(function () {
-     $.ajax({
-     type: "POST",
-     url: "php_functions/ajax/read_tasks.php",
-     data: {timeFrom: "$('#datetimepickerWhenSearchFrom').val()", timeTo: bla},
-     success: function (data) {
-     //alert($("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000);
-     $("#suggestionTime").show();
-     $("#suggestionTime").html(data);
-     }
-     });
-     });
-     });
-     function selectTaskTime(val) {
-     $("#taskTimeSearch").val(val);
-     $("#suggestionName").hide();
-     }*/
-
+ 
 
 </script>
 <div class="container">
@@ -154,13 +133,6 @@
                                         </span>
                                     </div>
                                 </div>
-
-
-                                <!--<div class='col-md-9'>
-                                    <input id='taskTimeSearch' name='taskTimeSearch' type='text' class='form-control' />
-                                    <br><div id="suggestionTime"></div>
-                                </div>-->
-
 
                             </div>
 
@@ -245,7 +217,7 @@ if (isset($_POST['submitSearch'])) {
 
         $(document).ready(function () {
             fakeLoaderFunction(1000);
-            window.location = "http://localhost/healthytasks/main_page.php#search_task";
+            //window.location = "http://localhost/healthytasks/main_page.php#search_task";
 
         });
 
@@ -301,43 +273,3 @@ if (isset($_POST['submitSearch'])) {
 
 
 
-<!--<div class='row'>
-    <div class='col-md-12'>
-        <h3>Search Results</h3>
-
-        <div class='table-responsive'>
-            <table id='searchTable' class='able table-bordred table-striped'>
-                <thread>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Deadline</th>
-                    <th>Location</th>
-                    <th>Duration</th>
-                    <th>Importance</th>
-                    <th>Reminder</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </thread>
-                <tbody>
-                    <tr>
-                        <td>Ionut</td>
-                        <td>Ionut</td>
-                        <td>Ionut</td>
-                        <td>Ionut</td>
-                        <td>Ionut</td>
-                        <td>Ionut</td>
-                        <td>Ionut</td>
-                        <td>Ionut</td>
-                        <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editTask" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-                        <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteTask" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-
-                    </tr>
-                    
-
-                </tbody>
-
-            </table>
-        </div>
-    </div>
-</div>-->

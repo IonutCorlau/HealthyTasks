@@ -202,6 +202,9 @@ $(document).ready(function () {
                 minlength: 5,
                 maxlength: 60
             },
+            datetimepickerWhen:{
+                required: true
+            },
             taskDescription:{
                 maxlength: 500
             },
@@ -222,6 +225,9 @@ $(document).ready(function () {
             taskName: {
                 required: "Please specify a name for the activity",
                 minlength: "Task name must be least 5 characters long "
+            },
+            datetimepickerWhen:{
+               required : "Please specify when you will do the task"
             },
             taskReminderInput1:{
                 min: "1-59 Minutes",
@@ -248,7 +254,7 @@ $(document).ready(function () {
             weight: {
                 required: true,
                 min: 40,
-                max: 110
+                max: 130
             },
             age: {
                 required: true,
@@ -266,8 +272,8 @@ $(document).ready(function () {
             },
             weight: {
                 required: "Complete the input",
-                min: "Between 40 - 110 ",
-                max: "Between 40 - 110 "
+                min: "Between 40 - 130 ",
+                max: "Between 40 - 130 "
 
             },
             age: {
@@ -280,5 +286,26 @@ $(document).ready(function () {
         }
 
     });
+    /*$("#calorieEatForm").validate({
+        rules: {
+            calorieEatInput: {
+                required: true,
+                min: 500,
+                max: 9000
+
+            }
+
+        },
+        messages: {
+            calorieEatInput: {
+                required: "Required field",
+                min: "Between 500 - 9000",
+                max: "Between 500 - 9000"
+
+            }
+
+        }
+
+    });*/
 });
 

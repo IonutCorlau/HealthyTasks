@@ -56,14 +56,14 @@ header("Content-type: text/html; charset=utf-8");
 
         <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/moment.min.js"></script>
         <script type="text/javascript" src="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.js"></script>
+        
         <link rel="stylesheet" href="/healthytasks/plugins/date_time_picker/bootstrap-datetimepicker.min.css" />
 
 
 
         <script src="/healthytasks/plugins/textarea_autosize/jquery.textarea_autosize.js"></script>
 
-        <link rel="stylesheet" href="/healthytasks/plugins/slider_button/slider.css" />
-        <script src="/healthytasks/plugins/slider_button/bootstrap-slider.js"></script>
+        
 
         <script src="/healthytasks/js/main_page/my_functions.js" type="text/javascript"></script>
 
@@ -201,14 +201,7 @@ header("Content-type: text/html; charset=utf-8");
             </section>
 
             <section id="status" class="two">
-                <div class="container">
-                    <header>
-                        <h2>Status</h2>
-
-
-                    </header>
-
-                </div>  
+                 <?php include ('/index/status/status_main.php') ?> 
             </section>
 
             <section id="add_task" class="three">
@@ -218,7 +211,7 @@ header("Content-type: text/html; charset=utf-8");
             <section id="health_zone" class="four">
                 <?php include ('/index/health_zone.php'); ?>
             </section>
-            <section id="search_task" class="five" style="min-height: 1000px; height:auto;">
+            <section id="search_task" class="five" >
                     <?php include ('/index/search_task.php') ?> 
                
           

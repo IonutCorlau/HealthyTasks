@@ -83,7 +83,7 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                     if ($count == 0) {
                         echo "<p>You didn't configure you profile yet</p>";
                     } else {
-                        echo "<p>You need <span id='displayCalories'>$healthProfile->calories</span> calories daily in order to mentain your weight</p>";
+                        echo "<p>You need <span class='bold_text'>$healthProfile->calories</span> calories daily in order to mentain your weight</p>";
                     }
                     ?>
 

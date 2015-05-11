@@ -14,24 +14,17 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" >
                 <label class="col-md-2 control-label" for="taskCategory">Category</label>
-                <div class="col-md-2" >   
+                <div class="col-md-2" id="taskCategoryDiv" >   
                     <select class="form-control selectpicker" id="taskCategory" name="taskCategory">
-                        <option data-icon="glyphicon glyphicon-briefcase">Work</option>
+                        <option  data-icon="glyphicon glyphicon-briefcase">Work</option>
                         <option data-icon="glyphicon glyphicon-user">Personal</option>
                         <option data-icon="glyphicon glyphicon-heart">Health</option>
                     </select>                                                       
                 </div>
             </div>
-            <script>
-                $(document).ready(function () {
-                    
-                    var categoryValue = $( "#taskCategory" ).val();
-                        //alert(categoryValue);
-                 
-                });
-            </script>
+            
             <div class="form-group">
                 <label class="col-md-2 control-label" for="taskCActivity">Activity</label>
                 <div class="col-md-4">   
@@ -58,6 +51,22 @@
                     </select>                                                       
                 </div>
             </div>
+            <script>
+                $('#taskCategoryDiv').change(function (){
+                    var selectCategory = $('#taskCategory').val();
+                    if(selectCategory === "Health"){
+                        
+                        //$('#taskActivity').prop('disabled', true);
+                        //alert(selectCategory);
+                    }
+                    else{
+                        //$('#taskActivity').removeProp('disabled');
+                    }
+                    //var disableFor = $('#taskActivity').attr('id');
+                                    //alert(selectCategory);
+
+                                });
+            </script>
 
             <div class="form-group">
                 <label for="taskDescription" class="col-md-2 control-label">What to do?</label>
@@ -72,11 +81,12 @@
             </div> 
             <div class="form-group">
                 <label for="datetimepickerWhen" class="col-md-2 control-label">When?</label>
-                <script type="text/javascript">
+               <script type="text/javascript">
                     $(function () {
                         $('#datetimepickerWhen').datetimepicker();
                     });
                 </script>
+                
                 <div class='col-md-10 pull-left'>
                     <input type='text' class="form-control" id='datetimepickerWhen' name='datetimepickerWhen'  />
                 </div>             

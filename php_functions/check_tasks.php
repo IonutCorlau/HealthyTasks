@@ -24,11 +24,11 @@ function checkTasks() {
         foreach ($finishTaskTime as $finishTaskTimeVar) {
             if ($finishTaskTimeVar > 86340 &&  $finishTaskTimeVar < time()+10800){ //+ 3 hours to GTN timezone
                
-                passedTask();
+                //passedTask();
             }
         }
     }
-    //passedTask(); no wait for time 
+    //passedTask(); 
 
     
 }

@@ -11,7 +11,7 @@ class User {
 
     function __construct($id) {
         require 'db_connect.php';
-        $query = mysqli_query($connect, "SELECT * FROM users WHERE id='$id'");
+        $query = mysqli_query($connect, "SELECT * FROM users WHERE id='$id'") or die('Invalid query: ' . mysqli_error($connect));
         $row = mysqli_fetch_assoc($query);
 
         $this->id = $id;
@@ -30,7 +30,7 @@ class Task {
 
     function __construct($id) {
         require 'db_connect.php';
-        $query = mysqli_query($connect, "SELECT * FROM tasks WHERE id='$id'");
+        $query = mysqli_query($connect, "SELECT * FROM tasks WHERE id='$id'") or die('Invalid query: ' . mysqli_error($connect));;
         $row = mysqli_fetch_assoc($query);
 
         $this->id = $id;
@@ -65,11 +65,10 @@ class Task {
             $reminderReadable = "";
         }
         $this->reminderInput = $reminderReadable;
-        
-        if($row['calorieConsumption'] == 0){
+
+        if ($row['calorieConsumption'] == 0) {
             $this->calories = "";
-        }
-        else{
+        } else {
             $this->calories = $row['calorieConsumption'];
         }
     }
@@ -82,7 +81,7 @@ class HealthProfile {
 
     function __construct($id) {
         require 'db_connect.php';
-        $query = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$id'");
+        $query = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$id'") or die('Invalid query: ' . mysqli_error($connect));;
         $row = mysqli_fetch_assoc($query);
 
         $this->id = $row['id'];
@@ -95,6 +94,23 @@ class HealthProfile {
         $this->calories = $row['calories'];
     }
 
+}
+
+class DailyCalories {
+    public $id;
+    
+    function __construct($id){
+        require 'db_connect.php';
+        $query = mysqli_query($connect, "SELECT * FROM daily_calories WHERE userId='$id'") or die('Invalid query: ' . mysqli_error($connect));;
+        $row = mysqli_fetch_assoc($query);
+        
+        $this->id = $row['id'];
+        $this->calorieEat = $row['calorieEat'];
+        $this->calorieTarget = $row['calorieTarget'];
+        $this->calorieBMR = $row['calorieBMR'];
+        $this->unixDay = $row['unixDay'];
+       
+    }
 }
 
 function sendContact($contactText, $ratingInput) {
@@ -345,50 +361,53 @@ function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate,
     $unixDay = strtotime(date('Y-m-d')); //get the unix time of the current day
     $taskDurationSeconds = $unixDate - $unixDay;
     $taskReminderSend = $unixDeadline - $taskReminder;
-    $finishTime = $unixDeadline+$taskDurationSeconds;
-    
+    $finishTime = $unixDeadline + $taskDurationSeconds;
+
     $heathProfile = new HealthProfile($userId);
     
-
-    if(!empty($taskActivity) && $taskDurationSeconds!=0 && empty($heathProfile->weight)){
+   
+ if ($unixDeadline != 0 && $unixDeadline < time() + 10800) {
+    echo "<script>swal('Wrong time', 'You cannot program tasks in the past. Please select a date from the future', 'warning');</script>";
+ }else{
+    if (!empty($taskActivity) && $taskDurationSeconds != 0 && empty($heathProfile->weight)) {
         echo "<script>swal('Please complete health profile ', 'In order to compute calories consumption we need to know your weight', 'warning');</script>";
-    }else{  
-    
-    if(!empty($taskActivity) && $taskDurationSeconds==0){   
-        echo "<script>swal('Please complete the duration ', 'In order to add a healthy activity you should specify the duration', 'warning');</script>";
-    }else{
-        if($unixDeadline!=0 && $unixDeadline < time()+10800){
-            echo "<script>swal('Wrong time', 'You cannot program tasks in the past. Please select a date from the future', 'warning');</script>";
-        }else{
+    } else 
 
-        if ($unixDeadline != null) {
-            $queryDuplicateTask = mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
-            $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
-        }
-        if ($countTaskDuplicate > 0) {
-            echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
+        if ((!empty($taskActivity)) && $taskDurationSeconds == 0 ) {
+            echo "<script>swal('Please complete duration of the activity', 'In order to add a healthy activity you should specify this informations', 'warning');</script>";
         } else {
             
-            $calorieConsumptionActivity = computeCaloriesActivity($taskActivity, $taskDurationSeconds, $heathProfile->weight);
-            
-            $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, finishTime, importance, reminderInput, reminderTime, calorieConsumption  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationSeconds', '$finishTime', '$taskImportance','$taskReminder','$taskReminderSend', '$calorieConsumptionActivity')");
-            if ($query) {
-                echo "<script>
+                if ($unixDeadline != null) {
+                    $queryDuplicateTask = mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
+                    $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
+                }
+                if ($countTaskDuplicate > 0) {
+                    echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
+                } else {
+
+                    $calorieConsumptionActivity = computeCaloriesActivity($taskActivity, $taskDurationSeconds, $heathProfile->weight);
+
+                    $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, finishTime, importance, reminderInput, reminderTime, calorieConsumption  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationSeconds', '$finishTime', '$taskImportance','$taskReminder','$taskReminderSend', '$calorieConsumptionActivity')");
+                    if ($query) {
+                        echo "<script>
                                 $(document).ready(function() {
                                 swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
 
                                 function(){window.location.href = ''; });
                              });
                             </script>";
-            } else {
-                echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
-                die('Invalid query: ' . mysqli_error($connect));
-            }
-        }
+                    } else {
+                        echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
+                        die('Invalid query: ' . mysqli_error($connect));
+                    }
+                }
 
 
 //or die("Error : " . mysqli_error($connect));
-}}}}
+            }
+        }
+}
+
 
 function computeCalories($userId, $height, $weight, $age, $gender, $activityLevel) {
     require 'db_connect.php';
@@ -454,7 +473,6 @@ function computeCalories($userId, $height, $weight, $age, $gender, $activityLeve
     }
 }
 
-
 function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch, $taskDeadlineSearchFrom, $taskDeadlineSearchTo, $taskLocationSearch, $taskImportanceSearch, $taskOrderUnitSearch, $taskOrderBySearch) {
     require 'db_connect.php';
 //echo "<script>alert('$taskNameSearch')</script>;"; 
@@ -504,7 +522,7 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
     } else {
         $taskOrderUnitQuery = "name";
     }
-    
+
 
     if ($taskOrderBySearch == 'Ascending') {
         $taskOrderBySearch = "ASC";
@@ -552,34 +570,8 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
         //$task = new Task($row['id']);
         if (!empty($result)) {
             ?>
-            <style>
-                #searchTable{
-                    border-collapse: collapse; 
-                }
-                #searchTable td {
-                    //border-left:  solid 2px #D1D1D1;
-                    border-right: solid 2px #D1D1D1; 
-                    border-bottom: solid 2px #D1D1D1; 
-                    padding: 2px ;
-                }
-
-                #searchTable th{
-                    //border-left:  solid 2px #D1D1D1;
-                    border-right: solid 2px #D1D1D1; 
-                    border-bottom: solid 2px #D1D1D1; 
-                    font-weight: bold;
-                    text-align: center;
-                    padding: 5px ;              
-                }
-                .bigCellTd{
-                    //display: block ;
-                    //max-height: 100px ;
-                    max-width: 200px ;
-                    overflow-y: scroll ;
-                }
-
-            </style>
-            <div class="row" onclick='rowId()'>
+        
+            <div class="row">
                 <div class="col-md-12">
                     <h3>Search Results</h3>
                     <div class="table-responsive">
@@ -599,7 +591,26 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
                             </thread>
 
                             <tbody>     
+                                <script>
+                                    $('.bigCellTd.bigValue').each(function () {
+                                        $(this).attr('data-fullValue', $(this).text());
+                                        $(this).text($(this).text().slice(0, 32) + "...");
+                                        $(this).append('<label>more</label>');
+                                    });
 
+                                    $('.bigCellTd.bigValue label').click(toggleBigValue);
+
+
+                                    function toggleBigValue(this) {
+                                        var parent = $(this).parents('td');
+                                        if (parent.text() > 36) {
+                                            parent.html(parent.attr('data-fullValue').slice(0, 32) + "...<label>more</label>")
+                                        } else {
+                                            parent.html(parent.attr('data-fullValue') + "<label>less</label>");
+                                        }
+                                    }
+
+                                </script>
 
 
 
@@ -613,13 +624,33 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
                                     <tr class="tableRow" id="<?php echo $task->id; ?>" >
 
 
-                                        <td class="bigCellTd"><?php echo $task->name ?></td>
-                                        <td ><?php echo $task->category ?></td>
 
-                                        <td class="bigCellTd"><?php echo $task->description ?></td>
+                                        <?php if (strlen($task->name) > 32): ?>
+                                            <td class="bigCellTd bigValue"><?php echo $task->name ?></td>
+                                            <?php
+                                        else:
+                                            ?><td class="bigCellTd"><?php echo $task->name ?></td>
+                                        <?php endif; ?>
+
+                                        <td ><?php echo $task->category ?></td>
+                                        <?php if (strlen($task->description) > 32): ?>
+                                            <td class="bigCellTd bigValue"><?php echo $task->description ?></td>
+                                            <?php
+                                        else:
+                                            ?><td class="bigCellTd"><?php echo $task->description ?></td>
+                                        <?php endif; ?>
 
                                         <td ><?php echo $task->time ?></td>
-                                        <td class="bigCellTd"><?php echo $task->location ?></td>
+
+
+                                        <?php if (strlen($task->location) > 32): ?>
+                                            <td class="bigCellTd bigValue"><?php echo $task->location ?></td>
+                                            <?php
+                                        else:
+                                            ?><td class="bigCellTd"><?php echo $task->location ?></td>
+                                        <?php endif; ?>
+
+
                                         <td ><?php echo $task->duration ?></td>
                                         <td ><?php echo $task->importance ?></td>
                                         <td ><?php echo $task->reminderInput ?></td>
@@ -628,18 +659,37 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
                                         <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteTask" ><span class="glyphicon glyphicon-trash"></span></button></td>
 
                                     </tr>
+                                <script>
+                                    $('.bigCellTd.bigValue').each(function () {
+                                        $(this).attr('data-fullValue', $(this).text());
+                                        $(this).text($(this).text().slice(0, 32) + "...");
+                                        $(this).append('<label>more</label>');
+                                    });
+
+                                    $('.bigCellTd.bigValue label').click(toggleBigValue);
+
+
+                                    function toggleBigValue(this) {
+                                        var parent = $(this).parents('td');
+                                        if (parent.text() > 36) {
+                                            parent.html(parent.attr('data-fullValue').slice(0, 32) + "...<label>more</label>")
+                                        } else {
+                                            parent.html(parent.attr('data-fullValue') + "<label>less</label>");
+                                        }
+                                    }
+
+                                </script>
 
 
 
 
 
-
-                                    <?php
-                                }
-                                ?>
-                                                                                                                            <!--<script>
-                                                                                                                                $("td, tr").resizable();
-                                                                                                                            </script>-->
+                <?php
+            }
+            ?>
+                                                                                                                                        <!--<script>
+                                                                                                                                            $("td, tr").resizable();
+                                                                                                                                        </script>-->
                             </tbody>
                         </table>
                     </div>
@@ -663,9 +713,9 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
                         <div class="modal-footer ">
                             <button id='deleteTask' type="button" class="btn btn-success pull-left" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
                             <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
-                            
+
                             <script>
-                                $('#deleteTask').click(function (){
+                                $('#deleteTask').click(function () {
                                     var id = $('.tableRow').attr('id');
                                     alert(id);
 
@@ -688,74 +738,117 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
     }
 }
 
-function computeCaloriesActivity($taskActivity, $taskDurationSeconds, $weight){
+function computeCaloriesActivity($taskActivity, $taskDurationSeconds, $weight) {
     //echo "<script>alert('$taskActivity')</script>";
     //echo "<script>alert($taskDurationSeconds)</script>";
     //echo "<script>alert($weight)</script>";
-    if(!empty($taskActivity) && $taskDurationSeconds!=0){
-        switch($taskActivity){
+    if (!empty($taskActivity) && $taskDurationSeconds != 0) {
+        switch ($taskActivity) {
             case 'Badminton':
-                $taskCalories = round(0.044 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.044 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Basketball':
-                $taskCalories = round(0.063 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.063 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Bicycling (10 km/h)':
-                $taskCalories = round(0.029 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.029 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Bicycling (15 km/h)':
-                $taskCalories = round(0.045 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.045 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Bicycling (25 km/h)':
-                $taskCalories = round(0.171 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.171 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Golf':
-                $taskCalories = round(0.038 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.038 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Running (4 minutes per km)':
-                $taskCalories = round(0.115 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.115 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Running (5 minutes per km)':
-                $taskCalories = round(0.095 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.095 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Running (6 minutes per km)':
-                $taskCalories = round(0.087 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.087 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Swimming, crawl, slow':
-                $taskCalories = round(0.058 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.058 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Swimming, crawl, fast':
-                $taskCalories = round(0.071 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.071 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Swimming, breast stroke, fast':
-                $taskCalories = round(0.074 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.074 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Tennis':
-                $taskCalories = round(0.114 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.114 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Table tennis':
-                $taskCalories = round(0.031 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.031 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Walking, normal pace, asphalt road':
-                $taskCalories = round(0.036 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.036 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Walking, normal pace, fields & hills':
-                $taskCalories = round(0.037 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.037 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             case 'Volleyball':
-                $taskCalories = round(0.023 * ($weight*2.2046) * ($taskDurationSeconds/60)); 
+                $taskCalories = round(0.023 * ($weight * 2.2046) * ($taskDurationSeconds / 60));
                 break;
             default:
                 $taskCalories = 0;
         }
         return $taskCalories;
-            
-        
-    }else{
+    } else {
         return -1;
     }
 }
 
+function statusUnset($caloriePerDay){
+    require 'db_connect.php';
+    date_default_timezone_set('UTC');
+    $userId = $_SESSION['userId'];
+    $sumCalories = 0;
+    
+    $queryGetBMR = mysqli_query($connect, "SELECT calories FROM health_profile WHERE userId='$userId'") or die('Invalid query: ' . mysqli_error($connect));
+    $queryResultBMR = mysqli_fetch_assoc($queryGetBMR);  
+    $resultBMR = $queryResultBMR['calories'];
+    
+    $dateStart = strtotime(date("m/d/Y"));
+    $dateEnd = strtotime(date("m/d/Y"))+ 86399; 
+ 
+    $queryGetConsumptionToday = mysqli_query($connect, "SELECT calorieConsumption FROM tasks WHERE category='Health' AND finishTime BETWEEN '$dateStart' AND '$dateEnd'") or die('Invalid query: ' . mysqli_error($connect));
+    //$queryResultGetConsumptionToday = mysqli_fetch_assoc($queryGetConsumptionToday);
+    
+    while($rowCalorieSum = mysqli_fetch_assoc($queryGetConsumptionToday)){
+        $resultCalorieSum[] = $rowCalorieSum;
+    }
+    
+    foreach ($resultCalorieSum as $sum){
+        $sumCalories = $sumCalories + $sum['calorieConsumption'];
+    }
+    
+            
+    
+    
+    $queryAdd = mysqli_query($connect, "INSERT INTO daily_calories (userId ,calorieEat, calorieTarget, calorieBMR, unixDay) VALUES  ('$userId','$caloriePerDay','$sumCalories;','$resultBMR','$dateStart')");
+    
+    if($queryAdd){
+        echo "<script>window.location.href = '';</script>";
+        
+    }else{
+    
+       echo "<script>swal('Error', 'Submit failed, error occurred ', 'error');</script>";
+       die('Invalid query: ' . mysqli_error($connect));
+    }
+        
+    
+}
+function statusSet(){
+    require 'db_connect.php';
+    $query = mysqli_query($link, $query);
+    
+}
 ?>
 
 
