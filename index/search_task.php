@@ -1,30 +1,34 @@
 <script type="text/javascript">
-
-
-    $(document).ready(function () {
+$(document).ready(function () {
         $(function () {
             $('#datetimepickerWhenSearchToDiv').datetimepicker();
         });
         $(function () {
             $('#datetimepickerWhenSearchFromDiv').datetimepicker();
         });
+    });
 
+    $(document).ready(function () {
         $("#taskNameSearch").keyup(function () {
             $.ajax({
                 type: "POST",
                 url: "php_functions/ajax/read_tasks.php",
                 data: 'taskName=' + $("#taskNameSearch").val(),
                 success: function (data) {
+
                     $("#suggestionName").show();
                     $("#suggestionName").html(data);
+
                 }
             });
         });
     });
+
     function selectTaskName(val) {
         $("#taskNameSearch").val(val);
         $("#suggestionName").hide();
     }
+
     $(document).ready(function () {
         $("#taskDescriptionSearch").keyup(function () {
             $.ajax({
@@ -32,16 +36,20 @@
                 url: "php_functions/ajax/read_tasks.php",
                 data: 'taskDescrition=' + $("#taskDescriptionSearch").val(),
                 success: function (data) {
+
                     $("#suggestionDescrition").show();
                     $("#suggestionDescrition").html(data);
+
                 }
             });
         });
     });
+
     function selectTaskDescrition(val) {
         $("#taskDescriptionSearch").val(val);
         $("#suggestionDescrition").hide();
     }
+
     $(document).ready(function () {
         $("#taskLocationSearch").keyup(function () {
             $.ajax({
@@ -49,18 +57,48 @@
                 url: "php_functions/ajax/read_tasks.php",
                 data: 'taskLocation=' + $("#taskLocationSearch").val(),
                 success: function (data) {
+
                     $("#suggestionLocation").show();
                     $("#suggestionLocation").html(data);
+
                 }
             });
         });
     });
+
     function selectTaskLocation(val) {
         $("#taskLocationSearch").val(val);
         $("#suggestionLocation").hide();
     }
- 
 
+    $(document).ready(function () {
+        //var timeFromJs = document.getElementById("datetimepickerWhenSearchFrom").value;
+
+        var dateVar = $("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000;
+        var dateVar = $("#datetimepickerWhenSearchFrom").val();
+
+        $(" #datetimepickerWhenSearchTo").blur(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "php_functions/ajax/read_tasks.php",
+                data: {timeFrom: "$('#datetimepickerWhenSearchFrom').val()", timeTo: bla},
+                success: function (data) {
+                    //alert($("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000);
+                    $("#suggestionTime").show();
+                    $("#suggestionTime").html(data);
+
+                }
+            });
+        });
+    });
+
+    function selectTaskTime(val) {
+
+        $("#taskTimeSearch").val(val);
+        $("#suggestionName").hide();
+    }
+    
 </script>
 <div class="container">
     <header>

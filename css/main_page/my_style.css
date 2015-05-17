@@ -22,7 +22,7 @@ textarea.error{
 input.error{
     border:2px solid red !important;
 }
-#height-error, #weight-error, #age-error, #calorieEatInput-error {
+#height-error, #weight-error, #age-error, #calorieEatInput-error, #taskReminderInput-error {
     text-align: center !important;
 }
 
@@ -314,7 +314,7 @@ body {
         margin-left: 20px;
     }
 }
-#height, #weight, #age{
+#height, #weight, #age, #calorieEatInput{
     text-align: center;
     font-size:20px;
 }
@@ -365,3 +365,22 @@ body {
 .bold_text{
     font-weight:bold;
 }
+
+#faIcon{
+    margin:2px;
+}
+
+.displayNone{
+    display: none !important;
+}
+#checkTaskDone, #checkTaskDetay, #checkTaskDetails, #checkTaskDelete{
+    width: 120px;
+}
+@media (max-width:1000px){
+    #checkTaskDone, #checkTaskDetay, #checkTaskDetails, #checkTaskDelete{
+        width:100% !important;
+        margin-top:7px
+    }
+}
+
+

@@ -30,17 +30,19 @@ class Task {
 
     function __construct($id) {
         require 'db_connect.php';
-        $query = mysqli_query($connect, "SELECT * FROM tasks WHERE id='$id'") or die('Invalid query: ' . mysqli_error($connect));;
+        $query = mysqli_query($connect, "SELECT * FROM tasks WHERE id='$id'") or die('Invalid query: ' . mysqli_error($connect));
+
         $row = mysqli_fetch_assoc($query);
 
         $this->id = $id;
         $this->userId = $row['userId'];
         $this->name = $row['name'];
         $this->category = $row['category'];
+        $this->healthyActivity = $row['healthyActivity'];
         $this->description = $row['description'];
 
         if ($row['time'] != '') {
-            $this->time = date("H:i", $row['time']) . "<br>" . date("d-m-y", $row['time']);
+            $this->time = date("H:i", $row['time']) . ' ' . date("d-m-Y", $row['time']);
         } else {
             $this->time = "";
         }
@@ -81,8 +83,11 @@ class HealthProfile {
 
     function __construct($id) {
         require 'db_connect.php';
-        $query = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$id'") or die('Invalid query: ' . mysqli_error($connect));;
+        $query = mysqli_query($connect, "SELECT * FROM health_profile WHERE userId='$id'") or die('Invalid query: ' . mysqli_error($connect));
         $row = mysqli_fetch_assoc($query);
+
+
+
 
         $this->id = $row['id'];
         $this->userId = $row['userId'];
@@ -97,20 +102,50 @@ class HealthProfile {
 }
 
 class DailyCalories {
+
     public $id;
-    
-    function __construct($id){
+
+    function __construct($id) {
         require 'db_connect.php';
-        $query = mysqli_query($connect, "SELECT * FROM daily_calories WHERE userId='$id'") or die('Invalid query: ' . mysqli_error($connect));;
+        $userId = $_SESSION['userId'];
+        date_default_timezone_set('UTC');
+
+        $dateStart = strtotime(date("m/d/Y"));
+        $dateEnd = strtotime(date("m/d/Y")) + 86399;
+
+
+        $queryGetConsumptionToday = mysqli_query($connect, "SELECT calorieConsumption FROM tasks WHERE category='Health' AND finishTime BETWEEN '$dateStart' AND '$dateEnd' AND userId='$userId'") or die('Invalid query: ' . mysqli_error($connect));
+        $row = mysqli_num_rows($queryGetConsumptionToday);
+        if ($row > 0) {
+
+            $sumCalories = 0;
+
+            while ($rowCalorieSum = mysqli_fetch_assoc($queryGetConsumptionToday)) {
+                $resultCalorieSum[] = $rowCalorieSum;
+            }
+
+
+            foreach ($resultCalorieSum as $sum) {
+                $sumCalories = $sumCalories + $sum['calorieConsumption'];
+            }
+            $this->calorieTarget = $sumCalories;
+        } else {
+            $this->calorieTarget = 0;
+        }
+        //
+        $query = mysqli_query($connect, "SELECT * FROM daily_calories WHERE userId='$id'") or die('Invalid query: ' . mysqli_error($connect));
         $row = mysqli_fetch_assoc($query);
-        
+        $queryGetBMR = mysqli_query($connect, "SELECT calories FROM health_profile WHERE userId='$id'") or die('Invalid query: ' . mysqli_error($connect));
+        $queryResultBMR = mysqli_fetch_assoc($queryGetBMR);
+
         $this->id = $row['id'];
         $this->calorieEat = $row['calorieEat'];
-        $this->calorieTarget = $row['calorieTarget'];
-        $this->calorieBMR = $row['calorieBMR'];
+
+        $this->calorieBMR = $queryResultBMR['calories'];
+        $this->calorieBurned = $row['calorieBurned'];
         $this->unixDay = $row['unixDay'];
-       
     }
+
 }
 
 function sendContact($contactText, $ratingInput) {
@@ -352,7 +387,7 @@ function editProfile($firstNameEdit, $lastNameEdit, $userNameEdit, $emailEdit) {
     }
 }
 
-function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder, $taskActivity) {
+function addTask($userId, $taskName, $taskCategory, $taskActivity, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder) {
     require 'db_connect.php';
 
     date_default_timezone_set('UTC');
@@ -364,50 +399,52 @@ function addTask($userId, $taskName, $taskCategory, $taskDescription, $taskDate,
     $finishTime = $unixDeadline + $taskDurationSeconds;
 
     $heathProfile = new HealthProfile($userId);
-    
-   
- if ($unixDeadline != 0 && $unixDeadline < time() + 10800) {
-    echo "<script>swal('Wrong time', 'You cannot program tasks in the past. Please select a date from the future', 'warning');</script>";
- }else{
-    if (!empty($taskActivity) && $taskDurationSeconds != 0 && empty($heathProfile->weight)) {
-        echo "<script>swal('Please complete health profile ', 'In order to compute calories consumption we need to know your weight', 'warning');</script>";
-    } else 
 
-        if ((!empty($taskActivity)) && $taskDurationSeconds == 0 ) {
+
+    if ($unixDeadline != 0 && $unixDeadline < time() + 10800) {
+        echo "<script>swal('Wrong time', 'You cannot program tasks in the past. Please select a date from the future', 'warning');</script>";
+    } else {
+        if (!empty($taskActivity) && $taskDurationSeconds != 0 && empty($heathProfile->weight)) {
+            echo "<script>swal('Please complete health profile ', 'In order to compute calories consumption we need to know your weight', 'warning');</script>";
+        } else
+
+        if ((!empty($taskActivity)) && $taskDurationSeconds == 0) {
             echo "<script>swal('Please complete duration of the activity', 'In order to add a healthy activity you should specify this informations', 'warning');</script>";
         } else {
-            
-                if ($unixDeadline != null) {
-                    $queryDuplicateTask = mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
-                    $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
-                }
-                if ($countTaskDuplicate > 0) {
-                    echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
-                } else {
 
+            if ($unixDeadline != null) {
+                $queryDuplicateTask = mysqli_query($connect, "SELECT * FROM tasks WHERE time='$unixDeadline'");
+                $countTaskDuplicate = mysqli_num_rows($queryDuplicateTask);
+            }
+            if ($countTaskDuplicate > 0) {
+                echo "<script>swal('You already have a task', 'At that time you already have a task programmed', 'warning');</script>";
+            } else {
+                if (!empty($taskActivity)) {
                     $calorieConsumptionActivity = computeCaloriesActivity($taskActivity, $taskDurationSeconds, $heathProfile->weight);
+                } else {
+                    $calorieConsumptionActivity = 0;
+                }
 
-                    $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category, description, time, location, duration, finishTime, importance, reminderInput, reminderTime, calorieConsumption  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationSeconds', '$finishTime', '$taskImportance','$taskReminder','$taskReminderSend', '$calorieConsumptionActivity')");
-                    if ($query) {
-                        echo "<script>
+                $query = mysqli_query($connect, "INSERT INTO tasks (userId, name, category,healthyActivity, description, time, location, duration, finishTime, importance, reminderInput, reminderTime, calorieConsumption  ) VALUES ( '$userId', '$taskName', '$taskCategory', '$taskActivity', '$taskDescription', '$unixDeadline', '$taskLocation','$taskDurationSeconds', '$finishTime', '$taskImportance','$taskReminder','$taskReminderSend', '$calorieConsumptionActivity')");
+                if ($query) {
+                    echo "<script>
                                 $(document).ready(function() {
                                 swal({title: 'Task added',text: 'The task has been registered successfully',type: 'success' },
 
                                 function(){window.location.href = ''; });
                              });
                             </script>";
-                    } else {
-                        echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
-                        die('Invalid query: ' . mysqli_error($connect));
-                    }
+                } else {
+                    echo "<script>swal('Error', 'The task has not been added, error occurred ', 'error');</script>";
+                    die('Invalid query: ' . mysqli_error($connect));
                 }
+            }
 
 
 //or die("Error : " . mysqli_error($connect));
-            }
         }
+    }
 }
-
 
 function computeCalories($userId, $height, $weight, $age, $gender, $activityLevel) {
     require 'db_connect.php';
@@ -422,11 +459,11 @@ function computeCalories($userId, $height, $weight, $age, $gender, $activityLeve
     if ($activityLevel == 'Sedentary') {
         $calories = $BMR + $BMR * 0.2;
     } else if ($activityLevel == 'Light') {
-        $calories = $BMR + $BMR * 0.3;
+        $calories = $BMR + $BMR * 0.375;
     } else if ($activityLevel == 'Medium') {
-        $calories = $BMR + $BMR * 0.4;
+        $calories = $BMR + $BMR * 0.55;
     } else if ($activityLevel == 'Heavy') {
-        $calories = $BMR + $BMR * 0.5;
+        $calories = $BMR + $BMR * 0.725;
     }
 
     $userId = $_SESSION['userId'];
@@ -444,20 +481,21 @@ function computeCalories($userId, $height, $weight, $age, $gender, $activityLeve
 
 
         $query = mysqli_query($connect, "INSERT INTO health_profile (userId, height, weight, age, gender, activityLevel, calories) VALUES ('$userId', '$height', '$weight', '$age', '$gender', '$activityLevel', '$calories')");
-
+        //$queryInsertCaloriesTable = mysqli_query($connect, "INSERT INTO daily_calories (calorieBMR) VALUES ('$calories')") or die('Invalid query: ' . mysqli_error($connect));
         if ($query) {
+
             echo "<script>
-                                $(document).ready(function() {
-                                swal({title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' },
-                                function(){window.location.href = ''; });
-                             });
+                                swal(title: 'Profile updated',text: 'Health profile successfully updated ',type: 'success' );
+                                window.location.href = '';
                             </script>";
         } else {
             echo "<script>swal('Error', 'The values were not recorded, error occurred ', 'error');</script>";
             die('Invalid query: ' . mysqli_error($connect));
         }
     } else {
+
         $query = mysqli_query($connect, "UPDATE health_profile SET height='$height', weight='$weight', age='$age', gender='$gender', activityLevel='$activityLevel', calories='$calories' WHERE userId='$userId'");
+
         if ($query) {
 
             echo "<script>
@@ -476,7 +514,7 @@ function computeCalories($userId, $height, $weight, $age, $gender, $activityLeve
 function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch, $taskDeadlineSearchFrom, $taskDeadlineSearchTo, $taskLocationSearch, $taskImportanceSearch, $taskOrderUnitSearch, $taskOrderBySearch) {
     require 'db_connect.php';
 //echo "<script>alert('$taskNameSearch')</script>;"; 
-
+    $userId = $_SESSION['userId'];
     if ($taskNameSearch == '') {
         $taskNameQuery = "''";
     } else {
@@ -562,7 +600,7 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
     //echo $taskDeadlineSearchFrom . " ". $taskDeadlineSearchTo;
     //echo "<script>alert('$taskDeadlineSearchFrom')</script>;"; 
     //echo "<script>alert('$taskDeadlineSearchTo')</script>;"; 
-    $query = mysqli_query($connect, "SELECT id FROM tasks WHERE $taskNameQuery='$taskNameSearch' AND $taskCategoryQuery='$taskCategorySearch ' AND $taskDescriptionQuery='$taskDescriptionSearch'  AND $taskDeadlineSearchFromQuery BETWEEN '$taskDeadlineSearchFrom' AND  '$taskDeadlineSearchTo' AND $taskLocationQuery='$taskLocationSearch' AND $taskImportanceQuery='$taskImportanceSearch' ORDER BY $taskOrderUnitSearch $taskOrderBySearch");
+    $query = mysqli_query($connect, "SELECT id FROM tasks WHERE $taskNameQuery='$taskNameSearch' AND $taskCategoryQuery='$taskCategorySearch ' AND $taskDescriptionQuery='$taskDescriptionSearch'  AND $taskDeadlineSearchFromQuery BETWEEN '$taskDeadlineSearchFrom' AND  '$taskDeadlineSearchTo' AND $taskLocationQuery='$taskLocationSearch' AND $taskImportanceQuery='$taskImportanceSearch' AND userId='$userId' ORDER BY $taskOrderUnitSearch $taskOrderBySearch");
     if ($query) {
         while ($row = mysqli_fetch_assoc($query)) {
             $result[] = $row;
@@ -570,7 +608,7 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
         //$task = new Task($row['id']);
         if (!empty($result)) {
             ?>
-        
+
             <div class="row">
                 <div class="col-md-12">
                     <h3>Search Results</h3>
@@ -591,105 +629,75 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
                             </thread>
 
                             <tbody>     
+                            <script>
+
+
+                            </script>
+
+
+
+
+                            <?php
+                            foreach ($result as $line) {
+                                $task = new Task($line['id']);
+                                ?>
+
+
+                                <tr class="tableRow" id="<?php echo $task->id; ?>" >
+
+
+
+                                    <?php if (strlen($task->name) > 32): ?>
+                                        <td class="bigCellTd bigValue"><?php echo $task->name ?></td>
+                                        <?php
+                                    else:
+                                        ?><td class="bigCellTd"><?php echo $task->name ?></td>
+                                    <?php endif; ?>
+
+                                    <td ><?php echo $task->category ?></td>
+                                    <?php if (strlen($task->description) > 32): ?>
+                                        <td class="bigCellTd bigValue"><?php echo $task->healthyActivity . " " . $task->description ?></td>
+                                        <?php
+                                    else:
+                                        ?><td class="bigCellTd"><?php echo $task->healthyActivity . " " . $task->description ?></td>
+                                    <?php endif; ?>
+
+                                    <td ><?php echo $task->time ?></td>
+
+
+                                    <?php if (strlen($task->location) > 32): ?>
+                                        <td class="bigCellTd bigValue"><?php echo $task->location ?></td>
+                                        <?php
+                                    else:
+                                        ?><td class="bigCellTd"><?php echo $task->location ?></td>
+                                    <?php endif; ?>
+
+
+                                    <td ><?php echo $task->duration ?></td>
+                                    <td ><?php echo $task->importance ?></td>
+                                    <td ><?php echo $task->reminderInput ?></td>
+                                    <td> <?php echo $task->calories ?></td>
+
+                                    
+                                    <td><button id="editTaskBtn" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editTask" /><span class="glyphicon glyphicon-pencil"></span></button></td>
+                              
+                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteTask" ><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                                </tr>
                                 <script>
-                                    $('.bigCellTd.bigValue').each(function () {
-                                        $(this).attr('data-fullValue', $(this).text());
-                                        $(this).text($(this).text().slice(0, 32) + "...");
-                                        $(this).append('<label>more</label>');
-                                    });
-
-                                    $('.bigCellTd.bigValue label').click(toggleBigValue);
-
-
-                                    function toggleBigValue(this) {
-                                        var parent = $(this).parents('td');
-                                        if (parent.text() > 36) {
-                                            parent.html(parent.attr('data-fullValue').slice(0, 32) + "...<label>more</label>")
-                                        } else {
-                                            parent.html(parent.attr('data-fullValue') + "<label>less</label>");
-                                        }
-                                    }
 
                                 </script>
+
 
 
 
 
                                 <?php
-                                foreach ($result as $line) {
-                                    $task = new Task($line['id']);
-                                    ?>
-
-
-                                    <tr class="tableRow" id="<?php echo $task->id; ?>" >
-
-
-
-                                        <?php if (strlen($task->name) > 32): ?>
-                                            <td class="bigCellTd bigValue"><?php echo $task->name ?></td>
-                                            <?php
-                                        else:
-                                            ?><td class="bigCellTd"><?php echo $task->name ?></td>
-                                        <?php endif; ?>
-
-                                        <td ><?php echo $task->category ?></td>
-                                        <?php if (strlen($task->description) > 32): ?>
-                                            <td class="bigCellTd bigValue"><?php echo $task->description ?></td>
-                                            <?php
-                                        else:
-                                            ?><td class="bigCellTd"><?php echo $task->description ?></td>
-                                        <?php endif; ?>
-
-                                        <td ><?php echo $task->time ?></td>
-
-
-                                        <?php if (strlen($task->location) > 32): ?>
-                                            <td class="bigCellTd bigValue"><?php echo $task->location ?></td>
-                                            <?php
-                                        else:
-                                            ?><td class="bigCellTd"><?php echo $task->location ?></td>
-                                        <?php endif; ?>
-
-
-                                        <td ><?php echo $task->duration ?></td>
-                                        <td ><?php echo $task->importance ?></td>
-                                        <td ><?php echo $task->reminderInput ?></td>
-                                        <td> <?php echo $task->calories ?></td>
-                                        <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editTask" /><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteTask" ><span class="glyphicon glyphicon-trash"></span></button></td>
-
-                                    </tr>
-                                <script>
-                                    $('.bigCellTd.bigValue').each(function () {
-                                        $(this).attr('data-fullValue', $(this).text());
-                                        $(this).text($(this).text().slice(0, 32) + "...");
-                                        $(this).append('<label>more</label>');
-                                    });
-
-                                    $('.bigCellTd.bigValue label').click(toggleBigValue);
-
-
-                                    function toggleBigValue(this) {
-                                        var parent = $(this).parents('td');
-                                        if (parent.text() > 36) {
-                                            parent.html(parent.attr('data-fullValue').slice(0, 32) + "...<label>more</label>")
-                                        } else {
-                                            parent.html(parent.attr('data-fullValue') + "<label>less</label>");
-                                        }
-                                    }
-
-                                </script>
-
-
-
-
-
-                <?php
-            }
-            ?>
-                                                                                                                                        <!--<script>
-                                                                                                                                            $("td, tr").resizable();
-                                                                                                                                        </script>-->
+                            }
+                            ?>
+                                                                                                                                                                                                                                                                                                                                                                                                    <!--<script>
+                                                                                                                                                                                                                                                                                                                                                                                                        $("td, tr").resizable();
+                                                                                                                                                                                                                                                                                                                                                                                                    </script>-->
                             </tbody>
                         </table>
                     </div>
@@ -698,12 +706,15 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
             <script>
                 $("td").resizable();
             </script>
+
+            <!-- delete task modal-->
+
             <div class="modal fade" id="deleteTask" tabindex="-1" role="dialog" area-hidden="true">
                 <div class='modal-dialog'>
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                            <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                            <h4 class="modal-title custom_align" id="headingModal">Delete task</h4>
                         </div>
                         <div class="modal-body">
 
@@ -711,13 +722,39 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
 
                         </div>
                         <div class="modal-footer ">
-                            <button id='deleteTask' type="button" class="btn btn-success pull-left" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                            <button id='deleteTaskBtn' name="deleteTaskBtn" type="button" class="btn btn-success pull-left" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                            <button id='cancelTaskBtn' name='cancelTaskBtn' type="button" class="btn btn-danger pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
 
                             <script>
-                                $('#deleteTask').click(function () {
+                                $('#deleteTaskBtn').click(function () {
+
                                     var id = $('.tableRow').attr('id');
-                                    alert(id);
+                                    //alert(id);
+
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "php_functions/delete_task.php",
+                                        data: 'taskId=' + id,
+                                        success: function (data) {
+
+                                            if (data == 1) {
+
+                                                swal('Task deleted successfully', 'Task deleted from the database ', 'success');
+                                                $('.confirm').click(function () {
+                                                    window.location.href = "";
+                                                });
+
+                                            } else {
+                                                swal('Error', 'Error occurred. Task was not deteled', 'error');
+                                                $('.confirm').click(function () {
+                                                    window.location.href = "";
+                                                });
+                                            }
+
+                                        }
+                                    });
+
 
                                 });
                             </script>
@@ -727,6 +764,163 @@ function searchTask($taskNameSearch, $taskCategorySearch, $taskDescriptionSearch
                     </div>
                 </div>
             </div>
+
+            <!--edit task modal-->
+
+            <div class="modal fade" id="editTask" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h3 class="modal-title custom_align bold_text" id="Heading">Edit task</h3>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class='row'><form
+                                <form id="editTaskForm" class="form-horizontal"  method="post" action="" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="taskNameEdit" class="col-md-3 control-label pull-left">Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control pull-left" id="taskNameEdit" name="taskNameEdit" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="col-md-3 control-label pull-left" for="taskCategoryEdit">Category</label>
+                                        <div class="col-md-9" id="taskCategoryDiv" >   
+                                            <select class="form-control selectpicker" id="taskCategoryEdit" name="taskCategoryEdit">
+                                                <option  data-icon="glyphicon glyphicon-briefcase">Work</option>
+                                                <option data-icon="glyphicon glyphicon-user">Personal</option>
+                                                <option data-icon="glyphicon glyphicon-heart">Health</option>
+                                            </select>                                                       
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label pull-left" for="taskCActivityEdit">Activity</label>
+                                        <div class="col-md-4">   
+                                            <select class="form-control selectpicker " id="taskActivityEdit" name="taskActivity" >
+                                                <option>Badminton</option>
+                                                <option>Basketball</option>
+                                                <option>Bicycling (10 km/h)</option>
+                                                <option>Bicycling (15 km/h)</option>
+                                                <option>Bicycling (25 km/h)</option>
+                                                <option>Golf</option>
+                                                <option>Running (4 minutes per km)</option>
+                                                <option>Running (5 minutes per km)</option>
+                                                <option>Running (6 minutes per km)</option>
+                                                <option>Swimming, crawl, slow</option>
+                                                <option>Swimming, crawl, fast</option>
+                                                <option>Swimming, breast stroke, fast</option>
+                                                <option>Tennis</option>
+                                                <option>Table tennis</option>
+                                                <option>Walking, normal pace, asphalt road</option>
+                                                <option>Walking, normal pace, fields & hills</option>
+                                                <option>Volleyball</option>
+
+
+                                            </select>                                                       
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class='form-group'>
+                                        <label for="taskDescription" class="col-md-3 control-label pull-left">What to do?</label>
+                                        <div class="col-md-9">
+
+
+                                            <textarea id="taskDescriptionEdit" name="taskDescriptionEdit" class="js-auto-size form-control" rows="1"></textarea>
+                                            <script>
+                                                $('textarea.js-auto-size').textareaAutoSize();
+                                            </script>
+                                        </div>
+                                    </div>    
+
+                                    <div class='form-group'>
+                                        <label for="datetimepickerWhenEdit" class="col-md-3 control-label pull-left">When?</label>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepickerWhenEdit').datetimepicker();
+                                            });
+                                        </script>
+
+                                        <div class='col-md-9 pull-left'>
+                                            <input type='text' class="form-control" id='datetimepickerWhenEdit' name='datetimepickerWhenEdit'  />
+                                        </div>    
+                                    </div>   
+
+                                    <div class='form-group'>
+                                        <label for="taskLocationEdit" class="col-md-3 control-label pull-left">Where?</label>
+                                        <div class='col-md-9 pull-left'>
+                                            <input id="locationEdit" class='form-control pull-left' name="taskLocationEdit" placeholder=""  type="text"/>
+                                        </div>
+                                    </div> 
+
+                                    <div class='form-group'>
+                                        <label for="taskDurationEdit" class="col-md-3 control-label">Duration</label>
+                                        <div class="col-md-9 pull-left">
+                                            <script type="text/javascript">
+                                                $(function () {
+                                                    var dateNow = new Date('1/1/1970 00:00:00');
+                                                    $('#datetimepickerDurationEdit').datetimepicker({
+                                                        defaultDate: dateNow,
+                                                        format: ' HH:mm '
+                                                    });
+                                                });
+                                            </script>
+                                            <div class='input-group date' id='datetimepickerDurationEdit' >
+                                                <input id="taskDurationEdit"  name="taskDurationEdit" type='text' class="form-control" value='' />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>                   
+                                        </div>
+                                    </div> 
+                                    <div class='form-group'>
+                                        <label for="taskImportanceEdit" class="col-md-3 control-label pull-left">Importance</label>
+                                        <div class="col-md-3">
+                                            <select name="taskImportanceEdit" id="taskImportanceEdit" class="selectpicker form-control" >
+                                                <option class="taskImportanceLow">Low</option>
+                                                <option class="taskImportanceMedium">Medium</option>
+                                                <option class="taskImportanceHigh">High</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for="taskReminder" class="col-md-3 control-label">Reminder</label>
+
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control pull-left" id="taskReminderInput" name="taskReminderInput1" >
+                                        </div>
+                                        <div id="taskReminderUnitDiv" class="col-md-3 " onclick="reminderUnit()" >
+                                            <select class="selectpicker form-control " name="taskReminderUnit" id="taskReminderUnit" >
+                                                <option value="1" >Minutes</option>
+                                                <option value="2">Hours</option>
+                                                <option value="3">Days</option>
+                                            </select>
+
+
+                                        </div> 
+                                    </div>    
+                                    <div class="modal-footer ">
+                                        <button id="updateTaskBtn" name="updateTaskBtn" type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><i class="glyphicon glyphicon-ok-sign"></i> Update</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content --> 
+                </div>
+                <!-- /.modal-dialog --> 
+            </div>
+           
+
+            
+   
+
 
             <?php
         } else {
@@ -804,50 +998,48 @@ function computeCaloriesActivity($taskActivity, $taskDurationSeconds, $weight) {
     }
 }
 
-function statusUnset($caloriePerDay){
+function statusUnset($caloriePerDay) {
     require 'db_connect.php';
     date_default_timezone_set('UTC');
     $userId = $_SESSION['userId'];
     $sumCalories = 0;
-    
-    $queryGetBMR = mysqli_query($connect, "SELECT calories FROM health_profile WHERE userId='$userId'") or die('Invalid query: ' . mysqli_error($connect));
-    $queryResultBMR = mysqli_fetch_assoc($queryGetBMR);  
-    $resultBMR = $queryResultBMR['calories'];
-    
+
+    /* $queryGetBMR = mysqli_query($connect, "SELECT calories FROM health_profile WHERE userId='$userId'") or die('Invalid query: ' . mysqli_error($connect));
+      $queryResultBMR = mysqli_fetch_assoc($queryGetBMR);
+      $resultBMR = $queryResultBMR['calories']; */
+
     $dateStart = strtotime(date("m/d/Y"));
-    $dateEnd = strtotime(date("m/d/Y"))+ 86399; 
- 
-    $queryGetConsumptionToday = mysqli_query($connect, "SELECT calorieConsumption FROM tasks WHERE category='Health' AND finishTime BETWEEN '$dateStart' AND '$dateEnd'") or die('Invalid query: ' . mysqli_error($connect));
+    $dateEnd = strtotime(date("m/d/Y")) + 86399;
+
+    $queryGetConsumptionToday = mysqli_query($connect, "SELECT calorieConsumption FROM tasks WHERE category='Health' AND finishTime BETWEEN '$dateStart' AND '$dateEnd' AND userId='$userId'") or die('Invalid query: ' . mysqli_error($connect));
     //$queryResultGetConsumptionToday = mysqli_fetch_assoc($queryGetConsumptionToday);
-    
-    while($rowCalorieSum = mysqli_fetch_assoc($queryGetConsumptionToday)){
+
+    while ($rowCalorieSum = mysqli_fetch_assoc($queryGetConsumptionToday)) {
         $resultCalorieSum[] = $rowCalorieSum;
     }
-    
-    foreach ($resultCalorieSum as $sum){
+
+    foreach ($resultCalorieSum as $sum) {
         $sumCalories = $sumCalories + $sum['calorieConsumption'];
     }
-    
-            
-    
-    
-    $queryAdd = mysqli_query($connect, "INSERT INTO daily_calories (userId ,calorieEat, calorieTarget, calorieBMR, unixDay) VALUES  ('$userId','$caloriePerDay','$sumCalories;','$resultBMR','$dateStart')");
-    
-    if($queryAdd){
-        echo "<script>window.location.href = '';</script>";
-        
+
+
+    $queryCheckDuplicate = mysqli_query($connect, "SELECT * FROM daily_calories WHERE unixDay = '$dateStart' AND userId='$userId'")or die('Invalid query: ' . mysqli_error($connect));
+    $rowCheckDuplicate = mysqli_num_rows($queryCheckDuplicate);
+    if($rowCheckDuplicate==0){
+    $calorieBurnedSession = $_SESSION['burnedCalories'];
+        $queryAdd = mysqli_query($connect, "INSERT INTO daily_calories (userId ,calorieEat, calorieTarget, calorieBurned, unixDay) VALUES  ('$userId','$caloriePerDay','$sumCalories','$calorieBurnedSession','$dateStart')");
     }else{
-    
-       echo "<script>swal('Error', 'Submit failed, error occurred ', 'error');</script>";
-       die('Invalid query: ' . mysqli_error($connect));
+        $queryUpdate = mysqli_query($connect, "UPDATE daily_calories SET calorieEat='$caloriePerDay' WHERE unixDay = '$dateStart' AND userId='$userId'") or die('Invalid query: ' . mysqli_error($connect));
     }
-        
     
-}
-function statusSet(){
-    require 'db_connect.php';
-    $query = mysqli_query($link, $query);
-    
+
+if ($queryAdd || $queryUpdate) {
+        echo "<script>window.location.href = '';</script>";
+    } else {
+
+        echo "<script>swal('Error', 'Submit failed, error occurred ', 'error');</script>";
+        die('Invalid query: ' . mysqli_error($connect));
+    }
 }
 ?>
 

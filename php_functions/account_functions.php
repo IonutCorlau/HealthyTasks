@@ -28,7 +28,7 @@ function register($firstname, $lastname, $username, $email, $password) {
         echo "<script>swal('Someone already has that username', 'Try another?', 'warning');</script>";
     } else
     if ($countEmail > 0) {
-        echo "<script>swal('Someone already has that email address, 'Try another?', 'warning');</script>";
+        echo "<script>swal('Someone already has that email address', 'Try another?', 'warning');</script>";
     } else {
         //$query = "INSERT INTO users (firstName,lastName,username,email,password) VALUES ('$firstname','$lastname','$username','$email','$password')";
         //$result = mysql_query($query) or die ( "Error : ". mysql_error() );
@@ -81,7 +81,7 @@ function register($firstname, $lastname, $username, $email, $password) {
 }
 
 function signIn($username, $password) {
-
+    $_SESSION['burnedCalories']=0;
     require_once 'db_connect.php';
 
     $query = mysqli_query($connect, "SELECT * FROM users WHERE username='$username'");

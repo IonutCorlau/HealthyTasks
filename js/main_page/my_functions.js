@@ -9,6 +9,7 @@ function formatTime(i) {
 }
 
 function startTime() {
+    
     var date = new Date();
 
     var day = date.getUTCDate();
@@ -27,107 +28,77 @@ function startTime() {
     document.getElementById('date').innerHTML = dayNames[date.getDay()] + ', ' + day + ' ' + monthNames[date.getMonth()] + ' ' + year;
     document.getElementById('time').innerHTML = hour + ' : ' + minute + ' : ' + second;
     var t = setTimeout(function () {
-        startTime()
+        startTime();
     }, 500);
 }
 function ajaxSearch() {
-    $(document).ready(function () {
-        $("#taskNameSearch").keyup(function () {
-            $.ajax({
-                type: "POST",
-                url: "php_functions/ajax/read_tasks.php",
-                data: 'taskName=' + $("#taskNameSearch").val(),
-                success: function (data) {
 
-                    $("#suggestionName").show();
-                    $("#suggestionName").html(data);
-
-                }
-            });
-        });
-    });
-
-    function selectTaskName(val) {
-        $("#taskNameSearch").val(val);
-        $("#suggestionName").hide();
-    }
-
-    $(document).ready(function () {
-        $("#taskDescriptionSearch").keyup(function () {
-            $.ajax({
-                type: "POST",
-                url: "php_functions/ajax/read_tasks.php",
-                data: 'taskDescrition=' + $("#taskDescriptionSearch").val(),
-                success: function (data) {
-
-                    $("#suggestionDescrition").show();
-                    $("#suggestionDescrition").html(data);
-
-                }
-            });
-        });
-    });
-
-    function selectTaskDescrition(val) {
-        $("#taskDescriptionSearch").val(val);
-        $("#suggestionDescrition").hide();
-    }
-
-    $(document).ready(function () {
-        $("#taskLocationSearch").keyup(function () {
-            $.ajax({
-                type: "POST",
-                url: "php_functions/ajax/read_tasks.php",
-                data: 'taskLocation=' + $("#taskLocationSearch").val(),
-                success: function (data) {
-
-                    $("#suggestionLocation").show();
-                    $("#suggestionLocation").html(data);
-
-                }
-            });
-        });
-    });
-
-    function selectTaskLocation(val) {
-        $("#taskLocationSearch").val(val);
-        $("#suggestionLocation").hide();
-    }
-
-    $(document).ready(function () {
-        //var timeFromJs = document.getElementById("datetimepickerWhenSearchFrom").value;
-
-        var dateVar = $("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000;
-        var dateVar = $("#datetimepickerWhenSearchFrom").val();
-
-        $(" #datetimepickerWhenSearchTo").blur(function () {
-
-            $.ajax({
-                type: "POST",
-                url: "php_functions/ajax/read_tasks.php",
-                data: {timeFrom: "$('#datetimepickerWhenSearchFrom').val()", timeTo: bla},
-                success: function (data) {
-                    //alert($("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000);
-                    $("#suggestionTime").show();
-                    $("#suggestionTime").html(data);
-
-                }
-            });
-        });
-    });
-
-    function selectTaskTime(val) {
-
-        $("#taskTimeSearch").val(val);
-        $("#suggestionName").hide();
-    }
 }
 
 $(":file").filestyle({buttonName: "btn-primary"});
 
 $(document).ready(function () {
     nice = $("html").niceScroll();
+    
+$('.bigCellTd.bigValue').each(function () {
+    $(this).attr('data-fullvalue', $(this).text());
+    $(this).text($(this).text().slice(0, 32) + "...");
+    $(this).append('<label>more</label>');
+    $(this).find('label').on('click', function () {
+        toggleBigValue(this);
+    });
 });
+
+});
+
+
+
+
+function toggleBigValue(label) {
+    var parent = $(label).parents('td');
+    if (parent.text().length > 39) {
+        parent.html(parent.attr('data-fullvalue').slice(0, 32) + "...<label>more</label>")
+    } else {
+        parent.html(parent.attr('data-fullvalue') + "<label>less</label>");
+    }
+    parent.find('label').on('click', function () {
+        toggleBigValue(this);
+    });
+}
+
+
+
+
+$(window).load(function () {
+    setTimeout(function () {
+        $('[data-id=taskActivity]').addClass('disabled');
+    }, 500);
+
+    $('#taskCategory').change(function () {
+        if ($(this).val() !== "Health")
+            $('[data-id=taskActivity]').addClass('disabled');
+
+        else
+            $('[data-id=taskActivity]').removeClass('disabled');
+
+    });
+});
+
+$(window).load(function () {
+    setTimeout(function () {
+        $('[data-id=taskActivityEdit]').addClass('disabled');
+    }, 500);
+
+    $('#taskCategoryEdit').change(function () {
+        if ($(this).val() !== "Health")
+            $('[data-id=taskActivityEdit]').addClass('disabled');
+
+        else
+            $('[data-id=taskActivityEdit]').removeClass('disabled');
+
+    });
+});
+
 
 
 

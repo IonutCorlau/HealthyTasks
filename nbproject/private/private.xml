@@ -11,18 +11,19 @@
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/textarea_autosize/jquery.textarea_autosize.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/js/main_page/google_geolocation.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/forget_password_reset.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/status/status_set.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/css/account/register.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/resizable_table/jquery-ui.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/edit_profile.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/main_page_functions.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/date_time_picker/bootstrap-datetimepicker.min.js</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/Thumbs.db</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/contact.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_validation_plugin/validateJQueryPlugin.js</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/LoaderIcon.gif</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/delete_task.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/main_page.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/health_zone.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/ajax/read_tasks.php</file>
-            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/jquery_validation_plugin/jquery.validate.js</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/plugins/skel/style.css</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/account_functions.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/search_task.php</file>
@@ -34,7 +35,9 @@
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/send_mail.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/reset_password.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/db_connect.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/status/status_main.php</file>
             <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/php_functions/confirm_email.php</file>
+            <file>file:/E:/AnulIV/Licenta/Cod/licenta/HealthyTasks/index/status/status_unset.php</file>
         </group>
     </open-files>
 </project-private>

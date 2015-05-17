@@ -11,6 +11,7 @@ header("Content-type: text/html; charset=utf-8");
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!--<meta http-equiv="refresh" content="3">-->
 
         <title>Healthy Tasks</title>
         <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
@@ -90,8 +91,10 @@ header("Content-type: text/html; charset=utf-8");
         <script>
             function start() {
                 initialize();
-                startTime();
                 ajaxSearch();
+                setTimeout(function(){startTime();}, 500);
+       
+                
             }
         </script>
     </head>
@@ -138,8 +141,8 @@ header("Content-type: text/html; charset=utf-8");
                     <div id="menuNameTime">
                         <?php
                         if (isset($_SESSION['firstName']) && isset($_SESSION['lastName'])) {
-                            require 'php_functions/check_tasks.php';
-                            checkTasks();
+                            
+                            
                             echo $user->firstName . " " . $user->lastName;
                             echo "
 
@@ -235,7 +238,10 @@ header("Content-type: text/html; charset=utf-8");
             </ul>
 
         </div>
-
+        <?php
+            require 'php_functions/check_tasks.php';
+            checkTasks();
+        ?>
     </body>
 
 </html>

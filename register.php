@@ -121,7 +121,7 @@ $lang = 'en';
                 </form>
             </section>
         </div>
-        <script type="text/javascript">
+        <script>
 
             $('#passwordClear').show();
             $('#password').hide();

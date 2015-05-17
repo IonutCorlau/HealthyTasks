@@ -52,7 +52,7 @@
                 </div>
             </div>
             <script>
-                $('#taskCategoryDiv').change(function (){
+                /*$('#taskCategoryDiv').change(function (){
                     var selectCategory = $('#taskCategory').val();
                     if(selectCategory === "Health"){
                         
@@ -65,7 +65,7 @@
                     //var disableFor = $('#taskActivity').attr('id');
                                     //alert(selectCategory);
 
-                                });
+                                });*/
             </script>
 
             <div class="form-group">
@@ -195,7 +195,7 @@ if (isset($_POST['submitAddTask'])) {
     $taskLocation = $_POST['taskLocation'];
     $taskDuration = $_POST['taskDuration'];
     $taskImportance = $_POST['taskImportance'];
-    if(isset($_POST['taskActivity'])){
+    if( (isset($_POST['taskActivity'])) && ($_POST['taskCategory']=='Health')  ){
         $taskActivity = $_POST['taskActivity'];
     }else{
        $taskActivity=""; 
@@ -222,6 +222,6 @@ if (isset($_POST['submitAddTask'])) {
         $taskReminder = $reminderInput * 86400;
     }
 
-    addTask($_SESSION['userId'], $taskName, $taskCategory, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder, $taskActivity);
+    addTask($_SESSION['userId'], $taskName, $taskCategory, $taskActivity, $taskDescription, $taskDate, $taskLocation, $taskDuration, $taskImportance, $taskReminder);
 }
 ?>

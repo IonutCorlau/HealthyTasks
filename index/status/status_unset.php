@@ -25,8 +25,11 @@
 <?php
 
 if(isset($_POST['calorieEatInput'])){
-    
+    echo "<script>
+            fakeLoaderFunction(1000);
+        </script>";
     $caloriePerDay =  $_POST['calorieEatInput'];
+    
     statusUnset($caloriePerDay);
 }
 ?>

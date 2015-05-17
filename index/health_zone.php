@@ -15,7 +15,7 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
             <div class="form-group ">
                 <label for="height" class="col-md-2 control-label ">Height</label>
                 <div class="col-md-2 ">
-                    <input id="height" name="height" value="<?php echo $healthProfile->height ?>" type="text" class="form-control pull-left"  autocomplete="off">
+                    <input id="height" name="height" value="<?php  echo $healthProfile->height;?>" type="text" class="form-control pull-left"  autocomplete="off">
 
                 </div>
 
@@ -105,6 +105,9 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
 
                 </div>
             </div>
+            <div class="col-md-12">
+                <p class="text-left"><small>* This computations were made using Harris–Benedict equation and estimates the daily  calories intake, in order to maintain current body weight. <a href="http://en.wikipedia.org/wiki/Harris%E2%80%93Benedict_equation">Read More</a> </small></p>
+            </div>
             
             <?php
             require_once 'php_functions/main_page_functions.php';
@@ -115,10 +118,12 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                 $age = $_POST['age'];
                 $gender = $_POST['gender'];
                 $activityLevel = $_POST['activityLevel'];
-
+                
                 if ($height == $healthProfile->height && $weight == $healthProfile->weight && $age == $healthProfile->age && $gender == $healthProfile->gender && $activityLevel == $healthProfile->activityLevel) {
-                    echo "<script>swal('No modifications were found', 'Please modify the fields', 'warning');
-        window.location.href = '#health_zone';</script>";
+                    echo "<script>
+                                  swal('No modifications were found', 'Please modify the fields', 'warning');
+                                  window.location.href = '#health_zone';
+                         </script>";
                 } else {
 
                     computeCalories($_SESSION['userId'], $height, $weight, $age, $gender, $activityLevel);
