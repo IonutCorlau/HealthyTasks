@@ -5,7 +5,7 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
 
 <div class="container">
     <header>
-        <h2>Health Zone</h2>
+        <h2>Health Zone</h2><br>
     </header>
 </div>
 
@@ -13,14 +13,14 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
     <div class='row'>
         <form id="computeCalories" class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="form-group ">
-                <label for="height" class="col-md-2 control-label ">Height</label>
+                <label for="height" class="col-md-1 control-label ">Height</label>
                 <div class="col-md-2 ">
                     <input id="height" name="height" value="<?php  echo $healthProfile->height;?>" type="text" class="form-control pull-left"  autocomplete="off">
 
                 </div>
 
             
-                <label for="weight" class="col-md-2 control-label">Weight</label>
+                <label for="weight" class="col-md-1 control-label">Weight</label>
                 <div class="col-md-2 ">
 
                     <input id="weight" name="weight" value="<?php echo $healthProfile->weight ?>" type="text" class="form-control pull-left"  autocomplete="off">
@@ -29,15 +29,28 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
 
 
             
-                <label for="age" class="col-md-2 control-label">Age</label>
+                <label for="age" class="col-md-1 control-label">Age</label>
                 <div class="col-md-2">
 
                     <input id="age" name="age" value="<?php echo $healthProfile->age ?>" type="text" class="form-control pull-left"  autocomplete="off">
 
                 </div>
+                <label for="gender" class="col-md-1 control-label">Gender</label>
+                <div class="col-md-2">
+                    <script>
+                        $(document).ready(function () {
+                            $('#gender option[value=<?php echo $healthProfile->gender; ?>]').attr('selected', 'selected');
+
+                        });
+                    </script>
+                    <select id="gender" name="gender" class="form-control selectpicker">
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                    </select>
+                </div>
                 
             </div>
-            <div class="form-group">
+            <!--<div class="form-group">
                 <label for="gender" class="col-md-2 control-label">Gender</label>
                 <div class="col-md-2">
                     <script>
@@ -51,10 +64,10 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                         <option value="Male">Male</option>
                     </select>
                 </div>
-            </div>
+            </div>-->
             <div class="form-group">
 
-                <label for="activityLevel" class="col-md-2 control-label">Activity</label>
+                <!--<label for="activityLevel" class="col-md-2 control-label">Activity</label>
                 <div class="col-md-2">
                     <script>
                         $(document).ready(function () {
@@ -70,8 +83,8 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                         <option value="Heavy" data-subtext="e.g. a construction worker">Heavy</option>
                     </select>
 
-                </div>
-                <div class="col-md-8">
+                </div>-->
+                <div class="col-md-12">
                     <?php
                     require '/../php_functions/db_connect.php';
                     $userId = $_SESSION['userId'];
@@ -81,9 +94,9 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
 
 
                     if ($count == 0) {
-                        echo "<p>You didn't configure you profile yet</p>";
+                        echo "<p>You haven't configured your profile yet.</p>";
                     } else {
-                        echo "<p>You need <span class='bold_text'>$healthProfile->calories</span> calories daily in order to mentain your weight</p>";
+                        echo "<p>You need <span class='bold_text'>$healthProfile->calories</span> calories daily in order to maintain your weight</p>";
                     }
                     ?>
 
@@ -106,7 +119,7 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                 </div>
             </div>
             <div class="col-md-12">
-                <p class="text-left"><small>* This computations were made using Harris–Benedict equation and estimates the daily  calories intake, in order to maintain current body weight. <a href="http://en.wikipedia.org/wiki/Harris%E2%80%93Benedict_equation">Read More</a> </small></p>
+                <p class="text-left"><small>* This computations were made using Mifflin - St Jeor formula and represents the amount of calories that you need in order to keep your body functioning at rest. <a href="http://www.freedieting.com/calorie_needs.html">Read More</a> </small></p>
             </div>
             
             <?php
@@ -117,16 +130,16 @@ $healthProfile = new HealthProfile($_SESSION['userId']);
                 $weight = $_POST['weight'];
                 $age = $_POST['age'];
                 $gender = $_POST['gender'];
-                $activityLevel = $_POST['activityLevel'];
+                //$activityLevel = $_POST['activityLevel'];
                 
-                if ($height == $healthProfile->height && $weight == $healthProfile->weight && $age == $healthProfile->age && $gender == $healthProfile->gender && $activityLevel == $healthProfile->activityLevel) {
+                if ($height == $healthProfile->height && $weight == $healthProfile->weight && $age == $healthProfile->age && $gender == $healthProfile->gender ) {
                     echo "<script>
                                   swal('No modifications were found', 'Please modify the fields', 'warning');
                                   window.location.href = '#health_zone';
                          </script>";
                 } else {
 
-                    computeCalories($_SESSION['userId'], $height, $weight, $age, $gender, $activityLevel);
+                    computeCalories($_SESSION['userId'], $height, $weight, $age, $gender);
                 }
             }
             ?>

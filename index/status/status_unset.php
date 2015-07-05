@@ -4,7 +4,7 @@
          
         <form id="calorieEatForm"  class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="calorieEatInput" class="col-md-8 control-label" >How many calories do you propose to eat today?</label> 
+                <label for="calorieEatInput" class="col-md-8 control-label" >How many calories do you plan to eat today?</label> 
                 <div class="col-md-2">
                     <input id="calorieEatInput" name="calorieEatInput" type="text" class="form-control pull-left" autocomplete="off" />
                 </div>    

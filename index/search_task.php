@@ -1,12 +1,12 @@
 <script type="text/javascript">
-$(document).ready(function () {
-        $(function () {
-            $('#datetimepickerWhenSearchToDiv').datetimepicker();
-        });
-        $(function () {
-            $('#datetimepickerWhenSearchFromDiv').datetimepicker();
-        });
-    });
+//    $(document).ready(function () {
+//        $(function () {
+//            $('#datetimepickerWhenSearchToDiv').datetimepicker();
+//        });
+//        $(function () {
+//            $('#datetimepickerWhenSearchFromDiv').datetimepicker();
+//        });
+//    });
 
     $(document).ready(function () {
         $("#taskNameSearch").keyup(function () {
@@ -74,23 +74,26 @@ $(document).ready(function () {
     $(document).ready(function () {
         //var timeFromJs = document.getElementById("datetimepickerWhenSearchFrom").value;
 
-        var dateVar = $("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000;
-        var dateVar = $("#datetimepickerWhenSearchFrom").val();
+//        var dateVar = $("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000;
+//        var dateVar = $("#datetimepickerWhenSearchFrom").val();
 
-        $(" #datetimepickerWhenSearchTo").blur(function () {
-
-            $.ajax({
-                type: "POST",
-                url: "php_functions/ajax/read_tasks.php",
-                data: {timeFrom: "$('#datetimepickerWhenSearchFrom').val()", timeTo: bla},
-                success: function (data) {
-                    //alert($("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000);
-                    $("#suggestionTime").show();
-                    $("#suggestionTime").html(data);
-
-                }
-            });
-        });
+//        $("#datetimepickerWhenSearchTo").blur(function () {
+//            
+//            var timeFrom = $("#datetimepickerWhenSearchFrom").val();
+//            var timeTo = $("#datetimepickerWhenSearchTo").val();
+//            
+//            $.ajax({
+//                type: "POST",
+//                url: "php_functions/ajax/read_tasks.php",
+//                data: {timeFrom, timeTo},
+//                success: function (data) {
+//                    //alert($("#datetimepickerWhenSearchFrom").datetimepicker("getDate").getTime() / 1000);
+//                    $("#suggestionTime").show();
+//                    $("#suggestionTime").html(data);
+//
+//                }
+//            });
+//        });
     });
 
     function selectTaskTime(val) {
@@ -98,7 +101,7 @@ $(document).ready(function () {
         $("#taskTimeSearch").val(val);
         $("#suggestionName").hide();
     }
-    
+
 </script>
 <div class="container">
     <header>
@@ -153,12 +156,16 @@ $(document).ready(function () {
 
                                     </script>
                                     <div class='input-group date ' id='datetimepickerWhenSearchFromDiv' >
-
+                                        <script type="text/javascript">
+                                            
+                                        </script>
                                         <input type='text' class="form-control" id='datetimepickerWhenSearchFrom' name='datetimepickerWhenSearchFrom' />
+                                        
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>
+                                   
                                 </div>
                                 <div class="col-md-1">
                                 </div>
@@ -246,21 +253,26 @@ $(document).ready(function () {
         </div>
     </div>
 </div>
+<script type="text/javascript">
 
+    // $(document).ready(function () {
+    $('#submitSearch').click(function () {
+        $('#searchTaskDropdown').hide();
+
+        fakeLoaderFunction(10000);
+        window.location = "http://localhost/healthytasks/index.php#search_task";
+    });
+    
+    $(document).ready(function(){
+        $('#datetimepickerWhenSearchFrom').datetimepicker();
+        $('#datetimepickerWhenSearchTo').datetimepicker();
+    });
+
+</script>
 <?php
 require_once 'php_functions/main_page_functions.php';
 if (isset($_POST['submitSearch'])) {
-    ?>
-    <script type="text/javascript">
 
-        $(document).ready(function () {
-            fakeLoaderFunction(1000);
-            //window.location = "http://localhost/healthytasks/main_page.php#search_task";
-
-        });
-
-    </script>
-    <?php
     date_default_timezone_set('UTC');
 
     $taskNameSearch = $_POST['taskNameSearch'];

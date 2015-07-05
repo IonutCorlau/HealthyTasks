@@ -26,7 +26,7 @@ if (isset($_GET['token'])) {
         
         
         $date = date("Y-m-d",time());
-        $query = "INSERT INTO users (firstName,lastName,username,email,password,creationTime) VALUES ('" . $_SESSION['firstName'] . "','" . $_SESSION['lastName'] . "','" . $_SESSION['userName'] . "','" . $_SESSION['email'] . "','" . $_SESSION['password'] . "','". $date.  "')";
+        $query = "INSERT INTO users (firstName,lastName,username,email,password,creationTime) VALUES ('" . $_SESSION['firstName'] . "','" . $_SESSION['lastName'] . "','" . $_SESSION['userName'] . "','" . $_SESSION['email'] . "','" . md5($_SESSION['password']) . "','". $date.  "')";
         $result = mysqli_query($connect , $query) or die("Error : " . mysql_error());
         
         echo "<script>
@@ -43,7 +43,7 @@ if (isset($_GET['token'])) {
             </script>";
         session_regenerate_id();
     } else {
-        echo $_SESSION['userName'];
+        
         echo "<script>
                 $(document).ready(function() {
                 swal({ 

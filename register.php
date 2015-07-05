@@ -41,7 +41,7 @@ $lang = 'en';
         <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
         <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
 
-
+        <script src="/healthytasks/plugins/jquery_fullbg/jquery.fullbg.js"></script>
         <script src="/healthytasks/js/account/my_functions.js"></script>
 
 
@@ -62,12 +62,14 @@ $lang = 'en';
 
                 });
             </script>
+  </div>
 
 
-        </div>
+      
         <noscript ><h2>Sorry, your browser does not support JavaScript!</h2></noscript>
-        <img src="/healthytasks/images/background_signIn.jpg" alt="" id="background" />
-        <div id="maincontent">
+       
+        <img src="/healthytasks/images/background_signIn.jpg" alt=""  class="fullBg" id="background"/>
+         <div id="maincontent">
             <section class="register animation">
                 <div class="top">
                     <h2> Register </h2>
@@ -81,7 +83,7 @@ $lang = 'en';
                         <input id="lastName" name="lastName" type="text"/>
                         <br>
 
-                        <label for="username">Username:</label>
+                        <label for="userName">Username:</label>
                         <input id="userName" name="userName" type="text"/>
                         <br>
 

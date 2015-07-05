@@ -8,7 +8,7 @@
     <div class="row">
         <form id="addTask" class="form-horizontal"  method="post" action="" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="taskName" class="col-md-2 control-label">Name</label>
+                <label for="taskName" class="col-md-2 control-label">Name*</label>
                 <div class="col-md-10">
                     <input type="text" class="form-control pull-left" id="taskName" name="taskName">
                 </div>
@@ -31,21 +31,21 @@
                     <select class="form-control selectpicker " id="taskActivity" name="taskActivity" >
                         <option>Badminton</option>
                         <option>Basketball</option>
-                        <option>Bicycling (10 km/h)</option>
-                        <option>Bicycling (15 km/h)</option>
-                        <option>Bicycling (25 km/h)</option>
+                        <option>Bicycling 22-25 km/h</option>
+                        <option>Bicycling 25-30 km/h</option>
+                        <option>Bicycling +30 km/h</option>
                         <option>Golf</option>
-                        <option>Running (4 minutes per km)</option>
-                        <option>Running (5 minutes per km)</option>
-                        <option>Running (6 minutes per km)</option>
+                        <option>Running 4 minutes per km</option>
+                        <option>Running 5 minutes per km</option>
+                        <option>Running 6 minutes per km</option>
                         <option>Swimming, crawl, slow</option>
                         <option>Swimming, crawl, fast</option>
-                        <option>Swimming, breast stroke, fast</option>
+                        <option>Swimming, breast stroke</option>
                         <option>Tennis</option>
                         <option>Table tennis</option>
                         <option>Walking, normal pace, asphalt road</option>
                         <option>Walking, normal pace, fields & hills</option>
-                        <option>Volleyball</option>
+                        <option>Volleyball inside</option>
                       
                         
                     </select>                                                       
@@ -80,16 +80,17 @@
                 </div>
             </div> 
             <div class="form-group">
-                <label for="datetimepickerWhen" class="col-md-2 control-label">When?</label>
-               <script type="text/javascript">
+                <label for="datetimepickerWhen" class="col-md-2 control-label">When?*</label>
+               
+                
+                <div class='col-md-10 pull-left'>
+                    <input type='text' class="form-control" id='datetimepickerWhen' name='datetimepickerWhen'  />
+                </div> 
+                <script type="text/javascript">
                     $(function () {
                         $('#datetimepickerWhen').datetimepicker();
                     });
                 </script>
-                
-                <div class='col-md-10 pull-left'>
-                    <input type='text' class="form-control" id='datetimepickerWhen' name='datetimepickerWhen'  />
-                </div>             
             </div>
             <div class="form-group">
                 <label for="taskLocation" class="col-md-2 control-label">Where?</label>
@@ -98,7 +99,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="taskDuration" class="col-md-2 control-label">Duration</label>
+                <label for="taskDuration" class="col-md-2 control-label">Duration*</label>
                 <div class="col-md-10">
                     <script type="text/javascript">
                         $(function () {
@@ -202,7 +203,7 @@ if (isset($_POST['submitAddTask'])) {
     }
     
     
-    //echo "<script>alert('$taskActivity')</script>";
+    //echo "<script>alert(' $taskDuration ')</script>";
     
     $taskReminder = 0;
     $reminderUnit = $_POST['taskReminderUnit'];

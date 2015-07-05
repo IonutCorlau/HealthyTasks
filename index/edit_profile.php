@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
                     <div class="col-md-8">
-                        <button name="submitEditProfile" id="submitEditProfile" type="submit" class="btn btn-primary btn-lg pull-left"  onclick="fakeLoaderFunction(1000);">
+                        <button name="submitEditProfile" id="submitEditProfile" type="submit" class="btn btn-primary btn-lg pull-left"  onclick="">
                             <i class="glyphicon glyphicon-floppy-disk"></i>Save
                         </button>
 

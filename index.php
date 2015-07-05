@@ -17,13 +17,13 @@ header("Content-type: text/html; charset=utf-8");
         <link rel="done icon" href="/healthytasks/images/tab_icon.png" type="image/x-icon"/>
         <script src="/healthytasks/plugins/jquery/jquery-2.1.3.min.js"></script>
 
-
+<script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>
         <link href="/healthytasks/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="/healthytasks/bootstrap/js/bootstrap.js"></script>
 
-        <script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>
+        <!--<script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>-->
 
-        <script src="/healthytasks/plugins/nice_scroll/jquery.nicescroll.js"></script>
+        
 
         <script src="/healthytasks/plugins/fake_loader/fakeLoader.js"></script>
         <link rel="stylesheet" href="/healthytasks/plugins/fake_loader/fakeLoader.css">
@@ -38,8 +38,8 @@ header("Content-type: text/html; charset=utf-8");
 
         <script src="/healthytasks/js/main_page/init.js"></script>
 
-        <script src="/healthytasks/plugins/sweet_alert/sweet-alert.js"></script> 
-        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweet-alert.css">
+        <script src="/healthytasks/plugins/sweet_alert/sweetalert2.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/healthytasks/plugins/sweet_alert/sweetalert2.css">
 
         <link href="/healthytasks/plugins/star_rating/star-rating.css" media="all" rel="stylesheet" type="text/css" />
         <script src="/healthytasks/plugins/star_rating/star-rating.js" type="text/javascript"></script>
@@ -76,11 +76,11 @@ header("Content-type: text/html; charset=utf-8");
 
         <!--<link rel="stylesheet" href="css/main_page/search_task_css.css" />-->
         <link rel="stylesheet" href="css/main_page/my_style.css" />
-
+        <meta http-equiv="refresh" content="600" > 
         <noscript>
-        <link rel="stylesheet" href="/healthytasks/plugins/skel/skel.css" />
-        <link rel="stylesheet" href="/healthytasks/plugins/skel/style.css" />
-        <link rel="stylesheet" href="/healthytasks/plugins/skel/style-wide.css" />
+            <link rel="stylesheet" href="/healthytasks/plugins/skel/skel.css" />
+            <link rel="stylesheet" href="/healthytasks/plugins/skel/style.css" />
+            <link rel="stylesheet" href="/healthytasks/plugins/skel/style-wide.css" />
 
         </noscript>
 
@@ -92,9 +92,6 @@ header("Content-type: text/html; charset=utf-8");
             function start() {
                 initialize();
                 ajaxSearch();
-                setTimeout(function(){startTime();}, 500);
-       
-                
             }
         </script>
     </head>
@@ -146,10 +143,11 @@ header("Content-type: text/html; charset=utf-8");
                             echo $user->firstName . " " . $user->lastName;
                             echo "
 
-                                <body onload='startTime()'>
+                                <body>
                                     <p id='date' ></p>
                                     <p id='time'></p>
-                                </body>";
+                                </body>
+                                <script>startTime();</script>";
                         } else {
 
                             echo "<script>
@@ -194,7 +192,7 @@ header("Content-type: text/html; charset=utf-8");
 
                     <header>
                         <h1>Healthy Tasks</h1>
-                        <p><i>Have a healthy life and manage you daily tasks</i></p>
+                        <p><i>Manage your daily activities and have a healthy life</i></p>
 
                     </header>
 

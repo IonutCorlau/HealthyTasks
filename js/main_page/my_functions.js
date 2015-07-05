@@ -1,6 +1,14 @@
 
-
-function formatTime(i) {
+          //  $('#checkTaskModal').modal('hide');
+            //swal('Task deleted successfullyii', 'Task deleted from the database ', 'success');
+            //$('.confirm').click(function () {
+           // $('#checkTaskModal').modal('hide');
+              // setTimeout(function() {
+   
+   //window.location='';
+  //}, 5000);
+           // });
+  function formatTime(i) {
     if (i < 10) {
         i = '0' + i
     }
@@ -13,7 +21,7 @@ function startTime() {
     var date = new Date();
 
     var day = date.getUTCDate();
-    var dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
     var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var year = date.getFullYear();
 
@@ -98,7 +106,4 @@ $(window).load(function () {
 
     });
 });
-
-
-
 

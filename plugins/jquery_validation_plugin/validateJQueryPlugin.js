@@ -53,7 +53,7 @@ $(document).ready(function () {
                 minlength: 3,
                 maxlength: 25
             },
-            username: {
+            userName: {
                 required: true,
                 minlength: 6,
                 maxlength: 25
@@ -85,7 +85,7 @@ $(document).ready(function () {
                 required: "Please specify your Last Name",
                 minlength: "Last Name must be least 3 characters long"
             },
-            username: {
+            userName: {
                 required: "Please specify your Username",
                 minlength: "Username must be least 6 characters long"
             },
@@ -254,7 +254,7 @@ $(document).ready(function () {
             weight: {
                 required: true,
                 min: 40,
-                max: 130
+                max: 160
             },
             age: {
                 required: true,
@@ -272,8 +272,8 @@ $(document).ready(function () {
             },
             weight: {
                 required: "Complete the input",
-                min: "Between 40 - 130 ",
-                max: "Between 40 - 130 "
+                min: "Between 40 - 160 ",
+                max: "Between 40 - 160 "
 
             },
             age: {
@@ -353,6 +353,26 @@ $(document).ready(function () {
                 min: "1-30 Days",
                 max: "1-30 Days"
             }
+        }
+
+    });
+    $("#editTaskForm").validate({
+        rules: {
+            taskNameEdit: {
+                required: true,
+                minlength: 5,
+                maxlength: 60
+
+            }
+
+        },
+        messages: {
+           taskNameEdit: {
+                required: "Please specify a name for the task",
+                minlength: "Task name must be least 5 characters long "
+
+            }
+
         }
 
     });

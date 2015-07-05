@@ -345,6 +345,7 @@ body {
                     border-right: solid 2px #D1D1D1; 
                     border-bottom: solid 2px #D1D1D1; 
                     padding: 2px ;
+                    font-size:18px;
                 }
 
                 #searchTable th{
@@ -353,7 +354,8 @@ body {
                     border-bottom: solid 2px #D1D1D1; 
                     font-weight: bold;
                     text-align: center;
-                    padding: 5px ;              
+                    padding: 5px ;  
+                    font-size:20px
                 }
                 .bigCellTd{
                     //display: block ;
@@ -383,4 +385,10 @@ body {
     }
 }
 
+.searchTableTop{
+    font-size:20px;
+}
+#taskDescriptionEdit{
+    height: 34px !important;
+}
 

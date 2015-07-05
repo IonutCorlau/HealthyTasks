@@ -36,7 +36,7 @@ function register($firstname, $lastname, $username, $email, $password) {
         $token = md5(session_id());
         $_SESSION['token'] = $token;
         $Mail = new PHPMailer();
-        $ToEmail = 'ionut.corlau@gmail.com';
+        $ToEmail = $email;
 
 
         $MessageHTML = "Dear $firstname, <br><br><p>Welcome to Healthy Tasks! We hope that it will be a great experince!</p> <p>Your email address <a href=$email>$email</a> must be confirmed before using Healthy Tasks. To confirm it, please use <a href='http://localhost/healthytasks/php_functions/confirm_email.php?token=$token'>confirmation link</a> and then Sign in. The link is valid only once.</p> <br>Thank you, <br> Healthy Tasks team <br> <a href='mailto:healthy.tasks@gmail.com?subject=Contact password'>healthy.tasks@gmail.com</a> ";
@@ -62,12 +62,10 @@ function register($firstname, $lastname, $username, $email, $password) {
             echo "<script>
                 $(document).ready(function() {
                 swal({ 
-                    title: 'Registration Successful\\n\\nPlease check your mail to validate the account!',
-                    text: '',
+                    title: 'Registration Successful',
+                    text: 'Please check your mail to validate the account!',
                     type: 'success' 
-                });
-               
-            });
+                }) });
             </script>";
 
             return TRUE;
@@ -93,19 +91,21 @@ function signIn($username, $password) {
         $dbusername = $row['userName'];
         $dbpassword = $row['password'];
 
-        if ($username == $dbusername && $password == $dbpassword) {
+        if ($username == $dbusername && md5($password) == $dbpassword) {
             $_SESSION['firstName'] = $row['firstName'];
             $_SESSION['lastName'] = $row['lastName'];
             $_SESSION['userId'] = $row['id'];
            
             
             
-            header('Location: main_page.php');
+            header('Location: index.php');
 
 
             exit;
         } else {
-            echo "<script>swal('Incorrect password', 'Try again!', 'error');</script>";
+            echo "<script>
+              //  alert('Incorrect password  Try again!');
+            swal('Incorrect password', 'Try again!', 'error');</script>";
         }
     } else {
         echo "<script>swal('Account does not exist ', 'Try again!', 'error');</script>";
@@ -204,7 +204,7 @@ function resetPassword($newPassword, $token) {
     $row = mysqli_fetch_array($queryReset);
 
     $id = $row['id'];
-
+    $newPassword = md5($newPassword);//encrypt the new password
     $queryResetUpdate = mysqli_query($connect, "UPDATE users SET password='$newPassword' WHERE id='$id'");
     if ($queryResetUpdate) {
         echo "<script>

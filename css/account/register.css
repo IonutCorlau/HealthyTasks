@@ -1,9 +1,16 @@
+/*rror.fullBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}*/
 .fullBg {
     position: fixed;
     top: 0;
     left: 0;
     overflow: hidden;
 }
+
 
 #maincontent {
     //position: absolute;

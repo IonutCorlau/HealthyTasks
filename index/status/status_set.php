@@ -1,14 +1,17 @@
 <?php
 $userId = $_SESSION['userId'];
-$dailyCalories = new DailyCalories($userId);
-$calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $dailyCalories->calorieTarget;
+date_default_timezone_set('UTC');
+$currentDate = strtotime(date("m/d/Y"));
+
+$dailyCalories = new DailyCalories($userId, $currentDate);
+$calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $dailyCalories->calorieBurned;
 ?>
 <div class="container">
     <br>
     <div class="row">
         <form id="healthStatus" class="form-horizontal col-md-12" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <span class="col-md-9 text-left pull-left">Today you plan to eat <b class="bold_text"><?php echo $dailyCalories->calorieEat ?></b> calories. </span>
+                <span class="col-md-9 text-left pull-left">Your target for today is <b class="bold_text"><?php echo $dailyCalories->calorieEat ?></b> calories. </span>
 
                 <div class="col-md-3">
                     <button id='modifyCalorieEat' name='modifyCalorieEat' class='btn btn-primary pull-left' type='submit'>
@@ -21,7 +24,7 @@ $calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $
                 ?>
 
                 <div class="form-group">
-                    <span class="col-md-9 text-left pull-left">You need only <b class="bold_text"><?php echo $dailyCalories->calorieBMR ?></b> calories in order to maintain your body weight.</span>
+                    <span class="col-md-9 text-left pull-left">You need only <b class="bold_text"><?php echo $dailyCalories->calorieBMR ?></b> calories in order to maintain your current body weight.</span>
                 </div>
 
             <?php else: ?>
@@ -36,7 +39,7 @@ $calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $
 
             <?php endif; ?>
             <div class="form-group">
-                <span class="col-md-9 text-left pull-left"> You will loose <b class="bold_text"><?php echo $dailyCalories->calorieTarget ?></b> calories from today's remained healthy activities.</span>
+                <span class="col-md-9 text-left pull-left">  <b class="bold_text"><?php echo $dailyCalories->calorieTarget ?></b> calories will be burned from today's remained healthy activities.</span>
                 <div class="col-md-3 ">
 
 
@@ -52,7 +55,7 @@ $calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $
             <?php if($calorieNeedToBurn>0):?>
                 <div class="form-group">
 
-                    <span class="col-md-9 text-left pull-left">Still need to burn <b class="bold_text text-danger"><?php echo $calorieNeedToBurn ?></b> calories today from healthy activities.</span>
+                    <span class="col-md-9 text-left pull-left">You still need to burn <b class="bold_text text-danger"><?php echo $calorieNeedToBurn ?></b> calories.</span>
                     <div class="col-md-3">
                         <button  id="seeScheduleStatus"  name="seeScheduleStatus" class="btn btn-success pull-left " type="submit" >
                             <span class="glyphicon glyphicon-calendar"></span>Schedule
@@ -65,7 +68,7 @@ $calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $
             <?php else: ?>
                 <div class="form-group">
 
-                    <span class="col-md-9 text-left pull-left">Will burn <b class="bold_text text-success"><?php echo abs($dailyCalories->calorieEat - $dailyCalories->calorieBMR - $dailyCalories->calorieTarget) ?></b> more calories then you need in order to maintain your weight.</span>
+                    <span class="col-md-9 text-left pull-left">You burned <b class="bold_text text-success"><?php echo abs($dailyCalories->calorieEat - $dailyCalories->calorieBMR - $dailyCalories->calorieTarget) ?></b> more calories then you need in order to maintain your weight.</span>
                     <div class="col-md-3">
                         <button  id="seeScheduleStatus"  name="seeScheduleStatus" class="btn btn-success pull-left " type="submit" >
                             <span class="glyphicon glyphicon-calendar"></span>Schedule
@@ -77,23 +80,26 @@ $calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $
                     
                 </div>
             <?php endif; ?>
+            
+            
+            
             <br>
             <div class="form-group">
-                <span class="col-md-9 text-left pull-left">Already burned <b class="bold_text"><?php echo $dailyCalories->calorieBurned ?></b> calories today from healthy activities.</span>
+                <span class="col-md-9 text-left pull-left">Already burned <b class="bold_text"><?php echo $dailyCalories->calorieBurned ?></b> calories from healthy activities of today.</span>
             </div>
             
             <div class="progress">
                 <?php
-                    $progressBarWidth=round(($dailyCalories->calorieBurned*100)/$calorieNeedToBurn);
+                    $progressBarWidth=round(($dailyCalories->calorieBurned*100)/ ($dailyCalories->calorieEat - $dailyCalories->calorieBMR));
                     //echo $dailyCalories->calorieBurned;
-                    if( $progressBarWidth  <= 100):
+                    if( $progressBarWidth  < 100):
                 ?>
                     <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="1" style="width: <?php echo $progressBarWidth ?>%;">
                         <?php echo $progressBarWidth.'%' ?>
                     </div>
                 <?php else: ?>
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="1" style="width: 100%;">
-                        <?php echo $progressBarWidth.'%' ?>
+                    <div class="progress-bar"  role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="1" style="width: 100%;background-color:#4CAE4C;">
+                        <?php echo '100%' ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -101,12 +107,17 @@ $calorieNeedToBurn = $dailyCalories->calorieEat - $dailyCalories->calorieBMR - $
 
         </form>
     </div>
+    <p>
+        <small>
+            When the progress bar is full you have done enough healthy tasks in order to not gain weight.  
+        </small>
+    </p>
 
 </div>
 <?php
 if (isset($_POST['searchHealtyTasksToday'])) {
     echo "<script>
-            fakeLoaderFunction(1000);
+            fakeLoaderFunction(200);
             window.location.href = '#status';
         </script>";
     date_default_timezone_set('UTC');
@@ -123,7 +134,7 @@ if (isset($_POST['cancelHealtyTasksToday'])) {
 }
 if (isset($_POST['statusGoHealthProfile'])) {
     echo "<script>
-            fakeLoaderFunction(1000);
+            fakeLoaderFunction(200);
             window.location.href = '#health_zone';
         </script>";
 }
@@ -132,7 +143,7 @@ if (isset($_POST['modifyCalorieEat'])) {
     //require('status_unset.php');
     if($query){
         echo "<script>
-                fakeLoaderFunction(1000);
+                fakeLoaderFunction(200);
                 window.location.href = '';
             </script>";
     }else{
@@ -142,7 +153,7 @@ if (isset($_POST['modifyCalorieEat'])) {
 }
 if (isset($_POST['seeScheduleStatus'])) {
     echo "<script>
-            fakeLoaderFunction(1000);
+            fakeLoaderFunction(200);
             window.location.href = '#status';
         </script>";
     date_default_timezone_set('UTC');

@@ -65,7 +65,7 @@ function passedTask($taskId, $finishTaskTimeVar) {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title text-center" id="ckeckTaskModalLabel">Check task</h4>
+                    <h3 class="modal-title text-center bold_text" id="ckeckTaskModalLabel">Check task</h3>
                 </div>
 
                 <div class="modal-body">
@@ -83,7 +83,14 @@ function passedTask($taskId, $finishTaskTimeVar) {
                                 <button id="checkTaskDone" name="checkTaskDone" type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span>Task Done!</button>                  
                             </div>
                             <div class="col-md-3">
-                                <button id="checkTaskDetay" name="checkTaskDetay" type="submit" class="btn btn-warning " ><span class="glyphicon glyphicon-hourglass"></span>Delay</button>
+                                <button id="checkTaskDetay" name="checkTaskDetay" type="submit" class="btn btn-warning " ><span class="glyphicon glyphicon-hourglass"></span>Remind later</button>
+                                
+                                <script>
+                                    $('#checkTaskDetay').click(function(){
+                                       alert(bla); 
+                                    });
+                                 </script>
+         
                             </div>
                             <div class="col-md-3">
                                 <button id="checkTaskDetails" name="checkTaskDetails" type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-tasks"></span>Details</button>
@@ -102,9 +109,11 @@ function passedTask($taskId, $finishTaskTimeVar) {
 
     <?php
     if (isset($_POST['checkTaskDone'])) {
+        
+        echo "<script>$('#checkTaskModal').modal('hide');</script>";
         require 'db_connect.php';
         $userId = $_SESSION['userId'];
-        //echo "<script>alert('bla')</script>";
+        
         if ($task->category == 'Health') {
             $dayStart = strtotime(date("m/d/Y"));
             $queryGetCalories = mysqli_query($connect, "SELECT calorieBurned FROM daily_calories WHERE unixDay = '$dayStart' AND userId='$userId'") or die('Invalid query: ' . mysqli_error($connect));
@@ -163,15 +172,15 @@ function passedTask($taskId, $finishTaskTimeVar) {
                                 <div class="form-group">
 
                                     <label class="col-md-3 control-label pull-left" for="taskCategoryEdit">Category</label>
-                                    <div class="col-md-9" id="taskCategoryDiv" >   
-                                            <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->category ?>" disabled>
+                                    <div class="col-md-3" id="taskCategoryDiv" >   
+                                        <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->category ?>" disabled>
 
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label pull-left" for="taskCActivityEdit">Activity</label>
                                     <div class="col-md-9">   
-                                           <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->healthyActivity ?>" disabled>                                              
+                                        <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->healthyActivity ?>" disabled>                                              
                                     </div>
 
 
@@ -180,16 +189,15 @@ function passedTask($taskId, $finishTaskTimeVar) {
                                 <div class='form-group'>
                                     <label for="taskDescription" class="col-md-3 control-label pull-left">What to do?</label>
                                     <div class="col-md-9">
-
-
-                                        <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->description ?>" disabled>                             
+                                       
+                                        <textarea rows=2 class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" disabled><?php echo $task->description ?>" </textarea>                           
                                     </div>
                                 </div>    
 
                                 <div class='form-group'>
                                     <label for="datetimepickerWhenEdit" class="col-md-3 control-label pull-left">When?</label>
-                                    
 
+                                    
                                     <div class='col-md-9 pull-left'>
                                         <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->time ?>" disabled>                             
                                     </div>    
@@ -198,15 +206,15 @@ function passedTask($taskId, $finishTaskTimeVar) {
                                 <div class='form-group'>
                                     <label for="taskLocationEdit" class="col-md-3 control-label pull-left">Where?</label>
                                     <div class='col-md-9 pull-left'>
-                                       <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->location ?>" disabled>  
+                                        <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->location ?>" disabled>  
                                     </div>
                                 </div> 
 
                                 <div class='form-group'>
                                     <label for="taskDurationEdit" class="col-md-3 control-label">Duration</label>
-                                    <div class="col-md-9 pull-left">
-                                        
-                                       <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->duration ?>" disabled>               
+                                    <div class="col-md-3 pull-left">
+
+                                        <input type="text" class="form-control pull-left" id="tasCategoryEdit" name="taskCategotyEdit" value="<?php echo $task->duration ?>" disabled>               
                                     </div>
                                 </div> 
                                 <div class='form-group'>
@@ -218,18 +226,18 @@ function passedTask($taskId, $finishTaskTimeVar) {
                                 <div class='form-group'>
                                     <label for="taskReminder" class="col-md-3 control-label">Reminder</label>
 
-                                    <div class="col-md-9">
+                                    <div class="col-md-3">
                                         <input type="text" class="form-control pull-left" id="taskReminderInput" name="taskReminderInput1" value="<?php echo $task->reminderInput; ?>" disabled >
                                     </div>
-                                    
+
                                 </div>   
                                 <div class='form-group'>
                                     <label for="taskReminder" class="col-md-3 control-label">Calories</label>
 
-                                    <div class="col-md-9">
+                                    <div class="col-md-3">
                                         <input type="text" class="form-control pull-left" id="taskReminderInput" name="taskReminderInput1" value="<?php echo $task->calories; ?>" disabled >
                                     </div>
-                                    
+
                                 </div>
 
                             </form>
@@ -237,9 +245,9 @@ function passedTask($taskId, $finishTaskTimeVar) {
 
                     </div>
                 </div>
-               
+
             </div>
-            
+
         </div>
 
         <script>
@@ -248,7 +256,7 @@ function passedTask($taskId, $finishTaskTimeVar) {
                 $('#checkTaskModal').modal('hide');
                 $('#detailsTaskModal').modal('show');
             });
-            $('#closeDetailsTask').click(function (){
+            $('#closeDetailsTask').click(function () {
                 $('#checkTaskModal').modal('hide');
             });
 
@@ -259,6 +267,10 @@ function passedTask($taskId, $finishTaskTimeVar) {
     } else
     if (isset($_POST['checkTaskDelete'])) {
         deleteTask($taskId);
+    } else
+    if (isset($_POST['checkTaskDetay'])) {
+
+        delayTask($taskId);
     }
 }
 
@@ -281,16 +293,37 @@ function deleteTask($taskId) {
     $queryDeleteTask = mysqli_query($connect, "DELETE FROM tasks WHERE id='$taskId'");
     if ($queryDeleteTask) {
         echo "<script>
-            $('#checkTaskModal').modal('hide');
-            swal('Task deleted successfully', 'Task deleted from the database ', 'success');
-            $('.confirm').click(function () {
-                window.location.href = '';
-            });
+            //$('#checkTaskModal').modal('hide');
+            $('#checkTaskModal').remove();
+            location.reload();
+            //swal('Task deleted successfullyii', 'Task deleted from the database ', 'success');
+            //$('.confirm').click(function () {
+            //$('#checkTaskModal').modal('hide');
+              // setTimeout(function() {
+   
+   //window.location='';
+  //}, 5000);
+           // });
         </script>";
     } else {
         echo "<script>swal('Error', 'Delete failed, error occurred ', 'error');</script>";
         die('Invalid query: ' . mysqli_error($connect));
     }
+}
+
+function delayTask($taskId) {
+    require 'db_connect.php';
+
+    //header("Location: http://http://localhost/healthytasks/index.php");
+    //$queryDelayGet = mysqli_query($connect, "SELECT finishTime FROM tasks WHERE id='$taskId'") or die('Invalid query: ' . mysqli_error($connect));
+    //$result = mysqli_fetch_assoc($queryDelayGet);
+    //$updatedFinishTime = $result['finishTime'] + 30;
+    $updatedFinishTime = time() + 10800 + 600;
+    $queryDelayPut = mysqli_query($connect, "UPDATE tasks SET finishTime = '$updatedFinishTime' WHERE id='$taskId'") or die('Invalid query: ' . mysqli_error($connect));
+    echo "<script>
+              window.location.href = ' ';
+            
+                            </script>";
 }
 ?>
       

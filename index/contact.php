@@ -1,8 +1,9 @@
+
 <div class="container">
     <header>
         <h2>Contact</h2>
         <div class="container">
-            <form id="contactForm" method="post" action="main_page.php" >
+            <form id="contactForm" method="post" action="index.php" >
 
                 <div class="form-group">
                     <label for="message" class="col-md-2 control-label">Message</label>
@@ -27,7 +28,7 @@
 
                 <div class="form-group">     
                     <div class="col-md-10 col-md-offset-2 pull-left">
-                        <button type="submit" id="sendContact" name="sendContact" class="btn btn-success btn-lg pull-left"  value="Send" onclick="fakeLoaderFunction(5000);">
+                        <button type="submit" id="sendContact" name="sendContact" class="btn btn-success btn-lg pull-left"  value="Send" >
                             <i class="glyphicon glyphicon-envelope"></i>Send
                         </button>    
                         <button type="reset" name="cancelContact"  class="btn btn-danger btn-lg pull-left" >
@@ -40,13 +41,29 @@
         </div>
     </header>
 </div>
+<script>
+    
+</script>
+<script>
+    $('#sendContact').click(function () {
+     
+    $(".fakeloader").fakeLoader({
+        timeToHide: 6000,
+        spinner: "spinner2",
+        bgColor: "#e74c3c"
+
+
+    });
+
+        
+    });
+</script>
 
 <?php
 require_once 'php_functions/main_page_functions.php';
 if (isset($_POST['sendContact'])) {
     $contactText = $_POST['commentInput'];
     $ratingInput = $_POST['starInput'];
-    sendContact($contactText, $ratingInput);  
+    sendContact($contactText, $ratingInput);
 }
 ?>
-
